@@ -1,0 +1,51 @@
+
+.qui-formfield {
+    border: 1px solid #fff;
+    float: left;
+    margin: 10px 0 0 0;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.qui-formfield-active {
+    background-color: #CFF09E;
+    border: 1px dashed #666;
+}
+
+.qui-formfield:hover {
+    border: 1px dashed #ababab;
+}
+
+.qui-formfield-prevent {
+    cursor: pointer;
+    left: 0;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.qui-formfield legend {
+    background: transparent;
+}
+
+/** action buttons
+ * ================================================ */
+
+.qui-formfield-button-dublicate {
+    bottom: 10px;
+    position: absolute;
+    right: 50px;
+    text-align: center;
+    width: 30px;
+}
+
+.qui-formfield-button-delete {
+    bottom: 10px;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    width: 30px;
+}

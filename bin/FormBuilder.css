@@ -1,0 +1,86 @@
+
+.qui-formbuilder {
+    float: left;
+    height: 100%;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.qui-formbuilder-buttons {
+    background: #e1e4e9;
+    float: left;
+    height: 50px;
+    padding: 10px;
+    width: 100%;
+}
+
+.qui-formbuilder-container {
+    float: left;
+    height: calc(100% - 50px);
+    overflow: auto;
+    padding: 10px 0;
+    width: 100%;
+}
+
+
+/** settings
+ ============================================== */
+
+.qui-formbuilder-settings {
+    float: left;
+    height: calc(100% - 50px);
+    overflow: auto;
+    padding: 0;
+}
+
+.qui-formbuilder-settings-content {
+    float: left;
+    padding: 10px;
+    width: calc(100% - 10px);
+}
+
+.qui-formbuilder-settings-closer {
+    background: #eeeeee;
+    cursor: pointer;
+    float: left;
+    height: 100%;
+    text-align: center;
+    width: 10px;
+}
+
+.qui-formbuilder-settings-closer .fa {
+    position: relative;
+    top: 50%;
+}
+
+/** field list
+ ============================================== */
+
+.qui-formbuilder-formBuilderFields {
+    background: #fff;
+    border-right: 1px solid #bbb;
+    height: 100%;
+    overflow: auto;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    width: 400px;
+    z-index: 100;
+}
+
+.qui-formbuilder-formBuilderFields-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.qui-formbuilder-formBuilderFields-buttons {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.qui-formbuilder-formBuilderFields button {
+    float: left;
+    width: 50%;
+}
