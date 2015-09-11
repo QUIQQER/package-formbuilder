@@ -12,13 +12,14 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'qui/QUI',
     'qui/controls/Control',
     'qui/controls/buttons/Button',
+    'package/quiqqer/bricks/bin/Sortables',
 
     'text!package/quiqqer/formbuilder/bin/FormBuilder.html',
     'text!package/quiqqer/formbuilder/bin/FormBuilderFields.html',
     'css!package/quiqqer/formbuilder/bin/FormBuilder.css'
 
 
-], function (QUI, QUIControl, QUIButton, formBuilder, formBuilderFields) {
+], function (QUI, QUIControl, QUIButton, Sortables, formBuilder, formBuilderFields) {
     "use strict";
 
     return new Class({
@@ -29,6 +30,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         Binds: [
             'openFieldList',
             'closeFieldList',
+
+            'enableSort',
+            'disableSort',
+            'toggleSort',
+
             'hideSettings',
             '$onFieldClick'
         ],
@@ -40,6 +46,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             this.$List   = null;
             this.$Active = null;
+
+            this.$ButtonAdd      = null;
+            this.$ButtonSettings = null;
+            this.$ButtonSort     = null;
+
             this.$fields = {};
         },
 
@@ -71,7 +82,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 width  : 0
             });
 
-            new QUIButton({
+            this.$ButtonAdd = new QUIButton({
                 text     : 'Feld hinzufügen',
                 textimage: 'icon-plus',
                 events   : {
@@ -79,11 +90,19 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
             }).inject(this.$Buttons);
 
-            new QUIButton({
+            this.$ButtonSettings = new QUIButton({
                 text     : 'Formular Einstellungen',
                 textimage: 'icon-gear',
                 events   : {
                     onClick: this.openFieldList
+                }
+            }).inject(this.$Buttons);
+
+            this.$ButtonSort = new QUIButton({
+                icon  : 'icon-sort',
+                alt   : 'Sortierung',
+                events: {
+                    onClick: this.toggleSort
                 }
             }).inject(this.$Buttons);
 
@@ -189,7 +208,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     html   : formBuilderFields,
                     'class': 'qui-formbuilder-formBuilderFields',
                     styles : {
-                        left: -300
+                        left   : -300,
+                        opacity: 0
                     }
                 }).inject(this.getElm());
 
@@ -217,7 +237,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$List.addClass('shadow');
 
             moofx(this.$List).animate({
-                left: 0
+                left   : 0,
+                opacity: 1
             }, {
                 duration: 250
             });
@@ -227,12 +248,14 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * close field list
          */
         closeFieldList: function () {
+
             if (!this.$List) {
                 return;
             }
 
             moofx(this.$List).animate({
-                left: '-110%'
+                left   : '-110%',
+                opacity: 0
             }, {
                 duration: 250,
                 callback: function () {
@@ -297,6 +320,87 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             }, function () {
 
             });
+        },
+
+        /**
+         * sort / drag & drop
+         */
+
+        /**
+         * toggle sort
+         */
+        toggleSort: function () {
+
+            if (this.$ButtonSort.isActive()) {
+                this.disableSort();
+                return;
+            }
+
+            this.enableSort();
+        },
+
+        /**
+         * enable sort
+         */
+        enableSort: function () {
+
+            var self = this;
+
+            this.$ButtonAdd.disable();
+            this.$ButtonSettings.disable();
+            this.$ButtonSort.setActive();
+
+            this.hideSettings();
+            this.closeFieldList();
+
+            this.$__Sort = new Sortables(this.$Container, {
+                revert: {
+                    duration : 250
+                },
+                clone : function (event) {
+                    var Target = event.target;
+
+                    if (Target.nodeName != 'FIELDSET') {
+                        Target = Target.getParent('fieldset');
+                    }
+
+                    var size = Target.getSize(),
+                        pos  = Target.getPosition(self.$Container);
+
+                    return new Element('div', {
+                        styles: {
+                            background: 'rgba(0,0,0,0.5)',
+                            height    : size.y,
+                            top       : pos.y,
+                            width     : size.x,
+                            zIndex    : 1000
+                        }
+                    });
+                },
+
+                onStart: function (element) {
+                    self.$Container.addClass('sorting');
+                },
+
+                onComplete: function (element) {
+                    self.$Container.removeClass('sorting');
+                }
+            });
+        },
+
+        /**
+         * disable sort
+         */
+        disableSort: function () {
+
+            if (typeof this.$__Sort !== 'undefined' && this.$__Sort) {
+                this.$__Sort.detach();
+                this.$__Sort = null;
+            }
+
+            this.$ButtonAdd.enable();
+            this.$ButtonSettings.enable();
+            this.$ButtonSort.setNormal();
         },
 
         /**

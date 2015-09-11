@@ -20,9 +20,14 @@
     height: calc(100% - 50px);
     overflow: auto;
     padding: 10px 0;
+    position: relative;
     width: 100%;
 }
 
+.qui-formbuilder-container.sorting {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
 /** settings
  ============================================== */
