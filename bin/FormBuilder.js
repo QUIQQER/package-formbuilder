@@ -36,6 +36,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             'toggleSort',
 
             'hideSettings',
+            'closeSettings',
             '$onFieldClick'
         ],
 
@@ -47,9 +48,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$List   = null;
             this.$Active = null;
 
-            this.$ButtonAdd      = null;
-            this.$ButtonSettings = null;
-            this.$ButtonSort     = null;
+            this.$ButtonAdd       = null;
+            this.$ButtonSettings  = null;
+            this.$ButtonSort      = null;
+            this.$SettingsContent = null;
+            this.$Settings        = null;
 
             this.$fields = {};
         },
@@ -73,7 +76,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$Settings.getElement(
                 '.qui-formbuilder-settings-closer'
             ).addEvents({
-                    click: this.hideSettings
+                    click: this.closeSettings
                 });
 
             this.$Settings.setStyles({
@@ -81,6 +84,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 opacity: 0,
                 width  : 0
             });
+
+            this.$SettingsContent = this.$Settings.getElement(
+                '.qui-formbuilder-settings-content'
+            );
 
             this.$ButtonAdd = new QUIButton({
                 text     : 'Feld hinzufügen',
@@ -282,8 +289,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         self.$Active.unselect();
                     }
 
-                    self.$Active = Field;
-                    self.openSettings();
+                    self.hideSettings().then(function () {
+                        self.$Active = Field;
+                        self.openSettings();
+                    });
                 },
                 onDestroy: function (Field) {
                     delete self.$fields[Field.getId()];
@@ -291,6 +300,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     if (self.$Active.getId() === Field.getId()) {
                         self.$Active = null;
                     }
+
+                    self.closeSettings();
                 }
             });
 
@@ -355,7 +366,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             this.$__Sort = new Sortables(this.$Container, {
                 revert: {
-                    duration : 250
+                    duration: 250
                 },
                 clone : function (event) {
                     var Target = event.target;
@@ -378,11 +389,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     });
                 },
 
-                onStart: function (element) {
+                onStart: function () {
                     self.$Container.addClass('sorting');
                 },
 
-                onComplete: function (element) {
+                onComplete: function () {
                     self.$Container.removeClass('sorting');
                 }
             });
@@ -409,66 +420,125 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
         /**
          * open field settings
+         *
+         * @return Promise
          */
         openSettings: function () {
 
-            if (!this.$Active) {
-                return;
-            }
+            var self = this;
 
-            if (parseInt(this.$Settings.getSize().x) == 300) {
-                return;
-            }
+            return new Promise(function (resolve) {
 
-            moofx(this.$Container).animate({
-                width: this.$Container.getSize().x - 300
-            }, {
-                duration: 250
+                if (!self.$Active) {
+                    resolve();
+                    return;
+                }
+
+                if (parseInt(self.$Settings.getSize().x) != 300) {
+                    moofx(self.$Container).animate({
+                        width: self.$Container.getSize().x - 300
+                    }, {
+                        duration: 250
+                    });
+                }
+
+                self.$SettingsContent.set('html', '');
+                self.$Settings.setStyles('display', null);
+
+                moofx(self.$Settings).animate({
+                    opacity     : 1,
+                    paddingRight: 10,
+                    width       : 300
+                }, {
+                    duration: 250,
+                    callback: function () {
+
+                        var Settings = self.$Active.getSettings();
+                        Settings.inject(self.$SettingsContent);
+
+                        moofx(self.$SettingsContent).animate({
+                            opacity: 1
+                        }, {
+                            duration: 250,
+                            callback: function () {
+                                resolve();
+                            }
+                        });
+
+                    }
+                });
+
             });
 
-            this.$Settings.setStyles('display', null);
-
-            moofx(this.$Settings).animate({
-                opacity     : 1,
-                paddingRight: 10,
-                width       : 300
-            }, {
-                duration: 250
-            });
         },
 
         /**
          * close field settings
+         *
+         * @return Promise
          */
         hideSettings: function () {
 
-            moofx(this.$Settings).animate({
-                opacity    : 0,
-                marginRight: 0,
-                padding    : 0,
-                width      : 0
-            }, {
-                duration: 250,
-                callback: function () {
+            var self = this;
 
-                    this.$Settings.setStyles('display', 'none');
+            return new Promise(function (resolve) {
 
-                    moofx(this.$Container).animate({
-                        width: this.$Container.getSize().x + 310
-                    }, {
-                        duration: 250,
-                        callback: function () {
-                            this.$Container.setStyle('width', null);
+                moofx(self.$SettingsContent).animate({
+                    opacity: 0
+                }, {
+                    duration: 250,
+                    callback: function () {
+                        resolve();
+                    }
+                });
 
-                            if (this.$Active) {
-                                this.$Active.unselect();
-                            }
-
-                        }.bind(this)
-                    });
-
-                }.bind(this)
             });
+        },
+
+        /**
+         * hide field settings
+         *
+         * @return Promise
+         */
+        closeSettings: function () {
+
+            var self = this;
+
+            return new Promise(function (resolve) {
+
+                moofx(self.$Settings).animate({
+                    opacity    : 0,
+                    marginRight: 0,
+                    padding    : 0,
+                    width      : 0
+                }, {
+                    duration: 250,
+                    callback: function () {
+
+                        self.$Settings.setStyles('display', 'none');
+                        self.$SettingsContent.set('html', '');
+
+                        moofx(self.$Container).animate({
+                            width: self.$Container.getSize().x + 310
+                        }, {
+                            duration: 250,
+                            callback: function () {
+
+                                self.$Container.setStyle('width', null);
+
+                                if (self.$Active) {
+                                    self.$Active.unselect();
+                                }
+
+                                resolve();
+                            }
+                        });
+
+                    }
+                });
+
+            });
+
         }
     });
 });

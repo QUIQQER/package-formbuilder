@@ -10,15 +10,17 @@
  *
  * @event onSelect [this]
  * @event onUnselect [this]
+ * @event getSettings [this, HTMLElement]
  */
 define('package/quiqqer/formbuilder/bin/FormField', [
 
     'qui/QUI',
     'qui/controls/Control',
 
+    'text!package/quiqqer/formbuilder/bin/FormFieldSettings.html',
     'css!package/quiqqer/formbuilder/bin/FormField.css'
 
-], function (QUI, QUIControl) {
+], function (QUI, QUIControl, settings) {
     "use strict";
 
     return new Class({
@@ -32,7 +34,11 @@ define('package/quiqqer/formbuilder/bin/FormField', [
         ],
 
         options: {
-            legend: true
+            legend: true,
+
+            // values
+            label   : 'Untitled',
+            required: false
         },
 
         initialize: function (options) {
@@ -63,7 +69,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
             this.$Legend = new Element('legend', {
                 'class': 'qui-formfield-legend',
-                html   : 'Untitled'
+                html   : this.getAttribute('label')
             }).inject(this.$Elm);
 
             if (this.getAttribute('legend') === false) {
@@ -153,10 +159,51 @@ define('package/quiqqer/formbuilder/bin/FormField', [
         },
 
         /**
+         * Return the Settings
          *
+         * @return {HTMLElement}
          */
         getSettings: function () {
 
+            var self = this;
+
+            var Settings = new Element('div', {
+                html: settings
+            });
+
+            this.fireEvent('getSettings', [this, Settings]);
+
+            // label events
+            Settings.getElement('[name="label"]').addEvents({
+                keyup : function () {
+                    self.$Legend.set('html', this.value);
+                    self.setAttribute('label', this.value);
+                },
+                change: function () {
+                    self.$Legend.set('html', this.value);
+                    self.setAttribute('label', this.value);
+                }
+            });
+
+            Settings.getElement('[name="label"]').set(
+                'html',
+                this.getAttribute('label')
+            );
+
+            // required
+            var Required = Settings.getElement('[name="required"]');
+
+            Required.set({
+                checked: this.getAttribute('required'),
+                events : {
+                    change: function () {
+                        self.setAttribute('required', this.checked);
+                    }
+                }
+            });
+
+
+            return Settings;
         }
     });
 });
