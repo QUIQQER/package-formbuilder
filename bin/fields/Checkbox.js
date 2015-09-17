@@ -46,6 +46,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
             var choices = this.getAttribute('choices'),
                 Body    = this.getBody();
 
+            choices = choices.clean();
+
+            this.setAttribute('choices', choices);
+
             Body.addClass('qui-form-field-checkbox');
 
             if (!choices.length) {
@@ -56,6 +60,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
             this.$__creating = true;
 
             for (var i = 0, len = choices.length; i < len; i++) {
+                if (!choices[i]) {
+                    continue;
+                }
+
                 this.addChoice(
                     choices[i].text,
                     choices[i].checked
@@ -86,8 +94,30 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             };
 
-            var deleteChoice = function () {
+            var btnClickDeleteChoice = function (Btn) {
+                var choices = self.getAttribute('choices');
+                var index   = QUIElements.getChildIndex(
+                    Btn.getElm().getParent()
+                );
 
+                index = parseInt(index) + 1;
+
+                if (typeof choices[index - 1] === 'undefined' || !choices[index - 1]) {
+                    return;
+                }
+
+
+                var Choice = self.getBody().getChildren(
+                    'div:nth-child(' + index + ')'
+                );
+
+                Choice.destroy();
+                Btn.getElm().getParent().destroy();
+
+                delete choices[index - 1];
+                choices    = choices.clean();
+
+                self.setAttribute('choices', choices);
             };
 
             var checkboxChange = function () {
@@ -97,6 +127,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 );
 
                 index = parseInt(index) + 1;
+
+                if (typeof choices[index - 1] === 'undefined' || !choices[index - 1]) {
+                    return;
+                }
 
 
                 var Choice = self.getBody().getChildren(
@@ -117,6 +151,11 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
                 index = parseInt(index) + 1;
 
+                if (typeof choices[index - 1] === 'undefined' || !choices[index - 1]) {
+                    return;
+                }
+
+
                 var Choice = self.getBody().getChildren(
                     'div:nth-child(' + index + ')'
                 );
@@ -127,6 +166,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
             };
 
             for (i = 0, len = choices.length; i < len; i++) {
+
+                if (!choices[i]) {
+                    continue;
+                }
 
                 Choice = new Element('div', {
                     'class': 'qui-form-field-checkbox-settings-choice',
@@ -143,8 +186,9 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
                 new QUIButton({
                     icon  : 'icon-minus',
+                    Choice: Choice,
                     events: {
-                        onClick: deleteChoice
+                        onClick: btnClickDeleteChoice
                     }
                 }).inject(Choice);
 
@@ -184,8 +228,8 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             var Choice = new Element('div', {
                 html: '<label>' +
-                          '<input type="checkbox" name="" value="" /> ' +
-                          '<span>' + text + '</span>' +
+                      '<input type="checkbox" name="" value="" /> ' +
+                      '<span>' + text + '</span>' +
                       '</label>'
             }).inject(this.getBody());
 
