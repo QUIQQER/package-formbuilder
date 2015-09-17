@@ -81,20 +81,82 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
          */
         $onGetSettings: function (self, Elm) {
 
-            var i, len, Choice, Input, Checkbox;
+            var i, len, Choice;
+            var choices = this.getAttribute('choices');
 
-            var choices = this.getAttribute('choices'),
-                labels  = this.getBody().getElements('labels');
+            // click events
+            var btnClickAddChoiceAfter, btnClickDeleteChoice,
+                checkboxChange, textChange;
 
-
+            // elements
             this.$SettingsContaiiner = new Element('div').inject(Elm);
 
 
-            var addChoiceAfter = function () {
+            // add a choice after selected
+            btnClickAddChoiceAfter = function (Btn) {
+                var choices = self.getAttribute('choices');
+                var index   = QUIElements.getChildIndex(
+                    Btn.getElm().getParent()
+                );
 
+                index = parseInt(index) + 1;
+
+                if (typeof choices[index - 1] === 'undefined' || !choices[index - 1]) {
+                    return;
+                }
+
+                var Parent = Btn.getElm().getParent(),
+                    Clone  = Parent.clone();
+
+                var Choice = self.getBody().getChildren(
+                    'div:nth-child(' + index + ')'
+                );
+
+                var ChoiceClone = Choice[0].clone();
+
+
+                // insert
+                Clone.inject(Parent, 'after'); // insert settings in dom
+                ChoiceClone.inject(Choice[0], 'after');
+                choices.splice(index, 0, Object.clone(choices[index - 1])); // insert at internal choices
+
+                Clone.getElements('button').destroy();
+
+                new QUIButton({
+                    icon  : 'icon-plus',
+                    events: {
+                        onClick: btnClickAddChoiceAfter
+                    }
+                }).inject(Clone);
+
+                new QUIButton({
+                    icon  : 'icon-minus',
+                    events: {
+                        onClick: btnClickDeleteChoice
+                    }
+                }).inject(Clone);
+
+
+                self.setAttribute('choices', choices);
+
+
+                Clone.getElement('[type="checkbox"]')
+                    .removeEvent('change')
+                    .addEvents({
+                        change: checkboxChange
+                    });
+
+                Clone.getElement('[type="input"]')
+                    .removeEvent('change')
+                    .removeEvent('keyup')
+                    .addEvents({
+                        change: textChange,
+                        keyup : textChange
+                    });
             };
 
-            var btnClickDeleteChoice = function (Btn) {
+            // remove the selected choice
+            btnClickDeleteChoice = function (Btn) {
                 var choices = self.getAttribute('choices');
                 var index   = QUIElements.getChildIndex(
                     Btn.getElm().getParent()
@@ -120,7 +182,8 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 self.setAttribute('choices', choices);
             };
 
-            var checkboxChange = function () {
+            // change start status
+            checkboxChange = function () {
                 var choices = self.getAttribute('choices');
                 var index   = QUIElements.getChildIndex(
                     this.getParent()
@@ -140,10 +203,12 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 Choice.getElement('label input').set('checked', this.checked);
 
                 choices[index - 1].checked = this.checked;
+
+                self.setAttribute('choices', choices);
             };
 
-
-            var textChange = function () {
+            // change text
+            textChange = function () {
                 var choices = self.getAttribute('choices');
                 var index   = QUIElements.getChildIndex(
                     this.getParent()
@@ -160,9 +225,11 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                     'div:nth-child(' + index + ')'
                 );
 
-                Choice.getElement('label span').set('html', this.value);
+                Choice[0].getElement('label span').set('html', this.value);
 
                 choices[index - 1].text = this.value;
+
+                self.setAttribute('choices', choices);
             };
 
             for (i = 0, len = choices.length; i < len; i++) {
@@ -180,17 +247,18 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 new QUIButton({
                     icon  : 'icon-plus',
                     events: {
-                        onClick: addChoiceAfter
+                        onClick: btnClickAddChoiceAfter
                     }
                 }).inject(Choice);
 
-                new QUIButton({
-                    icon  : 'icon-minus',
-                    Choice: Choice,
-                    events: {
-                        onClick: btnClickDeleteChoice
-                    }
-                }).inject(Choice);
+                if (i !== 0) {
+                    new QUIButton({
+                        icon  : 'icon-minus',
+                        events: {
+                            onClick: btnClickDeleteChoice
+                        }
+                    }).inject(Choice);
+                }
 
 
                 Choice.getElement('[type="checkbox"]').addEvents({
