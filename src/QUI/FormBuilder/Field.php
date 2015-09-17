@@ -32,11 +32,21 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         // content
         $result .= '<div class="qui-formfield-body">';
         $result .= $this->getBody();
-        $result .= '<div>';
+        $result .= '</div>';
 
 
         $result .= '</fieldset>';
 
         return $result;
+    }
+
+    /**
+     * Return the css files
+     *
+     * @return array
+     */
+    public function getCSSFiles()
+    {
+        return array();
     }
 }

@@ -3,7 +3,6 @@
     float: left;
 }
 
-
 .qui-form-field-checkbox-settings-choice {
     clear: both;
     float: left;
@@ -19,7 +18,7 @@
 }
 
 .qui-form-field-checkbox-settings-choice input[name="title"] {
-    width: calc(100%  - 80px);
+    width: calc(100% - 80px);
 }
 
 .qui-form-field-checkbox-settings-choice button {

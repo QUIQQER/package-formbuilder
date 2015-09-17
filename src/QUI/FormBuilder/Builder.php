@@ -56,6 +56,10 @@ class Builder extends QUI\QDOM
                 case 'package/quiqqer/formbuilder/bin/fields/Radiobox':
                     $Field = new Fields\Radiobox();
                     break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Name':
+                    $Field = new Fields\Name();
+                    break;
             }
 
             if (!$Field) {
@@ -74,11 +78,28 @@ class Builder extends QUI\QDOM
      */
     public function create()
     {
-        $result = '<form>';
+        $result   = '<form name="" action="" class="qui-form">';
+        $Template = $this->getAttribute('Template');
+
+        if ($Template) {
+            $Template->extendHeaderWithCSSFile(
+                URL_OPT_DIR . 'quiqqer/formbuilder/bin/Builder.css'
+            );
+        }
 
         foreach ($this->_elements as $Element) {
             /* @var $Element Field */
+            /* @var $Template QUI\Template */
             $result .= $Element->create();
+
+            // add css files to the template
+            if ($Template) {
+                $cssFiles = $Element->getCSSFiles();
+
+                foreach ($cssFiles as $cssFile) {
+                    $Template->extendHeaderWithCSSFile($cssFile);
+                }
+            }
         }
 
         $result .= '</form>';

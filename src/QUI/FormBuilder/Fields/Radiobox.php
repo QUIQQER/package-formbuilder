@@ -45,4 +45,14 @@ class Radiobox extends FormBuilder\Field
 
         return $result;
     }
+
+    /**
+     * @return array
+     */
+    public function getCSSFiles()
+    {
+        return array(
+            URL_OPT_DIR . 'quiqqer/formbuilder/bin/fields/Radiobox.css'
+        );
+    }
 }

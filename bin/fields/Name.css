@@ -1,0 +1,50 @@
+
+.form-name--extend {
+    clear: none;
+    float: left;
+    width: 100%;
+}
+
+.form-name-firstname,
+.form-name-lastname {
+    clear: none;
+    float: left;
+    max-width: 50%;
+}
+
+.form-name-title,
+.form-name-suffix {
+    display: none;
+}
+
+.form-name-title,
+.form-name-firstname,
+.form-name-lastname {
+    padding-right: 10px;
+}
+
+.form-name-firstname span,
+.form-name-lastname span {
+    clear: both;
+    display: block;
+}
+
+.form-name-title input,
+.form-name-firstname input,
+.form-name-lastname input,
+.form-name-suffix input {
+    width: 100%;
+}
+
+.form-name--extend .form-name-firstname,
+.form-name--extend .form-name-lastname {
+    max-width: 30%;
+}
+
+.form-name--extend .form-name-title,
+.form-name--extend .form-name-suffix {
+    clear: none;
+    float: left;
+    display: inline;
+    width: 20%;
+}
