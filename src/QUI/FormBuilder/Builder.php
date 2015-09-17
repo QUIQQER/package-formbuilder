@@ -52,6 +52,10 @@ class Builder extends QUI\QDOM
                 case 'package/quiqqer/formbuilder/bin/fields/Checkbox':
                     $Field = new Fields\Checkbox();
                     break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Radiobox':
+                    $Field = new Fields\Radiobox();
+                    break;
             }
 
             if (!$Field) {

@@ -1,13 +1,21 @@
 /**
+ * Radiobox - Multiple Choice
  *
+ * @module package/quiqqer/formbuilder/bin/fields/Radiobox
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require package/quiqqer/formbuilder/bin/FormField
+ * @require qui/controls/buttons/Button
+ * @require qui/utils/Elements
+ * @require css!package/quiqqer/formbuilder/bin/fields/Radiobox.css
  */
-define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
+define('package/quiqqer/formbuilder/bin/fields/Radiobox', [
 
     'package/quiqqer/formbuilder/bin/FormField',
     'qui/controls/buttons/Button',
     'qui/utils/Elements',
 
-    'css!package/quiqqer/formbuilder/bin/fields/Checkbox.css'
+    'css!package/quiqqer/formbuilder/bin/fields/Radiobox.css'
 
 ], function (Field, QUIButton, QUIElements) {
     "use strict";
@@ -15,7 +23,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
     return new Class({
 
         Extends: Field,
-        Type   : 'package/quiqqer/formbuilder/bin/fields/Checkbox',
+        Type   : 'package/quiqqer/formbuilder/bin/fields/Radiobox',
 
         Binds: [
             '$onCreate',
@@ -30,7 +38,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             this.parent(options);
 
-            this.$SettingsContaiiner = null;
+            this.$SettingsContainer = null;
 
             this.addEvents({
                 onCreate     : this.$onCreate,
@@ -50,9 +58,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             this.setAttribute('choices', choices);
 
-            Body.addClass('qui-form-field-checkbox');
+            Body.addClass('qui-form-field-radiobox');
 
             if (!choices.length) {
+                this.$__creating = false;
                 this.addChoice('Erste Auswahl');
                 return;
             }
@@ -87,10 +96,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             // click events
             var btnClickAddChoiceAfter, btnClickDeleteChoice,
-                checkboxChange, textChange;
+                radioboxChange, textChange;
 
             // elements
-            this.$SettingsContaiiner = new Element('div').inject(Elm);
+            this.$SettingsContainer = new Element('div').inject(Elm);
 
 
             // add a choice after selected
@@ -141,10 +150,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 self.setAttribute('choices', choices);
 
 
-                Clone.getElement('[type="checkbox"]')
+                Clone.getElement('[type="radio"]')
                     .removeEvent('change')
                     .addEvents({
-                        change: checkboxChange
+                        change: radioboxChange
                     });
 
                 Clone.getElement('[type="input"]')
@@ -184,7 +193,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
             };
 
             // change start status
-            checkboxChange = function () {
+            radioboxChange = function () {
                 var choices = self.getAttribute('choices');
                 var index   = QUIElements.getChildIndex(
                     this.getParent()
@@ -196,12 +205,28 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                     return;
                 }
 
+                // deselect all
+                if (this.checked) {
+
+                    self.$SettingsContainer
+                        .getElements('.qui-form-field-radiobox-settings-choice [type="radio"]')
+                        .set('checked', false);
+
+                    self.getBody()
+                        .getElements('[type="radio"]').set('checked', false);
+
+                    for (var i = 0, len = choices.length; i < len; i++) {
+                        choices[i].checked = false;
+                    }
+
+                    this.checked = true;
+                }
 
                 var Choice = self.getBody().getChildren(
                     'div:nth-child(' + index + ')'
                 );
 
-                Choice.getElement('label input').set('checked', this.checked);
+                Choice.getElement('[type="radio"]').set('checked', true);
 
                 choices[index - 1].checked = this.checked;
 
@@ -240,8 +265,8 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 }
 
                 Choice = new Element('div', {
-                    'class': 'qui-form-field-checkbox-settings-choice',
-                    html   : '<input type="checkbox" name="checked" />' +
+                    'class': 'qui-form-field-radiobox-settings-choice',
+                    html   : '<input type="radio" name="checked" />' +
                              '<input type="input" name="title" />'
                 });
 
@@ -262,8 +287,8 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 }
 
 
-                Choice.getElement('[type="checkbox"]').addEvents({
-                    change: checkboxChange
+                Choice.getElement('[type="radio"]').addEvents({
+                    change: radioboxChange
                 });
 
                 Choice.getElement('[type="input"]').addEvents({
@@ -271,7 +296,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                     keyup : textChange
                 });
 
-                Choice.inject(this.$SettingsContaiiner);
+                Choice.inject(this.$SettingsContainer);
 
                 Choice.getElement('[name="checked"]').checked = choices[i].checked;
                 Choice.getElement('[name="title"]').value     = choices[i].text || '';
@@ -297,13 +322,13 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             var Choice = new Element('div', {
                 html: '<label>' +
-                      '<input type="checkbox" name="" value="" /> ' +
+                      '<input type="radio" name="" value="" /> ' +
                       '<span>' + text + '</span>' +
                       '</label>'
             }).inject(this.getBody());
 
             if (checked) {
-                Choice.getElement('[type="checkbox"]').checked = checked;
+                Choice.getElement('[type="radio"]').checked = checked;
             }
 
             if (this.$__creating === false) {
