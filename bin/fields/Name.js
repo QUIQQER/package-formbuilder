@@ -68,7 +68,9 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
                       '<span>Erweitert</span>'
             }).inject(this.$SettingsContainer);
 
-            this.$SettingsContainer.getElement('[name="extend"]').addEvents({
+            var Extend = this.$SettingsContainer.getElement('[name="extend"]');
+
+            Extend.addEvents({
                 change : function() {
                     self.setAttribute('extend', this.checked);
 
@@ -79,6 +81,10 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
                     }
                 }
             });
+
+            if (this.getAttribute('extend')) {
+                Extend.set('checked', true);
+            }
         }
     });
 });
