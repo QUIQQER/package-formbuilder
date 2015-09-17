@@ -361,7 +361,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$ButtonSettings.disable();
             this.$ButtonSort.setActive();
 
-            this.hideSettings();
+            this.closeSettings();
             this.closeFieldList();
 
             this.$__Sort = new Sortables(this.$Container, {

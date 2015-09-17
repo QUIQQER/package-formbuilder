@@ -22,6 +22,7 @@ class Radiobox extends FormBuilder\Field
     {
         $result  = '';
         $choices = $this->getAttribute('choices');
+        $name    = $this->getAttribute('label');
 
         foreach ($choices as $choice) {
 
@@ -37,7 +38,7 @@ class Radiobox extends FormBuilder\Field
             }
 
             $result .= '<label>' .
-                       '<input type="radio" name="" value="" ' . $checked . ' /> ' .
+                       '<input type="radio" name="' . $name . '" value="" ' . $checked . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }
