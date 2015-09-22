@@ -6,6 +6,11 @@
  *
  * @require qui/QUI
  * @require qui/controls/Control
+ * @require qui/controls/buttons/Button
+ * @require package/quiqqer/bricks/bin/Sortables
+ * @require text!package/quiqqer/formbuilder/bin/FormBuilder.html
+ * @require text!package/quiqqer/formbuilder/bin/FormBuilderFields.html
+ * @require css!package/quiqqer/formbuilder/bin/FormBuilder.css
  */
 define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
@@ -17,7 +22,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'text!package/quiqqer/formbuilder/bin/FormBuilder.html',
     'text!package/quiqqer/formbuilder/bin/FormBuilderFields.html',
     'css!package/quiqqer/formbuilder/bin/FormBuilder.css'
-
 
 ], function (QUI, QUIControl, QUIButton, Sortables, formBuilder, formBuilderFields) {
     "use strict";
@@ -35,12 +39,15 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             'disableSort',
             'toggleSort',
 
+            'openFormSettings',
             'hideSettings',
             'closeSettings',
             '$onFieldClick'
         ],
 
-        options: {},
+        options: {
+            submit: 'Senden'
+        },
 
         initialize: function (options) {
             this.parent(options);
@@ -101,7 +108,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 text     : 'Formular Einstellungen',
                 textimage: 'icon-gear',
                 events   : {
-                    onClick: this.openFieldList
+                    onClick: this.openFormSettings
                 }
             }).inject(this.$Buttons);
 
@@ -148,7 +155,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             return {
                 elements: elements,
-                settings: {}
+                settings: this.getAttributes()
             };
         },
 
@@ -161,6 +168,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             if (typeOf(formData) !== 'object') {
                 return;
+            }
+
+            if ("settings" in formData) {
+                this.setAttributes(formData.settings);
             }
 
             if (!("elements" in formData)) {
@@ -535,6 +546,63 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         });
 
                     }
+                });
+
+            });
+
+        },
+
+        /**
+         * open the settings
+         */
+        openFormSettings: function () {
+            var self = this;
+
+            return new Promise(function (resolve) {
+
+                self.closeSettings().then(function () {
+
+                    require([
+                        'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html'
+                    ], function (formSettings) {
+
+                        if (parseInt(self.$Settings.getSize().x) != 300) {
+                            moofx(self.$Container).animate({
+                                width: self.$Container.getSize().x - 300
+                            }, {
+                                duration: 250
+                            });
+                        }
+
+                        self.$SettingsContent.set('html', formSettings);
+                        self.$Settings.setStyles('display', null);
+
+                        var Submit = self.$Settings.getElement('[name="form-submit"]');
+
+                        //form-submit
+                        Submit.addEvents({
+                            change: function () {
+                                self.setAttribute('submit', this.value);
+                            },
+
+                            keyup: function () {
+                                self.setAttribute('submit', this.value);
+                            }
+                        });
+
+                        Submit.value = self.getAttribute('submit');
+
+                        moofx(self.$Settings).animate({
+                            opacity     : 1,
+                            paddingRight: 10,
+                            width       : 300
+                        }, {
+                            duration: 250,
+                            callback: resolve
+                        });
+
+                    });
+
                 });
 
             });

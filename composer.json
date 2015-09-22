@@ -1,7 +1,7 @@
 {
     "name" : "quiqqer/formbuilder",
     "type" : "quiqqer-plugin",
-    "description" : "",
+    "description" : "Form Builder for QUIQQER",
     "version" : "dev-master",
     "license" : "",
 
@@ -18,7 +18,7 @@
     },
 
     "require": {
-        "php" : ">=5.3",
+        "php" : ">=5.3.9",
         "quiqqer/quiqqer" : "*@dev"
     },
 

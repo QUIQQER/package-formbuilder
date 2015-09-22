@@ -23,6 +23,10 @@ class Input extends FormBuilder\Field
         $file    = OPT_DIR . 'quiqqer/formbuilder/bin/fields/Input.html';
         $content = file_get_contents($file);
 
+        if ($this->getAttribute('required')) {
+            $content = str_replace(' />', ' required="required" />', $content);
+        }
+
         return $content;
     }
 }

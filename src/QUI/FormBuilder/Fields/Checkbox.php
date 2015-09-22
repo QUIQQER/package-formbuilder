@@ -11,7 +11,6 @@ use QUI\FormBuilder;
  * Class Input
  *
  * @package QUI\FormBuilder\Fields
- *
  */
 class Checkbox extends FormBuilder\Field
 {
@@ -22,6 +21,11 @@ class Checkbox extends FormBuilder\Field
     {
         $result  = '';
         $choices = $this->getAttribute('choices');
+        $require = '';
+
+        if ($this->getAttribute('require')) {
+            $require = 'required="required" ';
+        }
 
         foreach ($choices as $choice) {
 
@@ -33,11 +37,11 @@ class Checkbox extends FormBuilder\Field
             }
 
             if (isset($choice['checked']) && $choice['checked']) {
-                $checked = 'checked="checked"';
+                $checked = 'checked="checked" ';
             }
 
             $result .= '<label>' .
-                       '<input type="checkbox" name="" value="" ' . $checked . ' /> ' .
+                       '<input type="checkbox" name="" value="" ' . $checked . $require . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }

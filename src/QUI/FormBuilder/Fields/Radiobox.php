@@ -23,6 +23,11 @@ class Radiobox extends FormBuilder\Field
         $result  = '';
         $choices = $this->getAttribute('choices');
         $name    = $this->getAttribute('label');
+        $require = '';
+
+        if (isset($choice['require']) && $choice['require']) {
+            $require = 'required="required" ';
+        }
 
         foreach ($choices as $choice) {
 
@@ -34,11 +39,11 @@ class Radiobox extends FormBuilder\Field
             }
 
             if (isset($choice['checked']) && $choice['checked']) {
-                $checked = 'checked="checked"';
+                $checked = 'checked="checked" ';
             }
 
             $result .= '<label>' .
-                       '<input type="radio" name="' . $name . '" value="" ' . $checked . ' /> ' .
+                       '<input type="radio" name="' . $name . '" value="" ' . $checked . $require . '/> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }

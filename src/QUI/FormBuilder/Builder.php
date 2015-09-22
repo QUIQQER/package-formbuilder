@@ -6,6 +6,7 @@
 namespace QUI\FormBuilder;
 
 use QUI;
+use Symfony\Component\Form\Forms;
 
 /**
  * Class Builder
@@ -14,10 +15,26 @@ use QUI;
 class Builder extends QUI\QDOM
 {
     /**
+     * Status = Success
+     */
+    const STATUS_SUCCESS = 1;
+
+    /**
+     * Status = Error
+     */
+    const STATUS_ERROR = 0;
+
+    /**
      * list of form elements
      * @var array
      */
     protected $_elements = array();
+
+    /**
+     * internal send status
+     * @var
+     */
+    protected $_status;
 
     /**
      * @param array $formData
@@ -78,7 +95,38 @@ class Builder extends QUI\QDOM
      */
     public function create()
     {
-        $result   = '<form name="" action="" class="qui-form">';
+        $formName   = '';
+        $formAction = '';
+
+        if ($this->getAttribute('name')) {
+            $formName = $this->getAttribute('name');
+        }
+
+        if ($this->getAttribute('action')) {
+            $formAction = $this->getAttribute('action');
+        }
+
+        switch ($this->getAttribute('method')) {
+            case 'GET':
+            case 'get':
+                $method = 'GET';
+                break;
+
+            case 'POST':
+            case 'post':
+                $method = 'POST';
+                break;
+
+            default:
+                $method = 'POST';
+        }
+
+
+        $result = '<form name="' . $formName . '"
+                         action="' . $formAction . '"
+                         method="' . $method . '"
+                         class="qui-form">';
+
         $Template = $this->getAttribute('Template');
 
         if ($Template) {
@@ -102,8 +150,42 @@ class Builder extends QUI\QDOM
             }
         }
 
+        // submit button
+        if ($this->getAttribute('submit')) {
+            $result .= '<input type="submit" name="submit" value="' . $this->getAttribute('submit') . '" />';
+        }
+
         $result .= '</form>';
 
         return $result;
+    }
+
+    /**
+     * Request handling
+     *
+     * @throws QUI\Exception
+     */
+    public function handleRequest()
+    {
+        if (!isset($_REQUEST['submit'])) {
+            return;
+        }
+
+
+        foreach ($this->_elements as $Element) {
+            /* @var $Element Field */
+
+        }
+
+    }
+
+    /**
+     * was the form sent successfully?
+     *
+     * @return bool
+     */
+    public function isSuccess()
+    {
+        return $this->_status == self::STATUS_SUCCESS;
     }
 }

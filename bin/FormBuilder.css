@@ -59,6 +59,24 @@
     top: 50%;
 }
 
+
+.qui-form-settings-setting {
+    border-bottom: 1px solid #dddddd;
+    clear: both;
+    float: left;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.qui-form-settings-setting-title {
+    float: left;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+
 /** field list
  ============================================== */
 

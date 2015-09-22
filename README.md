@@ -2,8 +2,6 @@
 Form-Builder
 ========
 
-
-
 Packetname:
 
     quiqqer/formbuilder
@@ -11,6 +9,10 @@ Packetname:
 
 Features
 --------
+
+- Drag & Drop Formular Ersteller
+- Formular Versand
+- Formular Prüfung
 
 
 Installation

@@ -49,4 +49,15 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     {
         return array();
     }
+
+    /**
+     * Check value for the input
+     *
+     * @param String $value
+     * @return Boolean
+     */
+    public function checkValue($value)
+    {
+        return true;
+    }
 }
