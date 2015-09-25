@@ -16,6 +16,11 @@ use QUI;
 abstract class Field extends QUI\QDOM implements Interfaces\Field
 {
     /**
+     * @var null
+     */
+    protected $_Parent = null;
+
+    /**
      * Create the field
      *
      * @return string
@@ -59,5 +64,25 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function checkValue($value)
     {
         return true;
+    }
+
+    /**
+     * Set the field parent
+     *
+     * @param Builder $Form
+     */
+    public function setParent(Builder $Form)
+    {
+        $this->_Parent = $Form;
+    }
+
+    /**
+     * Return the field parent
+     *
+     * @return null|Builder
+     */
+    public function getParent()
+    {
+        return $this->_Parent;
     }
 }

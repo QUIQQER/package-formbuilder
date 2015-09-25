@@ -20,8 +20,33 @@ class Checkbox extends FormBuilder\Field
     public function getBody()
     {
         $result  = '';
-        $choices = $this->getAttribute('choices');
         $require = '';
+        $name    = '';
+
+        $data    = $this->getAttribute('data');
+        $choices = $this->getAttribute('choices');
+
+        if ($this->getAttribute('label')) {
+            $name = $this->getAttribute('label');
+
+            if (is_array($choices) && count($choices) > 1) {
+                $name .= '[]';
+            }
+        }
+
+        if (!is_array($data) && is_bool($data)) {
+            $data = array();
+        } else {
+            if (!is_array($data)) {
+                $data = array($data);
+            }
+        }
+
+        $values = array();
+
+        foreach ($data as $_data) {
+            $values[$_data] = true;
+        }
 
         if ($this->getAttribute('require')) {
             $require = 'required="required" ';
@@ -40,8 +65,19 @@ class Checkbox extends FormBuilder\Field
                 $checked = 'checked="checked" ';
             }
 
+            if (isset($values[$text])
+                && $values[$text]
+                && $values[$text] == $text) {
+
+                $checked = 'checked="checked" ';
+            } elseif ($this->getParent() && $this->getParent()->isSend()) {
+                $checked = '';
+            }
+
             $result .= '<label>' .
-                       '<input type="checkbox" name="" value="" ' . $checked . $require . ' /> ' .
+                       '<input type="checkbox"
+                               name="' . $name . '"
+                               value="' . $text . '" ' . $checked . $require . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }

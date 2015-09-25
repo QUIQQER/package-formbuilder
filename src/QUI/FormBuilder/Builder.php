@@ -25,6 +25,11 @@ class Builder extends QUI\QDOM
     const STATUS_ERROR = 0;
 
     /**
+     * Status = send
+     */
+    const STATUS_SEND = 1;
+
+    /**
      * list of form elements
      * @var array
      */
@@ -84,6 +89,8 @@ class Builder extends QUI\QDOM
             }
 
             $Field->setAttributes($element['attributes']);
+            $Field->setParent($this);
+
             $this->_elements[] = $Field;
         }
     }
@@ -171,12 +178,36 @@ class Builder extends QUI\QDOM
             return;
         }
 
+        $missing = array();
+        $this->_status = self::STATUS_SEND;
 
         foreach ($this->_elements as $Element) {
             /* @var $Element Field */
+            if (!$Element->getAttribute('required')) {
+                continue;
+            }
 
+            $name = $Element->getAttribute('name');
+
+            if (!$name) {
+                $name = $Element->getAttribute('label');
+            }
+
+            if (!isset($_REQUEST[$name])) {
+                $missing[] = $name;
+                continue;
+            }
+
+            $Element->setAttribute('data', $_REQUEST[$name]);
         }
 
+        if (!empty($missing)) {
+            throw new QUI\Exception(
+                'Bitte füllen Sie alle Pflichtfelder aus'
+            );
+        }
+
+        $this->_status = self::STATUS_SUCCESS;
     }
 
     /**
@@ -187,5 +218,23 @@ class Builder extends QUI\QDOM
     public function isSuccess()
     {
         return $this->_status == self::STATUS_SUCCESS;
+    }
+
+    /**
+     * is the formular in submit status?
+     *
+     * @return bool
+     */
+    public function isSend()
+    {
+        if ($this->_status == self::STATUS_SUCCESS) {
+            return true;
+        }
+
+        if ($this->_status == self::STATUS_SEND) {
+            return true;
+        }
+
+        return false;
     }
 }
