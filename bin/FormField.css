@@ -84,6 +84,15 @@
     width: calc(100% - 30px);
 }
 
+.qui-formfield-settings-setting input {
+    width: 100%;
+}
+
+.qui-formfield-settings-setting input[type="checkbox"],
+.qui-formfield-settings-setting input[type="radio"] {
+    width: 20px;
+}
+
 .qui-formfield-settings-setting.__checkbox input {
     float: left;
     margin: 0 10px 0 0;

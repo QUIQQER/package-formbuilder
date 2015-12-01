@@ -7,7 +7,6 @@
 }
 
 .qui-formfield {
-    clear: both;
     float: left;
     margin-bottom: 20px;
     width: 100%;
@@ -28,3 +27,7 @@
 .qui-formfield-70 { width: 70%; }
 .qui-formfield-80 { width: 80%; }
 .qui-formfield-90 { width: 90%; }
+
+.qui-form input[type="submit"] {
+    clear: both;
+}

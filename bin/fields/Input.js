@@ -1,5 +1,11 @@
 /**
+ * Standard input field
  *
+ * @module package/quiqqer/formbuilder/bin/fields/Input
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require package/quiqqer/formbuilder/bin/FormField
+ * @require text!package/quiqqer/formbuilder/bin/fields/Input.html
  */
 define('package/quiqqer/formbuilder/bin/fields/Input', [
 

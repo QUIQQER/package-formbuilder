@@ -8,20 +8,27 @@
 }
 
 .qui-formbuilder-buttons {
-    background: #e1e4e9;
+    border-bottom: 1px solid #e1e4e9;
     float: left;
-    height: 50px;
-    padding: 10px;
-    width: 100%;
+    padding: 20px 10px;
+    width: calc(100% - 10px);
 }
 
 .qui-formbuilder-container {
     float: left;
-    height: calc(100% - 50px);
+    height: calc(100% - 70px);
     overflow: auto;
-    padding: 10px 0;
+    padding: 10px 0 10px 10px;
     position: relative;
-    width: 100%;
+    width: calc(100% - 300px);
+}
+
+.qui-formbuilder-container-buttons {
+    border-bottom: 1px solid #e1e4e9;
+    float: left;
+    margin-left: 10px;
+    padding: 20px 10px;
+    width: calc(100% - 310px);
 }
 
 .qui-formbuilder-container.sorting {
@@ -33,10 +40,12 @@
  ============================================== */
 
 .qui-formbuilder-settings {
+    border-right: 10px solid #eeeeee;
     float: left;
-    height: calc(100% - 50px);
+    height: 100%;
     overflow: auto;
     padding: 0;
+    width: 300px;
 }
 
 .qui-formbuilder-settings-content {
@@ -44,21 +53,6 @@
     padding: 10px;
     width: calc(100% - 10px);
 }
-
-.qui-formbuilder-settings-closer {
-    background: #eeeeee;
-    cursor: pointer;
-    float: left;
-    height: 100%;
-    text-align: center;
-    width: 10px;
-}
-
-.qui-formbuilder-settings-closer .fa {
-    position: relative;
-    top: 50%;
-}
-
 
 .qui-form-settings-setting {
     border-bottom: 1px solid #dddddd;
@@ -76,7 +70,6 @@
     width: 100%;
 }
 
-
 /** field list
  ============================================== */
 
@@ -93,8 +86,17 @@
 }
 
 .qui-formbuilder-formBuilderFields-title {
+    color: #777;
+    font-size: 14px;
     font-weight: bold;
+    line-height: 30px;
     margin-bottom: 10px;
+}
+
+.qui-formbuilder-formBuilderFields-entry {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 .qui-formbuilder-formBuilderFields-buttons {
@@ -107,3 +109,9 @@
     float: left;
     width: 50%;
 }
+
+.qui-formbuilder-container.sortEnabled .qui-formfield,
+.qui-formbuilder-container.sortEnabled .qui-formfield * {
+    cursor: move !important;
+}
+

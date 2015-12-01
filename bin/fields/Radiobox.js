@@ -99,6 +99,11 @@ define('package/quiqqer/formbuilder/bin/fields/Radiobox', [
                 radioboxChange, textChange;
 
             // elements
+            new Element('span', {
+                'class' : 'qui-formfield-settings-setting-title',
+                html    : 'Auswahl'
+            }).inject(Elm);
+
             this.$SettingsContainer = new Element('div').inject(Elm);
 
 

@@ -6,6 +6,7 @@
  *
  * @require qui/QUI
  * @require qui/controls/Control
+ * @require text!package/quiqqer/formbuilder/bin/FormFieldSettings.html
  * @require css!package/quiqqer/formbuilder/bin/FormField.css
  *
  * @event onSelect [this]
@@ -37,8 +38,9 @@ define('package/quiqqer/formbuilder/bin/FormField', [
             legend: true,
 
             // values
-            label   : 'Untitled',
-            required: false
+            label     : 'Untitled',
+            cssClasses: '',
+            required  : false
         },
 
         initialize: function (options) {
@@ -173,8 +175,12 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
             this.fireEvent('getSettings', [this, Settings]);
 
+            var Label      = Settings.getElement('[name="label"]'),
+                CssClasses = Settings.getElement('[name="cssClasses"]'),
+                Required   = Settings.getElement('[name="required"]');
+
             // label events
-            Settings.getElement('[name="label"]').addEvents({
+            Label.addEvents({
                 keyup : function () {
                     self.$Legend.set('html', this.value);
                     self.setAttribute('label', this.value);
@@ -185,14 +191,9 @@ define('package/quiqqer/formbuilder/bin/FormField', [
                 }
             });
 
-            Settings.getElement('[name="label"]').set(
-                'html',
-                this.getAttribute('label')
-            );
+            Label.set('value', this.getAttribute('label'));
 
             // required
-            var Required = Settings.getElement('[name="required"]');
-
             Required.set({
                 checked: this.getAttribute('required'),
                 events : {
@@ -202,6 +203,17 @@ define('package/quiqqer/formbuilder/bin/FormField', [
                 }
             });
 
+            // cssClasses
+            CssClasses.addEvents({
+                keyup : function () {
+                    self.setAttribute('cssClasses', this.value);
+                },
+                change: function () {
+                    self.setAttribute('cssClasses', this.value);
+                }
+            });
+
+            CssClasses.set('value', this.getAttribute('cssClasses'));
 
             return Settings;
         }

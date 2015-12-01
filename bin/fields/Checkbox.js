@@ -1,5 +1,13 @@
 /**
+ * Checkbox fields
  *
+ * @module package/quiqqer/formbuilder/bin/fields/Checkbox
+ * @author www.pcsg.de (Henning Leutz)
+ *
+ * @require package/quiqqer/formbuilder/bin/FormField
+ * @require qui/controls/buttons/Button
+ * @require qui/utils/Elements
+ * @require css!package/quiqqer/formbuilder/bin/fields/Checkbox.css
  */
 define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
@@ -53,6 +61,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
             Body.addClass('qui-form-field-checkbox');
 
             if (!choices.length) {
+                this.$__creating = false;
                 this.addChoice('Erste Auswahl');
                 return;
             }
@@ -90,6 +99,11 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 checkboxChange, textChange;
 
             // elements
+            new Element('span', {
+                'class' : 'qui-formfield-settings-setting-title',
+                html    : 'Auswahl'
+            }).inject(Elm);
+
             this.$SettingsContaiiner = new Element('div').inject(Elm);
 
 
