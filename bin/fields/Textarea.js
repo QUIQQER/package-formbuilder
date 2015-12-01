@@ -39,8 +39,6 @@ define('package/quiqqer/formbuilder/bin/fields/Textarea', [
                 'html',
                 '<textarea style="width: 100%;"></textarea>'
             );
-
-            console.log(123);
         }
     });
 });

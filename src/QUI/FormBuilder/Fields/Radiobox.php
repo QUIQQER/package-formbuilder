@@ -30,7 +30,6 @@ class Radiobox extends FormBuilder\Field
         }
 
         foreach ($choices as $choice) {
-
             $text    = '';
             $checked = '';
 

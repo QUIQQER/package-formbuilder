@@ -34,7 +34,9 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
         ],
 
         options: {
-            users: []
+            users     : [],
+            mailusers : false,
+            selectable: true
         },
 
         initialize: function (options) {
@@ -85,6 +87,43 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
          * @param {HTMLElement} Elm
          */
         $onGetSettings: function (self, Elm) {
+
+            var myself = this;
+
+            new Element('div', {
+                html   : '<label>' +
+                         '    <input type="checkbox" name="mailusers" />' +
+                         '    <span class="qui-formfield-settings-setting-title">' +
+                         '         Als Mail Empfänger' +
+                         '    </span>' +
+                         '</label>' +
+                         '<label>' +
+                         '    <input type="checkbox" name="selectable" />' +
+                         '    <span class="qui-formfield-settings-setting-title">' +
+                         '         Vom Benutzer auswählbar' +
+                         '    </span>' +
+                         '</label>',
+                'class': 'qui-formfield-settings-setting __checkbox'
+            }).inject(Elm);
+
+            Elm.getElements('[type="checkbox"]').addEvents({
+                change: function() {
+                    myself.setAttribute(
+                        this.name,
+                        this.checked ? true : false
+                    );
+                }
+            });
+
+            if (this.getAttribute('mailusers')) {
+                Elm.getElement('[name="mailusers"]').checked = true;
+            }
+
+            if (this.getAttribute('selectable')) {
+                Elm.getElement('[name="selectable"]').checked = true;
+            }
+
+
             new Element('span', {
                 'class': 'qui-formfield-settings-setting-title',
                 html   : 'Benutzer'

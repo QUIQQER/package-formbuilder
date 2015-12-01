@@ -53,7 +53,6 @@ class Checkbox extends FormBuilder\Field
         }
 
         foreach ($choices as $choice) {
-
             $text    = '';
             $checked = '';
 
@@ -67,8 +66,8 @@ class Checkbox extends FormBuilder\Field
 
             if (isset($values[$text])
                 && $values[$text]
-                && $values[$text] == $text) {
-
+                && $values[$text] == $text
+            ) {
                 $checked = 'checked="checked" ';
             } elseif ($this->getParent() && $this->getParent()->isSend()) {
                 $checked = '';

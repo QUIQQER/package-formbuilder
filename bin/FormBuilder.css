@@ -70,6 +70,10 @@
     width: 100%;
 }
 
+.qui-formbuilder-settings-content input[type="text"] {
+    width: 100%;
+}
+
 /** field list
  ============================================== */
 

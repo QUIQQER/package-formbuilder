@@ -6,11 +6,13 @@
 namespace QUI\FormBuilder;
 
 use QUI;
-use Symfony\Component\Form\Forms;
 
 /**
  * Class Builder
+ *
  * @package QUI\FormBuilder
+ *
+ * @event onLoaded
  */
 class Builder extends QUI\QDOM
 {
@@ -33,13 +35,32 @@ class Builder extends QUI\QDOM
      * list of form elements
      * @var array
      */
-    protected $_elements = array();
+    protected $elements = array();
 
     /**
      * internal send status
      * @var
      */
-    protected $_status;
+    protected $status;
+
+    /**
+     * internal mail recipient adresses
+     * @var array
+     */
+    protected $addresses = array();
+
+    /**
+     * @var QUI\Events\Event
+     */
+    public $Events = null;
+
+    /**
+     * Builder constructor.
+     */
+    public function __construct()
+    {
+        $this->Events = new QUI\Events\Event();
+    }
 
     /**
      * @param array $formData
@@ -58,7 +79,6 @@ class Builder extends QUI\QDOM
         $elements = $formData['elements'];
 
         foreach ($elements as $element) {
-
             if (!isset($element['type'])) {
                 continue;
             }
@@ -66,21 +86,28 @@ class Builder extends QUI\QDOM
             $Field = false;
 
             switch ($element['type']) {
-
                 case 'package/quiqqer/formbuilder/bin/fields/Input':
-                    $Field = new Fields\Input();
+                    $Field = new Fields\Input($this);
                     break;
 
                 case 'package/quiqqer/formbuilder/bin/fields/Checkbox':
-                    $Field = new Fields\Checkbox();
+                    $Field = new Fields\Checkbox($this);
                     break;
 
                 case 'package/quiqqer/formbuilder/bin/fields/Radiobox':
-                    $Field = new Fields\Radiobox();
+                    $Field = new Fields\Radiobox($this);
                     break;
 
                 case 'package/quiqqer/formbuilder/bin/fields/Name':
-                    $Field = new Fields\Name();
+                    $Field = new Fields\Name($this);
+                    break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Textarea':
+                    $Field = new Fields\Textarea($this);
+                    break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Users':
+                    $Field = new Fields\Users($this);
                     break;
             }
 
@@ -89,10 +116,11 @@ class Builder extends QUI\QDOM
             }
 
             $Field->setAttributes($element['attributes']);
-            $Field->setParent($this);
 
-            $this->_elements[] = $Field;
+            $this->elements[] = $Field;
         }
+
+        $this->Events->fireEvent('loaded');
     }
 
     /**
@@ -142,7 +170,7 @@ class Builder extends QUI\QDOM
             );
         }
 
-        foreach ($this->_elements as $Element) {
+        foreach ($this->elements as $Element) {
             /* @var $Element Field */
             /* @var $Template QUI\Template */
             $result .= $Element->create();
@@ -178,10 +206,10 @@ class Builder extends QUI\QDOM
             return;
         }
 
-        $missing = array();
-        $this->_status = self::STATUS_SEND;
+        $missing      = array();
+        $this->status = self::STATUS_SEND;
 
-        foreach ($this->_elements as $Element) {
+        foreach ($this->elements as $Element) {
             /* @var $Element Field */
             if (!$Element->getAttribute('required')) {
                 continue;
@@ -207,7 +235,7 @@ class Builder extends QUI\QDOM
             );
         }
 
-        $this->_status = self::STATUS_SUCCESS;
+        $this->status = self::STATUS_SUCCESS;
     }
 
     /**
@@ -217,7 +245,7 @@ class Builder extends QUI\QDOM
      */
     public function isSuccess()
     {
-        return $this->_status == self::STATUS_SUCCESS;
+        return $this->status == self::STATUS_SUCCESS;
     }
 
     /**
@@ -227,14 +255,37 @@ class Builder extends QUI\QDOM
      */
     public function isSend()
     {
-        if ($this->_status == self::STATUS_SUCCESS) {
+        if ($this->status == self::STATUS_SUCCESS) {
             return true;
         }
 
-        if ($this->_status == self::STATUS_SEND) {
+        if ($this->status == self::STATUS_SEND) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Add an e-mail Address
+     *
+     * @param string $email - E-Mail Address
+     * @param string|boolean $name - E-Mail Name
+     */
+    public function addAddress($email, $name = false)
+    {
+        $this->addresses[] = array(
+            'email' => $email,
+            'name' => $name
+        );
+    }
+
+    /**
+     * Return the form addresses
+     * @return array
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
     }
 }

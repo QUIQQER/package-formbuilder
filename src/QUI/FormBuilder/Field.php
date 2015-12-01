@@ -16,9 +16,18 @@ use QUI;
 abstract class Field extends QUI\QDOM implements Interfaces\Field
 {
     /**
-     * @var null
+     * @var null|QUI\FormBuilder\Builder
      */
-    protected $_Parent = null;
+    protected $Parent = null;
+
+    /**
+     * Field constructor.
+     * @param Builder $Form
+     */
+    public function __construct(QUI\FormBuilder\Builder $Form)
+    {
+        $this->setParent($Form);
+    }
 
     /**
      * Create the field
@@ -79,7 +88,7 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
      */
     public function setParent(Builder $Form)
     {
-        $this->_Parent = $Form;
+        $this->Parent = $Form;
     }
 
     /**
@@ -89,6 +98,6 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
      */
     public function getParent()
     {
-        return $this->_Parent;
+        return $this->Parent;
     }
 }
