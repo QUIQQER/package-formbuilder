@@ -7,6 +7,7 @@
  * @require package/quiqqer/formbuilder/bin/FormField
  * @require qui/controls/buttons/Button
  * @require qui/utils/Elements
+ * @require controls/users/Input
  * @require css!package/quiqqer/formbuilder/bin/fields/Checkbox.css
  */
 define('package/quiqqer/formbuilder/bin/fields/Users', [
@@ -15,10 +16,11 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
     'qui/controls/buttons/Button',
     'qui/utils/Elements',
     'controls/users/Input',
+    'controls/users/Entry',
 
     'css!package/quiqqer/formbuilder/bin/fields/Users.css'
 
-], function (Field, QUIButton, QUIElements, UserInput) {
+], function (Field, QUIButton, QUIElements, UserInput, UserEntry) {
     "use strict";
 
     return new Class({
@@ -36,7 +38,6 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
         },
 
         initialize: function (options) {
-
             this.parent(options);
 
             this.$SettingsContainer = null;
@@ -49,14 +50,31 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
         },
 
         /**
+         * Refresh the display
+         */
+        refresh: function () {
+            if (!this.getBody()) {
+                return;
+            }
+
+            this.getBody().set('html', '');
+
+            var users = this.getAttribute('users');
+
+            users = users.clean();
+
+            for (var i = 0, len = users.length; i < len; i++) {
+                if (users[i]) {
+                    this.addUser(users[i]);
+                }
+            }
+        },
+
+        /**
          * event : on create
          */
         $onCreate: function () {
-
-            var users = this.getAttribute('users'),
-                Body  = this.getBody();
-
-
+            this.refresh();
         },
 
         /**
@@ -67,8 +85,6 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
          * @param {HTMLElement} Elm
          */
         $onGetSettings: function (self, Elm) {
-            var users = this.getAttribute('users');
-
             new Element('span', {
                 'class': 'qui-formfield-settings-setting-title',
                 html   : 'Benutzer'
@@ -83,25 +99,41 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
             this.$UserInput = new UserInput({
                 events: {
                     onChange: function (Input) {
-                        console.log(Input.getValue());
+                        var value = Input.getValue().trim(',').split(',');
+
+                        self.setAttribute('users', value);
+                        self.refresh();
                     }
                 },
-                styles : {
-                    width : '100%'
+                styles: {
+                    width: '100%'
                 }
             }).inject(this.$SettingsContainer);
 
+
+            // add user to the input
+            var users = this.getAttribute('users');
+
+            users = users.clean();
+
+            for (var i = 0, len = users.length; i < len; i++) {
+                if (users[i]) {
+                    this.$UserInput.addUser(users[i]);
+                }
+            }
         },
 
         /**
          * Add a choice
          *
          * @param {Number} userId
-         *
-         * @return {HTMLElement}
          */
         addUser: function (userId) {
+            if (!userId) {
+                return;
+            }
 
+            new UserEntry(userId).inject(this.getBody());
         }
     });
 });

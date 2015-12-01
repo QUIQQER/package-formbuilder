@@ -31,9 +31,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     return new Class({
 
         Extends: QUIControl,
-        Type: 'package/quiqqer/formbuilder/bin/FormBuilder',
+        Type   : 'package/quiqqer/formbuilder/bin/FormBuilder',
 
         Binds: [
+            '$onInject',
+
             'openFieldList',
             'closeFieldList',
 
@@ -52,16 +54,20 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$List = null;
+            this.$List   = null;
             this.$Active = null;
 
-            this.$ButtonAdd = null;
-            this.$ButtonSettings = null;
-            this.$ButtonSort = null;
+            this.$ButtonAdd       = null;
+            this.$ButtonSettings  = null;
+            this.$ButtonSort      = null;
             this.$SettingsContent = null;
-            this.$Settings = null;
+            this.$Settings        = null;
 
             this.$fields = {};
+
+            this.addEvents({
+                onInject: this.$onInject
+            });
         },
 
         /**
@@ -73,61 +79,61 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             this.$Elm = new Element('div', {
                 'class': 'qui-formbuilder',
-                html: formBuilder
+                html   : formBuilder
             });
 
-            this.$Buttons = this.$Elm.getElement('.qui-formbuilder-buttons');
-            this.$Container = this.$Elm.getElement('.qui-formbuilder-container');
-            this.$Settings = this.$Elm.getElement('.qui-formbuilder-settings');
+            this.$Buttons          = this.$Elm.getElement('.qui-formbuilder-buttons');
+            this.$Container        = this.$Elm.getElement('.qui-formbuilder-container');
+            this.$Settings         = this.$Elm.getElement('.qui-formbuilder-settings');
             this.$ContainerButtons = this.$Elm.getElement('.qui-formbuilder-container-buttons');
-
-            //this.$Settings.getElement(
-            //    '.qui-formbuilder-settings-closer'
-            //).addEvents({
-            //    click: this.closeSettings
-            //});
-
-            //this.$Settings.setStyles({
-            //    display: '',
-            //    opacity: 0,
-            //    width: 0
-            //});
 
             this.$SettingsContent = this.$Settings.getElement(
                 '.qui-formbuilder-settings-content'
             );
 
             this.$ButtonAdd = new QUIButton({
-                text: 'Feld hinzufügen',
+                text     : 'Feld hinzufügen',
                 textimage: 'icon-plus',
-                events: {
+                events   : {
                     onClick: this.openFieldList
                 },
-                styles : {
-                    width : 'calc(100% - 50px)'
+                styles   : {
+                    width: 'calc(100% - 50px)'
                 }
             }).inject(this.$Buttons);
             //
             this.$ButtonSettings = new QUIButton({
-                alt: 'Formular Einstellungen',
-                icon: 'icon-gear',
+                alt   : 'Formular Einstellungen',
+                icon  : 'icon-gear',
                 events: {
                     onClick: this.openFormSettings
                 },
-                width : 50
+                styles : {
+                    width : 50
+                }
             }).inject(this.$Buttons);
 
             this.$ButtonSort = new QUIButton({
                 textimage: 'icon-sort',
-                text: 'sortieren',
-                title: 'Formularelemente sortieren',
-                events: {
+                text     : 'sortieren',
+                title    : 'Formularelemente sortieren',
+                events   : {
                     onClick: this.toggleSort
+                },
+                styles : {
+                    'float' : 'right'
                 }
             }).inject(this.$ContainerButtons);
 
 
             return this.$Elm;
+        },
+
+        /**
+         * event : on inject
+         */
+        $onInject: function () {
+            this.openFormSettings();
         },
 
         /**
@@ -141,7 +147,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         save: function () {
 
             var elements = [];
-            var fields = this.$Container.getElements('.qui-formfield');
+            var fields   = this.$Container.getElements('.qui-formfield');
 
             var i, len, Field;
 
@@ -154,7 +160,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 Field = this.$fields[fields[i].get('data-quiid')];
 
                 elements.push({
-                    type: Field.getType(),
+                    type      : Field.getType(),
                     attributes: Field.getAttributes()
                 });
             }
@@ -184,9 +190,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 return;
             }
 
-            var self = this,
+            var self           = this,
                 typeCollection = [],
-                elements = formData.elements;
+                elements       = formData.elements;
 
             for (var i = 0, len = elements.length; i < len; i++) {
                 typeCollection.push(
@@ -202,7 +208,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 for (i = 0, len = elements.length; i < len; i++) {
 
-                    index = typeCollection.indexOf(elements[i].type);
+                    index   = typeCollection.indexOf(elements[i].type);
                     Control = arguments[index];
 
                     self.addField(
@@ -230,13 +236,14 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             var self = this;
 
             new QUIConfirm({
-                title: 'Feld hinzufügen',
-                maxWidth: 800,
+                icon: 'icon-plus fa fa-plus',
+                title    : 'Feld hinzufügen',
+                maxWidth : 800,
                 maxHeight: 600,
                 autoclose: false,
 
                 cancel_button: {
-                    text: QUILocale.get('quiqqer/system', 'cancel'),
+                    text     : QUILocale.get('quiqqer/system', 'cancel'),
                     textimage: 'icon-remove fa fa-remove'
                 },
 
@@ -250,7 +257,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         Win.getContent().setStyle('opacity', 0);
                         Win.getContent().set('html', formBuilderFields);
 
-                        QUI.parse(Win.getContent()).then(function() {
+                        QUI.parse(Win.getContent()).then(function () {
                             Win.Loader.hide();
 
                             moofx(Win.getContent()).animate({
@@ -264,10 +271,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         var i, len, Field;
 
                         var controls = QUI.Controls.getControlsInElement(
-                                Win.getContent()
-                            );
+                            Win.getContent()
+                        );
 
-                        var result = [],
+                        var result         = [],
                             requiredFields = [];
 
                         for (i = 0, len = controls.length; i < len; i++) {
@@ -290,8 +297,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                             );
 
                             result.push({
-                                field : Field.getAttribute('field'),
-                                value : Field.getValue()
+                                field: Field.getAttribute('field'),
+                                value: Field.getValue()
                             });
                         }
 
@@ -299,12 +306,12 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                             return;
                         }
 
-                        require(requiredFields, function() {
+                        require(requiredFields, function () {
 
                             var First = false;
-                            var cls = arguments;
+                            var cls   = arguments;
 
-                            result.each(function(data) {
+                            result.each(function (data) {
                                 var Insert;
                                 var index = requiredFields.indexOf(data.field);
 
@@ -325,7 +332,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                             // select first inserted field
                             if (First) {
-                                 First.select();
+                                First.select();
                             }
 
                             Win.close();
@@ -347,16 +354,13 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$fields[Field.getId()] = Field;
 
             Field.addEvents({
-                onSelect: function (Field) {
-
+                onSelect : function (Field) {
                     if (self.$Active) {
                         self.$Active.unselect();
                     }
 
-                    //self.hideSettings().then(function () {
-                        self.$Active = Field;
-                        self.openSettings();
-                    //});
+                    self.$Active = Field;
+                    self.openSettings();
                 },
                 onDestroy: function (Field) {
                     delete self.$fields[Field.getId()];
@@ -365,12 +369,48 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         self.$Active = null;
                     }
 
-                    //self.closeSettings();
+                    self.openFormSettings();
                 }
             });
 
             Field.setParent(this);
             Field.inject(this.$Container);
+        },
+
+        /**
+         * select the last field
+         */
+        selectLastField: function () {
+            var First = this.$Container.getLast('.qui-formfield');
+
+            if (!First) {
+                this.openFormSettings();
+                return;
+            }
+
+            var Control = QUI.Controls.getById(First.get('data-quiid'));
+
+            if (Control) {
+                Control.select();
+            }
+        },
+
+        /**
+         * select the first field
+         */
+        selectFirstField: function () {
+            var Last = this.$Container.getFirst('.qui-formfield');
+
+            if (!Last) {
+                this.openFormSettings();
+                return;
+            }
+
+            var Control = QUI.Controls.getById(Last.get('data-quiid'));
+
+            if (Control) {
+                Control.select();
+            }
         },
 
         /**
@@ -381,7 +421,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * toggle sort
          */
         toggleSort: function () {
-
             if (this.$ButtonSort.isActive()) {
                 this.disableSort();
                 return;
@@ -394,7 +433,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * enable sort
          */
         enableSort: function () {
-
             var self = this;
 
             this.$ButtonAdd.disable();
@@ -410,7 +448,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 revert: {
                     duration: 250
                 },
-                clone: function (event) {
+                clone : function (event) {
                     var Target = event.target;
 
                     if (Target.nodeName != 'FIELDSET') {
@@ -418,15 +456,15 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     }
 
                     var size = Target.getSize(),
-                        pos = Target.getPosition(self.$Container);
+                        pos  = Target.getPosition(self.$Container);
 
                     return new Element('div', {
                         styles: {
                             background: 'rgba(0,0,0,0.5)',
-                            height: size.y,
-                            top: pos.y,
-                            width: size.x,
-                            zIndex: 1000
+                            height    : size.y,
+                            top       : pos.y,
+                            width     : size.x,
+                            zIndex    : 1000
                         }
                     });
                 },
@@ -445,7 +483,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * disable sort
          */
         disableSort: function () {
-
             if (typeof this.$__Sort !== 'undefined' && this.$__Sort) {
                 this.$__Sort.detach();
                 this.$__Sort = null;
@@ -467,7 +504,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @return Promise
          */
         openSettings: function () {
-
             var self = this;
 
             return new Promise(function (resolve) {
@@ -477,7 +513,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     return;
                 }
 
-                self.hideSettings().then(function() {
+                self.hideSettings().then(function () {
 
                     self.$SettingsContent.set('html', '');
                     self.$Settings.setStyles('display', null);
@@ -538,11 +574,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             }
 
             return new Promise(function (resolve) {
-
                 require([
                     'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html'
                 ], function (formSettings) {
-
                     self.$SettingsContent.set('html', formSettings);
                     self.$Settings.setStyles('display', null);
 
@@ -567,10 +601,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         duration: 250,
                         callback: resolve
                     });
-
                 });
             });
-
         }
     });
 });
