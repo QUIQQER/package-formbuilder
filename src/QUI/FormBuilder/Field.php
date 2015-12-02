@@ -38,6 +38,11 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function create()
     {
         $cssClasses = $this->getAttribute('cssClasses');
+        $body       = $this->getBody();
+
+        if (empty($body)) {
+            return '';
+        }
 
         if ($cssClasses) {
             $result = '<fieldset class="qui-formfield ' . $cssClasses . '">';
@@ -52,7 +57,7 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
 
         // content
         $result .= '<div class="qui-formfield-body">';
-        $result .= $this->getBody();
+        $result .= $body;
         $result .= '</div>';
 
 
