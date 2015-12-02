@@ -26,16 +26,25 @@ class Users extends FormBuilder\Field
         $self = $this;
         $Form = $this->getParent();
 
-        $Form->Events->addEvent('onLoaded', function () use ($self, $Form) {
+        $Form->Events->addEvent('onStatusSuccess', function () use ($self, $Form) {
             $mailusers = $self->getAttribute('mailusers');
 
             if (!$mailusers) {
                 return;
             }
 
+            $data  = $self->getAttribute('data');
             $users = $self->getAttribute('users');
 
             foreach ($users as $uid) {
+                if (empty($uid)) {
+                    continue;
+                }
+
+                if ($data != $uid) {
+                    continue;
+                }
+
                 try {
                     $User = QUI::getUsers()->get($uid);
 
@@ -59,15 +68,25 @@ class Users extends FormBuilder\Field
     public function getBody()
     {
         $selectable = $this->getAttribute('selectable');
-var_dump($this->getAttributes()); exit;
+
         if (!$selectable) {
             return '';
         }
 
-        $users  = $this->getAttribute('users');
-        $result = '<select>';
+        $users = $this->getAttribute('users');
+        $name  = '';
+
+        if ($this->getAttribute('label')) {
+            $name = $this->getAttribute('label');
+        }
+
+        $result = '<select name="' . $name . '">';
 
         foreach ($users as $uid) {
+            if (empty($uid)) {
+                continue;
+            }
+
             try {
                 $User = QUI::getUsers()->get($uid);
 

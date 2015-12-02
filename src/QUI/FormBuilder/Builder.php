@@ -6,6 +6,7 @@
 namespace QUI\FormBuilder;
 
 use QUI;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Builder
@@ -13,6 +14,8 @@ use QUI;
  * @package QUI\FormBuilder
  *
  * @event onLoaded
+ * @event onStatusSuccess
+ * @event onStatusError
  */
 class Builder extends QUI\QDOM
 {
@@ -211,31 +214,49 @@ class Builder extends QUI\QDOM
 
         foreach ($this->elements as $Element) {
             /* @var $Element Field */
-            if (!$Element->getAttribute('required')) {
-                continue;
-            }
-
             $name = $Element->getAttribute('name');
 
             if (!$name) {
                 $name = $Element->getAttribute('label');
             }
 
-            if (!isset($_REQUEST[$name])) {
+            if (!isset($_REQUEST[$name]) && $Element->getAttribute('required')) {
                 $missing[] = $name;
                 continue;
             }
 
-            $Element->setAttribute('data', $_REQUEST[$name]);
+            if (isset($_REQUEST[$name])) {
+                $Element->setAttribute('data', $_REQUEST[$name]);
+            }
         }
 
         if (!empty($missing)) {
+            $this->Events->fireEvent('statusError');
+
             throw new QUI\Exception(
                 'Bitte füllen Sie alle Pflichtfelder aus'
             );
         }
 
+        $this->Events->fireEvent('statusSuccess');
+
         $this->status = self::STATUS_SUCCESS;
+    }
+
+    /**
+     * @return String
+     */
+    public function getMailBody()
+    {
+        $result = '';
+
+        foreach ($this->elements as $Element) {
+            /* @var $Element Field */
+            $result .= $Element->getHtmlForMail();
+            $result .= '<p></p>';
+        }
+
+        return $result;
     }
 
     /**

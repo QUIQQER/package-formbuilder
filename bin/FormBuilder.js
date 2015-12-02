@@ -174,7 +174,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         /**
          * Load form data into the builder
          *
-         * @param {array} formData
+         * @param {object} formData
          */
         load: function (formData) {
 

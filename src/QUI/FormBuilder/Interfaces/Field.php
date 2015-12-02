@@ -24,4 +24,10 @@ interface Field
      * @return mixed
      */
     public function getBody();
+
+    /**
+     * Return the html of the element for the mail body
+     * @return string
+     */
+    public function getHtmlForMail();
 }

@@ -40,7 +40,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
             // values
             label     : 'Untitled',
             cssClasses: '',
-            required  : false
+            required  : 1
         },
 
         initialize: function (options) {
@@ -198,7 +198,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
                 checked: this.getAttribute('required'),
                 events : {
                     change: function () {
-                        self.setAttribute('required', this.checked);
+                        self.setAttribute('required', this.checked ? 1 : 0);
                     }
                 }
             });

@@ -6,6 +6,7 @@
 namespace QUI\FormBuilder;
 
 use QUI;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Field
@@ -39,7 +40,7 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         $cssClasses = $this->getAttribute('cssClasses');
 
         if ($cssClasses) {
-            $result = '<fieldset class="qui-formfield '. $cssClasses .'">';
+            $result = '<fieldset class="qui-formfield ' . $cssClasses . '">';
         } else {
             $result = '<fieldset class="qui-formfield">';
         }
@@ -79,6 +80,38 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function checkValue($value)
     {
         return true;
+    }
+
+    /**
+     * Return the html of the element for the mail body
+     * @return string
+     */
+    public function getHtmlForMail()
+    {
+        $name   = $this->getAttribute('name');
+        $value  = '';
+        $result = '';
+
+        if (!$name) {
+            $name = $this->getAttribute('label');
+        }
+
+        if ($this->getAttribute('data')) {
+            $value = Orthos::clearFormRequest($this->getAttribute('data'));
+        }
+
+        if (is_array($value)) {
+            $value = implode(', ', $value);
+        }
+
+        if (empty($value)) {
+            $value = '-';
+        }
+
+        $result .= '<p><span class="title">' . $name . '</span><br />';
+        $result .= $value . '</p>';
+
+        return $result;
     }
 
     /**

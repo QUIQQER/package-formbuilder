@@ -35,8 +35,8 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
 
         options: {
             users     : [],
-            mailusers : false,
-            selectable: true
+            mailusers : 0,
+            selectable: 1
         },
 
         initialize: function (options) {
@@ -110,7 +110,7 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
                 change: function() {
                     myself.setAttribute(
                         this.name,
-                        this.checked ? true : false
+                        this.checked ? 1 : 0
                     );
                 }
             });

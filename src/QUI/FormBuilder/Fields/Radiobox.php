@@ -42,7 +42,9 @@ class Radiobox extends FormBuilder\Field
             }
 
             $result .= '<label>' .
-                       '<input type="radio" name="' . $name . '" value="" ' . $checked . $require . '/> ' .
+                       '<input type="radio" name="' . $name . '" ' .
+                               'value="' . htmlspecialchars($text) . '" ' .
+                               $checked . $require . '/>' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }
