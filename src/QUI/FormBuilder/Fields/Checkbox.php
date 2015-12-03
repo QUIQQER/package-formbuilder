@@ -5,6 +5,7 @@
  */
 namespace QUI\FormBuilder\Fields;
 
+use QUI;
 use QUI\FormBuilder;
 
 /**
@@ -19,7 +20,7 @@ class Checkbox extends FormBuilder\Field
      */
     public function getBody()
     {
-        $result  = '';
+        $result  = '<div>';
         $require = '';
         $name    = '';
 
@@ -73,13 +74,21 @@ class Checkbox extends FormBuilder\Field
                 $checked = '';
             }
 
-            $result .= '<label>' .
+            $error = '';
+
+            if ($this->getAttribute('error')) {
+                $error = ' class="qui-form-error"';
+            }
+
+            $result .= '<label ' . $error . '>' .
                        '<input type="checkbox"
                                name="' . $name . '"
                                value="' . $text . '" ' . $checked . $require . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }
+
+        $result .= '</div>';
 
         return $result;
     }
@@ -92,5 +101,19 @@ class Checkbox extends FormBuilder\Field
         return array(
             URL_OPT_DIR . 'quiqqer/formbuilder/bin/fields/Checkbox.css'
         );
+    }
+
+    /**
+     * Check value for the input
+     */
+    public function checkValue()
+    {
+        $data = $this->getAttribute('data');
+
+        if (empty($data)) {
+            $this->setAttribute('error', true);
+
+            throw new QUI\Exception('Bitte füllen Sie dieses Feld aus');
+        }
     }
 }

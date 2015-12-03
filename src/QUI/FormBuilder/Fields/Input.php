@@ -40,6 +40,14 @@ class Input extends FormBuilder\Field
             $content
         );
 
+        if ($this->setAttribute('error', true)) {
+            $content = str_replace(
+                ' />',
+                'class="qui-form-error" />',
+                $content
+            );
+        }
+
         if ($this->getAttribute('required')) {
             $content = str_replace(' />', ' required="required" />', $content);
         }

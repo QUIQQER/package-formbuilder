@@ -30,4 +30,10 @@ interface Field
      * @return string
      */
     public function getHtmlForMail();
+
+    /**
+     * Check tha value data of the field
+     * @throws QUI\Exception
+     */
+    public function checkValue();
 }

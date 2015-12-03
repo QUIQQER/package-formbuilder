@@ -33,15 +33,16 @@ class Users extends FormBuilder\Field
                 return;
             }
 
-            $data  = $self->getAttribute('data');
-            $users = $self->getAttribute('users');
+            $selectable = $this->getAttribute('selectable');
+            $data       = $self->getAttribute('data');
+            $users      = $self->getAttribute('users');
 
             foreach ($users as $uid) {
                 if (empty($uid)) {
                     continue;
                 }
 
-                if ($data != $uid) {
+                if ($data != $uid && $selectable) {
                     continue;
                 }
 

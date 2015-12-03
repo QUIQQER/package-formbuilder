@@ -220,13 +220,16 @@ class Builder extends QUI\QDOM
                 $name = $Element->getAttribute('label');
             }
 
-            if (!isset($_REQUEST[$name]) && $Element->getAttribute('required')) {
-                $missing[] = $name;
-                continue;
-            }
-
             if (isset($_REQUEST[$name])) {
                 $Element->setAttribute('data', $_REQUEST[$name]);
+            }
+
+            if ($Element->getAttribute('required')) {
+                try {
+                    $Element->checkValue();
+                } catch (QUI\Exception $Exception) {
+                    $missing[] = $name;
+                }
             }
         }
 

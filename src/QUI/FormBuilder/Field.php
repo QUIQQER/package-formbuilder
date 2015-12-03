@@ -78,13 +78,14 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
 
     /**
      * Check value for the input
-     *
-     * @param String $value
-     * @return Boolean
      */
-    public function checkValue($value)
+    public function checkValue()
     {
-        return true;
+        $data = $this->getAttribute('data');
+
+        if ($data === false) {
+            throw new QUI\Exception('Please fill in all required fields');
+        }
     }
 
     /**

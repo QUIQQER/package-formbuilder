@@ -5,6 +5,7 @@
  */
 namespace QUI\FormBuilder\Fields;
 
+use QUI;
 use QUI\FormBuilder;
 
 /**
@@ -46,10 +47,29 @@ class Textarea extends FormBuilder\Field
             $textarea .= ' required="required"';
         }
 
+        if ($this->getAttribute('error')) {
+            $textarea .= ' class="qui-form-error"';
+        }
+
 
         $textarea .= ' styles="width: '. $width .'; height: '. $height .'"';
         $textarea .= '>' . $this->getAttribute('data') . '</textarea>';
 
         return $textarea;
+    }
+
+    /**
+     * Check value for the input
+     */
+    public function checkValue()
+    {
+        $data = $this->getAttribute('data');
+
+        $this->setAttribute('error', false);
+
+        if (empty($data)) {
+            $this->setAttribute('error', true);
+            throw new QUI\Exception('Bitte füllen Sie dieses Feld aus');
+        }
     }
 }

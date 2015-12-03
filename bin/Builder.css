@@ -31,3 +31,15 @@
 .qui-form input[type="submit"] {
     clear: both;
 }
+
+/**
+ ========================================== */
+
+input[type="text"].qui-form-error,
+textarea.qui-form-error {
+    border-color: #ff0033;
+}
+
+label.qui-form-error {
+    color: #ff0033;
+}
