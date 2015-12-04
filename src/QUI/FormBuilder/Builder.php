@@ -112,6 +112,14 @@ class Builder extends QUI\QDOM
                 case 'package/quiqqer/formbuilder/bin/fields/Users':
                     $Field = new Fields\Users($this);
                     break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/EMail':
+                    $Field = new Fields\EMail($this);
+                    break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Phone':
+                    $Field = new Fields\Phone($this);
+                    break;
             }
 
             if (!$Field) {
