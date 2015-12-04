@@ -87,9 +87,10 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         if ($data === false) {
             $this->setAttribute('error', true);
 
-            throw new QUI\Exception(
-                'Bitte füllen Sie dieses Feld aus'
-            );
+            throw new QUI\Exception(array(
+                'quiqqer/formbuilder',
+                'missing.field'
+            ));
         }
     }
 

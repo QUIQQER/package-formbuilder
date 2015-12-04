@@ -17,12 +17,15 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
     'qui/QUI',
     'qui/controls/Control',
+    'Locale',
 
     'text!package/quiqqer/formbuilder/bin/FormFieldSettings.html',
     'css!package/quiqqer/formbuilder/bin/FormField.css'
 
-], function (QUI, QUIControl, settings) {
+], function (QUI, QUIControl, QUILocale, settings) {
     "use strict";
+
+    var lg = 'quiqqer/formbuilder';
 
     return new Class({
 
@@ -178,6 +181,20 @@ define('package/quiqqer/formbuilder/bin/FormField', [
             var Label      = Settings.getElement('[name="label"]'),
                 CssClasses = Settings.getElement('[name="cssClasses"]'),
                 Required   = Settings.getElement('[name="required"]');
+
+            // locale
+            Settings.getElement('.field-settings').set({
+                html: QUILocale.get(lg, 'settings.field.labels')
+            });
+
+            Settings.getElement('.required-settings').set({
+                html: QUILocale.get(lg, 'settings.required.labels')
+            });
+
+            Settings.getElement('.css-settings').set({
+                html: QUILocale.get(lg, 'settings.css.labels')
+            });
+
 
             // label events
             Label.addEvents({

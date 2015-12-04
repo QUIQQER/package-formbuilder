@@ -14,10 +14,11 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
     'package/quiqqer/formbuilder/bin/FormField',
     'qui/controls/buttons/Button',
     'qui/utils/Elements',
+    'Locale',
 
     'css!package/quiqqer/formbuilder/bin/fields/Checkbox.css'
 
-], function (Field, QUIButton, QUIElements) {
+], function (Field, QUIButton, QUIElements, QUILocale) {
     "use strict";
 
     return new Class({
@@ -62,7 +63,9 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             if (!choices.length) {
                 this.$__creating = false;
-                this.addChoice('Erste Auswahl');
+                this.addChoice(
+                    QUILocale.get('quiqqer/formbuilder', 'field.checkbox.first.entry')
+                );
                 return;
             }
 
@@ -101,7 +104,10 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
             // elements
             new Element('span', {
                 'class' : 'qui-formfield-settings-setting-title',
-                html    : 'Auswahl'
+                html    : QUILocale.get(
+                    'quiqqer/formbuilder',
+                    'field.checkbox.settings.select.label'
+                )
             }).inject(Elm);
 
             this.$SettingsContaiiner = new Element('div').inject(Elm);

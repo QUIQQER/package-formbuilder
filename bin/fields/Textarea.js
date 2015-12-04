@@ -8,9 +8,10 @@
  */
 define('package/quiqqer/formbuilder/bin/fields/Textarea', [
 
-    'package/quiqqer/formbuilder/bin/FormField'
+    'package/quiqqer/formbuilder/bin/FormField',
+    'Locale'
 
-], function (Field) {
+], function (Field, QUILocale) {
     "use strict";
 
     return new Class({
@@ -65,7 +66,7 @@ define('package/quiqqer/formbuilder/bin/fields/Textarea', [
             var Node  = new Element('div', {
                     html: '<label>' +
                           '    <span class="qui-formfield-settings-setting-title">' +
-                          '         Platzhalter' +
+                          QUILocale.get('quiqqer/formbuilder', 'field.settings.placeholder') +
                           '    </span>' +
                           '    <input type="text" name="placeholder" />' +
                           '</label>'

@@ -17,10 +17,11 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
     'qui/utils/Elements',
     'controls/users/Input',
     'controls/users/Entry',
+    'Locale',
 
     'css!package/quiqqer/formbuilder/bin/fields/Users.css'
 
-], function (Field, QUIButton, QUIElements, UserInput, UserEntry) {
+], function (Field, QUIButton, QUIElements, UserInput, UserEntry, QUILocale) {
     "use strict";
 
     return new Class({
@@ -94,20 +95,20 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
                 html   : '<label>' +
                          '    <input type="checkbox" name="mailusers" />' +
                          '    <span class="qui-formfield-settings-setting-title">' +
-                         '         Als Mail Empfänger' +
+                         QUILocale.get('quiqqer/formbuilder', 'field.users.settings.mailreceiver.label') +
                          '    </span>' +
                          '</label>' +
                          '<label>' +
                          '    <input type="checkbox" name="selectable" />' +
                          '    <span class="qui-formfield-settings-setting-title">' +
-                         '         Vom Benutzer auswählbar' +
+                         QUILocale.get('quiqqer/formbuilder', 'field.users.settings.selectable.label') +
                          '    </span>' +
                          '</label>',
                 'class': 'qui-formfield-settings-setting __checkbox'
             }).inject(Elm);
 
             Elm.getElements('[type="checkbox"]').addEvents({
-                change: function() {
+                change: function () {
                     myself.setAttribute(
                         this.name,
                         this.checked ? 1 : 0
@@ -126,7 +127,10 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
 
             new Element('span', {
                 'class': 'qui-formfield-settings-setting-title',
-                html   : 'Benutzer'
+                html   : QUILocale.get(
+                    'quiqqer/formbuilder',
+                    'field.users.settings.userlist.label'
+                )
             }).inject(Elm);
 
             this.$SettingsContainer = new Element('div', {

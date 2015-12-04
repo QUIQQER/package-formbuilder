@@ -74,7 +74,11 @@ class Textarea extends FormBuilder\Field
 
         if (empty($data)) {
             $this->setAttribute('error', true);
-            throw new QUI\Exception('Bitte füllen Sie dieses Feld aus');
+
+            throw new QUI\Exception(array(
+                'quiqqer/formbuilder',
+                'exception.missing.field'
+            ));
         }
     }
 }

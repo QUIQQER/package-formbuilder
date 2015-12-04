@@ -5,14 +5,16 @@
  * @author www.pcsg.de (Henning Leutz)
  *
  * @require package/quiqqer/formbuilder/bin/FormField
+ * @require Locale
  * @require text!package/quiqqer/formbuilder/bin/fields/Input.html
  */
 define('package/quiqqer/formbuilder/bin/fields/Input', [
 
     'package/quiqqer/formbuilder/bin/FormField',
+    'Locale',
     'text!package/quiqqer/formbuilder/bin/fields/Input.html'
 
-], function (Field, body) {
+], function (Field, QUILocale, body) {
     "use strict";
 
     return new Class({
@@ -64,7 +66,7 @@ define('package/quiqqer/formbuilder/bin/fields/Input', [
             var Node  = new Element('div', {
                     html: '<label>' +
                           '    <span class="qui-formfield-settings-setting-title">' +
-                          '         Platzhalter' +
+                          QUILocale.get('quiqqer/formbuilder', 'field.settings.placeholder') +
                           '    </span>' +
                           '    <input type="text" name="placeholder" />' +
                           '</label>'

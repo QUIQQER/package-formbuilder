@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locales>
+    <groups name="quiqqer/formbuilder" datatype="js">
+        <locale name="button.add.field">
+            <de><![CDATA[Feld hinzufügen]]></de>
+            <en><![CDATA[Add field]]></en>
+        </locale>
+        <locale name="button.form.settings.title">
+            <de><![CDATA[Formular Einstellungen]]></de>
+            <en><![CDATA[Form settings]]></en>
+        </locale>
+        <locale name="button.form.sort.text">
+            <de><![CDATA[sortieren]]></de>
+            <en><![CDATA[sort]]></en>
+        </locale>
+        <locale name="button.form.sort.title">
+            <de><![CDATA[Formularelemente sortieren]]></de>
+            <en><![CDATA[Form sort]]></en>
+        </locale>
+        <locale name="window.add.field.title">
+            <de><![CDATA[Feld hinzufügen]]></de>
+            <en><![CDATA[Add field]]></en>
+        </locale>
+
+        <locale name="settings.field.labels">
+            <de><![CDATA[Feld Text]]></de>
+            <en><![CDATA[Field label]]></en>
+        </locale>
+        <locale name="settings.required.labels">
+            <de><![CDATA[Pflichtfeld]]></de>
+            <en><![CDATA[Required field]]></en>
+        </locale>
+        <locale name="settings.css.labels">
+            <de><![CDATA[CSS Klasse]]></de>
+            <en><![CDATA[CSS classes]]></en>
+        </locale>
+
+        <locale name="form.settings.sendButton.label">
+            <de><![CDATA[Text des Versand Buttons]]></de>
+            <en><![CDATA[text of the submit button]]></en>
+        </locale>
+
+        <locale name="field.settings.placeholder">
+            <de><![CDATA[Platzhalter]]></de>
+            <en><![CDATA[Placeholder]]></en>
+        </locale>
+
+        <locale name="field.checkbox.settings.select.label">
+            <de><![CDATA[Anzahl Select Boxen]]></de>
+            <en><![CDATA[Number of select boxes]]></en>
+        </locale>
+        <locale name="field.checkbox.first.entry">
+            <de><![CDATA[Erster Eintrag]]></de>
+            <en><![CDATA[First entry]]></en>
+        </locale>
+
+        <locale name="field.radio.settings.select.label">
+            <de><![CDATA[Anzahl Select Boxen]]></de>
+            <en><![CDATA[Number of select boxes]]></en>
+        </locale>
+        <locale name="field.radio.first.entry">
+            <de><![CDATA[Erster Eintrag]]></de>
+            <en><![CDATA[First entry]]></en>
+        </locale>
+
+        <locale name="field.users.settings.mailreceiver.label">
+            <de><![CDATA[Als Mail Empfänger]]></de>
+            <en><![CDATA[As reciever]]></en>
+        </locale>
+        <locale name="field.users.settings.selectable.label">
+            <de><![CDATA[Vom Benutzer auswählbar]]></de>
+            <en><![CDATA[User selectable]]></en>
+        </locale>
+        <locale name="field.users.settings.userlist.label">
+            <de><![CDATA[Benutzerliste]]></de>
+            <en><![CDATA[User list]]></en>
+        </locale>
+
+    </groups>
+
+    <groups name="quiqqer/formbuilder" datatype="php">
+
+    </groups>
+
+    <groups name="quiqqer/formbuilder" datatype="php,js">
+        <locale name="package.title">
+            <de><![CDATA[QUIQQER - Formularbuilder]]></de>
+            <en><![CDATA[QUIQQER - Formbuilder]]></en>
+        </locale>
+        <locale name="exception.missing.field">
+            <de><![CDATA[Bitte füllen Sie dieses Feld aus]]></de>
+            <en><![CDATA[Please fill out this field]]></en>
+        </locale>
+        <locale name="exception.missing.fields">
+            <de><![CDATA[Bitte füllen Sie alle Pflichtfelder korrekt aus.]]></de>
+            <en><![CDATA[Please fill in all mandatory fields correctly.]]></en>
+        </locale>
+    </groups>
+</locales>

@@ -244,9 +244,10 @@ class Builder extends QUI\QDOM
         if (!empty($missing)) {
             $this->Events->fireEvent('statusError');
 
-            throw new QUI\Exception(
-                'Bitte füllen Sie alle Pflichtfelder aus'
-            );
+            throw new QUI\Exception(array(
+                'quiqqer/formbuilder',
+                'exception.missing.fields'
+            ));
         }
 
         $this->Events->fireEvent('statusSuccess');

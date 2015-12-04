@@ -28,6 +28,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 ], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, QUILocale, formBuilder, formBuilderFields) {
     "use strict";
 
+    var lg = 'quiqqer/formbuilder';
+
     return new Class({
 
         Extends: QUIControl,
@@ -92,7 +94,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             );
 
             this.$ButtonAdd = new QUIButton({
-                text     : 'Feld hinzufügen',
+                text     : QUILocale.get(lg, 'button.add.field'),
                 textimage: 'icon-plus',
                 events   : {
                     onClick: this.openFieldList
@@ -103,25 +105,25 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             }).inject(this.$Buttons);
             //
             this.$ButtonSettings = new QUIButton({
-                alt   : 'Formular Einstellungen',
+                title : QUILocale.get(lg, 'button.form.settings.title'),
                 icon  : 'icon-gear',
                 events: {
                     onClick: this.openFormSettings
                 },
-                styles : {
-                    width : 50
+                styles: {
+                    width: 50
                 }
             }).inject(this.$Buttons);
 
             this.$ButtonSort = new QUIButton({
                 textimage: 'icon-sort',
-                text     : 'sortieren',
-                title    : 'Formularelemente sortieren',
+                text     : QUILocale.get(lg, 'button.form.sort.text'),
+                title    : QUILocale.get(lg, 'button.form.sort.title'),
                 events   : {
                     onClick: this.toggleSort
                 },
-                styles : {
-                    'float' : 'right'
+                styles   : {
+                    'float': 'right'
                 }
             }).inject(this.$ContainerButtons);
 
@@ -236,8 +238,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             var self = this;
 
             new QUIConfirm({
-                icon: 'icon-plus fa fa-plus',
-                title    : 'Feld hinzufügen',
+                icon     : 'icon-plus fa fa-plus',
+                title    : QUILocale.get(lg, 'window.add.field.title'),
                 maxWidth : 800,
                 maxHeight: 600,
                 autoclose: false,
@@ -579,6 +581,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 ], function (formSettings) {
                     self.$SettingsContent.set('html', formSettings);
                     self.$Settings.setStyles('display', null);
+
+                    self.$SettingsContent.getElement('.form-settings').set({
+                        html : QUILocale.get(lg, 'form.settings.sendButton.label')
+                    });
 
                     var Submit = self.$Settings.getElement('[name="form-submit"]');
 
