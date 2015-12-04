@@ -53,6 +53,17 @@ class EMail extends FormBuilder\Field
             $content = str_replace(' />', ' required="required" />', $content);
         }
 
+
+        if ($this->getAttribute('placeholder')) {
+            $placeholder = htmlspecialchars($this->getAttribute('placeholder'));
+            $content     = str_replace(
+                ' />',
+                ' placeholder="' . $placeholder . '" />',
+                $content
+            );
+        }
+
+
         return $content;
     }
 

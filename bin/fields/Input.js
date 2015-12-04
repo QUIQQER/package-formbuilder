@@ -20,24 +20,72 @@ define('package/quiqqer/formbuilder/bin/fields/Input', [
         Extends: Field,
         Type   : 'package/quiqqer/formbuilder/bin/fields/Input',
 
-        Binds : [
-            '$onCreate'
+        Binds: [
+            '$onCreate',
+            '$onGetSettings'
         ],
+
+        options: {
+            placeholder: ''
+        },
 
         initialize: function (options) {
             this.parent(options);
 
+            this.$Input = null;
+
             this.addEvents({
-                onCreate : this.$onCreate
+                onCreate     : this.$onCreate,
+                onGetSettings: this.$onGetSettings
             });
         },
 
         /**
          * event : on create
          */
-        $onCreate : function()
-        {
+        $onCreate: function () {
             this.getBody().set('html', body);
+
+            this.$Input = this.getBody().getElement('input');
+
+            if (this.getAttribute('placeholder')) {
+                this.$Input.placeholder = this.getAttribute('placeholder');
+            }
+        },
+
+        /**
+         * event : on get settings
+         *
+         * @param self
+         * @param Elm
+         */
+        $onGetSettings: function (self, Elm) {
+
+            var Node  = new Element('div', {
+                    html: '<label>' +
+                          '    <span class="qui-formfield-settings-setting-title">' +
+                          '         Platzhalter' +
+                          '    </span>' +
+                          '    <input type="text" name="placeholder" />' +
+                          '</label>'
+                }).inject(Elm),
+
+                Input = Node.getElement('[name="placeholder"]');
+
+
+            Input.addEvent('change', function () {
+                self.setAttribute('placeholder', this.value);
+                self.$Input.placeholder = this.value;
+            });
+
+            Input.addEvent('keyup', function () {
+                self.setAttribute('placeholder', this.value);
+                self.$Input.placeholder = this.value;
+            });
+
+            if (self.getAttribute('placeholder')) {
+                Input.value = self.getAttribute('placeholder');
+            }
         }
     });
 });

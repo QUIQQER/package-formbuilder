@@ -167,11 +167,11 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          */
         getSettings: function () {
 
-            var self = this;
+            var self     = this,
 
-            var Settings = new Element('div', {
-                html: settings
-            });
+                Settings = new Element('div', {
+                    html: settings
+                });
 
             this.fireEvent('getSettings', [this, Settings]);
 

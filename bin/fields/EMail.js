@@ -4,32 +4,33 @@
  * @module package/quiqqer/formbuilder/bin/fields/EMail
  * @author www.pcsg.de (Henning Leutz)
  *
- * @require package/quiqqer/formbuilder/bin/FormField
+ * @require package/quiqqer/formbuilder/bin/fields/Input
  * @require text!package/quiqqer/formbuilder/bin/fields/EMail.html
  */
 define('package/quiqqer/formbuilder/bin/fields/EMail', [
 
-    'package/quiqqer/formbuilder/bin/FormField',
+    'package/quiqqer/formbuilder/bin/fields/Input',
     'text!package/quiqqer/formbuilder/bin/fields/EMail.html'
 
-], function (Field, body) {
+], function (FieldInput, body) {
     "use strict";
 
     return new Class({
 
-        Extends: Field,
+        Extends: FieldInput,
         Type   : 'package/quiqqer/formbuilder/bin/fields/EMail',
 
         Binds: [
-            '$onCreate'
+            '$onCreate',
+            '$onGetSettings'
         ],
+
+        options: {
+            placeholder: ''
+        },
 
         initialize: function (options) {
             this.parent(options);
-
-            this.addEvents({
-                onCreate: this.$onCreate
-            });
         },
 
         /**
@@ -37,6 +38,12 @@ define('package/quiqqer/formbuilder/bin/fields/EMail', [
          */
         $onCreate: function () {
             this.getBody().set('html', body);
+
+            this.$Input = this.getBody().getElement('input');
+
+            if (this.getAttribute('placeholder')) {
+                this.$Input.placeholder = this.getAttribute('placeholder');
+            }
         }
     });
 });
