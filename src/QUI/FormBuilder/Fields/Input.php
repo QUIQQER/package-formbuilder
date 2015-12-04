@@ -49,7 +49,7 @@ class Input extends FormBuilder\Field
             );
         }
 
-        if ($this->setAttribute('error', true)) {
+        if ($this->getAttribute('error')) {
             $content = str_replace(
                 ' />',
                 'class="qui-form-error" />',

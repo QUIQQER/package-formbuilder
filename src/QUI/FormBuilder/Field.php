@@ -82,9 +82,14 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function checkValue()
     {
         $data = $this->getAttribute('data');
+        $this->setAttribute('error', false);
 
         if ($data === false) {
-            throw new QUI\Exception('Please fill in all required fields');
+            $this->setAttribute('error', true);
+
+            throw new QUI\Exception(
+                'Bitte füllen Sie dieses Feld aus'
+            );
         }
     }
 
