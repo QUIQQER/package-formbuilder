@@ -41,6 +41,7 @@ class Textarea extends FormBuilder\Field
             $name = $this->getAttribute('label');
         }
 
+        $name = FormBuilder\Builder::parseFieldName($name);
         $textarea .= ' name="' . $name . '"';
 
         if ($this->getAttribute('required')) {

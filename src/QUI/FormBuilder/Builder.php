@@ -228,6 +228,8 @@ class Builder extends QUI\QDOM
                 $name = $Element->getAttribute('label');
             }
 
+            $name = self::parseFieldName($name);
+
             if (isset($_REQUEST[$name])) {
                 $Element->setAttribute('data', $_REQUEST[$name]);
             }
@@ -320,5 +322,16 @@ class Builder extends QUI\QDOM
     public function getAddresses()
     {
         return $this->addresses;
+    }
+
+    /**
+     * Replace unwanted signs for field names
+     *
+     * @param string $str
+     * @return string
+     */
+    public static function parseFieldName($str)
+    {
+        return str_replace(array(' ', '-'), '_', $str);
     }
 }

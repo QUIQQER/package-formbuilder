@@ -25,6 +25,8 @@ class Radiobox extends FormBuilder\Field
         $name    = $this->getAttribute('label');
         $require = '';
 
+        $name = FormBuilder\Builder::parseFieldName($name);
+
         if (isset($choice['require']) && $choice['require']) {
             $require = 'required="required" ';
         }
@@ -43,8 +45,8 @@ class Radiobox extends FormBuilder\Field
 
             $result .= '<label>' .
                        '<input type="radio" name="' . $name . '" ' .
-                               'value="' . htmlspecialchars($text) . '" ' .
-                               $checked . $require . '/>' .
+                       'value="' . htmlspecialchars($text) . '" ' .
+                       $checked . $require . '/>' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }

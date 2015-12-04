@@ -35,6 +35,8 @@ class Checkbox extends FormBuilder\Field
             }
         }
 
+        $name = FormBuilder\Builder::parseFieldName($name);
+
         if (!is_array($data) && is_bool($data)) {
             $data = array();
         } else {

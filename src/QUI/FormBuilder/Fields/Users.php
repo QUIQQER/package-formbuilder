@@ -81,6 +81,7 @@ class Users extends FormBuilder\Field
             $name = $this->getAttribute('label');
         }
 
+        $name   = FormBuilder\Builder::parseFieldName($name);
         $result = '<select name="' . $name . '">';
 
         foreach ($users as $uid) {

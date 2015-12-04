@@ -28,6 +28,9 @@ class Input extends FormBuilder\Field
             $name = $this->getAttribute('label');
         }
 
+        $name = FormBuilder\Builder::parseFieldName($name);
+
+
         $content = str_replace(
             'value=""',
             'value="' . $this->getAttribute('data') . '"',
