@@ -35,6 +35,25 @@
 /**
  ========================================== */
 
+.qui-formfield input[type="search"],
+.qui-formfield input[type="url"],
+.qui-formfield input[type="number"],
+.qui-formfield input[type="range"],
+.qui-formfield input[type="date"],
+.qui-formfield input[type="month"],
+.qui-formfield input[type="week"],
+.qui-formfield input[type="time"],
+.qui-formfield input[type="datetime"],
+.qui-formfield input[type="datetime-local"],
+.qui-formfield input[type="tel"],
+.qui-formfield input[type="text"],
+.qui-formfield input[type="email"],
+.qui-formfield input[type="password"],
+.qui-formfield select,
+.qui-formfield textarea {
+    width: 100%;
+}
+
 input[type="text"].qui-form-error,
 textarea.qui-form-error {
     border-color: #ff0033;
