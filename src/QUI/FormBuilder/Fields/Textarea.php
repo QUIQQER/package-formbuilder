@@ -58,7 +58,7 @@ class Textarea extends FormBuilder\Field
         }
 
 
-        $textarea .= ' styles="width: ' . $width . '; height: ' . $height . '"';
+        $textarea .= ' style="width: ' . $width . '; height: ' . $height . '"';
         $textarea .= '>' . $this->getAttribute('data') . '</textarea>';
 
         return $textarea;
