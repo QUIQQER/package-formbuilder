@@ -75,6 +75,16 @@
             <de><![CDATA[Benutzerliste]]></de>
             <en><![CDATA[User list]]></en>
         </locale>
+        <locale name="message.error.formbuilder.emptyfields" html="true">
+            <de><![CDATA[
+            Einige Felder besitzen kein Label / Name. <br />
+            Bitte fügen Sie jedem Feld einen eindeutigen Namen hinzu.
+            ]]></de>
+            <en><![CDATA[
+            Some fields do not have a label / name. <br />
+            Please add a unique name to each field.
+            ]]></en>
+        </locale>
 
     </groups>
 

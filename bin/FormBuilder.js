@@ -148,10 +148,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          */
         save: function () {
 
-            var elements = [];
-            var fields   = this.$Container.getElements('.qui-formfield');
+            var elements    = [],
+                fields      = this.$Container.getElements('.qui-formfield'),
+                emptyLabels = 0;
 
-            var i, len, Field;
+            var i, len, Field, attributes;
 
             for (i = 0, len = fields.length; i < len; i++) {
 
@@ -159,11 +160,27 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     continue;
                 }
 
-                Field = this.$fields[fields[i].get('data-quiid')];
+                Field      = this.$fields[fields[i].get('data-quiid')];
+                attributes = Field.getAttributes();
+
+                if (attributes.label === '') {
+                    emptyLabels++;
+                }
 
                 elements.push({
                     type      : Field.getType(),
                     attributes: Field.getAttributes()
+                });
+            }
+
+            if (emptyLabels) {
+                QUI.getMessageHandler().then(function (MH) {
+                    MH.addError(
+                        QUILocale.get(
+                            'quiqqer/formbuilder',
+                            'message.error.formbuilder.emptyfields'
+                        )
+                    );
                 });
             }
 
@@ -583,7 +600,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     self.$Settings.setStyles('display', null);
 
                     self.$SettingsContent.getElement('.form-settings').set({
-                        html : QUILocale.get(lg, 'form.settings.sendButton.label')
+                        html: QUILocale.get(lg, 'form.settings.sendButton.label')
                     });
 
                     var Submit = self.$Settings.getElement('[name="form-submit"]');

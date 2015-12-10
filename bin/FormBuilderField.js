@@ -22,7 +22,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
     return new Class({
 
         Extends: QUIControl,
-        Type: 'package/quiqqer/formbuilder/bin/FormBuilderFields',
+        Type   : 'package/quiqqer/formbuilder/bin/FormBuilderFields',
 
         Binds: [
             '$onImport',
@@ -30,7 +30,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
         ],
 
         options: {
-            text: '',
+            text : '',
             field: ''
         },
 
@@ -38,7 +38,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
             this.parent(options);
 
             this.$Display = null;
-            this.$Input = null;
+            this.$Input   = null;
 
             this.addEvents({
                 onImport: this.$onImport
@@ -52,17 +52,17 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
          */
         create: function () {
             this.$Elm = new Element('div', {
-                'class': 'qui-formbuilder-field',
-                html: '<div class="qui-formbuilder-field-display"></div>' +
-                      '<input class="qui-formbuilder-field-input" min="0" type="number" />',
-                'data-quiid' : this.getId()
+                'class'     : 'qui-formbuilder-field',
+                html        : '<div class="qui-formbuilder-field-display"></div>' +
+                              '<input class="qui-formbuilder-field-input" min="0" type="number" />',
+                'data-quiid': this.getId()
             });
 
-            this.$Input = this.$Elm.getElement('input');
+            this.$Input   = this.$Elm.getElement('input');
             this.$Display = this.$Elm.getElement('.qui-formbuilder-field-display');
 
             this.$Input.addEvents({
-                change : this.$onChange
+                change: this.$onChange
             });
 
             this.$Display.set('html', this.getAttribute('text'));
@@ -74,17 +74,21 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
          * event : on import
          */
         $onImport: function () {
-            var Elm = this.getElm();
+            var Elm   = this.getElm(),
+                title = Elm.get('title');
+
 
             this.setAttribute('text', Elm.get('html'));
             this.setAttribute('field', Elm.get('data-field'));
             this.create().replaces(Elm);
+
+            this.getElm().set('title', title);
         },
 
         /**
          * event : on input change
          */
-        $onChange : function() {
+        $onChange: function () {
 
             var value = this.getValue();
 
@@ -100,7 +104,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
          * Return the current value
          * @returns {Number}
          */
-        getValue : function() {
+        getValue: function () {
             if (this.$Input.value === '') {
                 return 0;
             }
