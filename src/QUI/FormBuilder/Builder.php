@@ -120,6 +120,10 @@ class Builder extends QUI\QDOM
                 case 'package/quiqqer/formbuilder/bin/fields/Phone':
                     $Field = new Fields\Phone($this);
                     break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Select':
+                    $Field = new Fields\Select($this);
+                    break;
             }
 
             if (!$Field) {
