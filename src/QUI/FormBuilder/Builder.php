@@ -336,6 +336,6 @@ class Builder extends QUI\QDOM
      */
     public static function parseFieldName($str)
     {
-        return str_replace(array(' ', '-'), '_', $str);
+        return htmlspecialchars(str_replace(array(' ', '-'), '_', $str));
     }
 }

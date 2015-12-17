@@ -47,7 +47,7 @@ class Radiobox extends FormBuilder\Field
                        '<input type="radio" name="' . $name . '" ' .
                        'value="' . htmlspecialchars($text) . '" ' .
                        $checked . $require . '/>' .
-                       '<span>' . $text . '</span>' .
+                       '<span>' . htmlspecialchars($text) . '</span>' .
                        '</label>';
         }
 

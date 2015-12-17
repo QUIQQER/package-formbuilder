@@ -34,6 +34,12 @@ class Select extends FormBuilder\Field
         $content .= ' name="' . $name . '"';
         $content .= '>';
 
+        if ($this->getAttribute('placeholder')) {
+            $content .= '<option value="">';
+            $content .= htmlspecialchars($this->getAttribute('placeholder'));
+            $content .= '</option>';
+        }
+
         foreach ($entries as $entry) {
             $selected = '';
             $value    = '';
@@ -43,7 +49,7 @@ class Select extends FormBuilder\Field
             }
 
             $content .= '<option name="" value="' . $value . '" ' . $selected . '>';
-            $content .= $entry['text'];
+            $content .= htmlspecialchars($entry['text']);
             $content .= '</option>';
         }
 

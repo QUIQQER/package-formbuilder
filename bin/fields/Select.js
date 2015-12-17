@@ -28,7 +28,8 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
             '$onCreate',
             '$onTextChange',
             '$onAddOption',
-            '$onDeleteOption'
+            '$onDeleteOption',
+            '$refreshPlaceholder'
         ],
 
         options: {
@@ -39,7 +40,8 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
         initialize: function (options) {
             this.parent(options);
 
-            this.$Select = null;
+            this.$Select            = null;
+            this.$SelectPlaceholder = null;
 
             this.addEvents({
                 onCreate     : this.$onCreate,
@@ -89,9 +91,36 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
          * @param {HTMLElement} Elm
          */
         $onGetSettings: function (self, Elm) {
-            var entries = this.getAttribute('entries');
 
-            var i, len, Option, textChange, radioChange;
+            var i, len, Option, textChange, checkboxChange;
+
+            var entries = this.getAttribute('entries'),
+
+                Node    = new Element('div', {
+                    html:                                                                    '<label>' +
+                          '    <span class="qui-formfield-settings-setting-title">'          +
+                          QUILocale.get('quiqqer/formbuilder', 'field.settings.placeholder') +
+                          '    </span>'                                                      +
+                          '    <input type="text" name="placeholder" />'                     +
+                          '</label>'
+                }).inject(Elm),
+
+                Input   = Node.getElement('[name="placeholder"]');
+
+            // placeholder events
+            Input.addEvent('change', function () {
+                self.setAttribute('placeholder', this.value);
+                self.$refreshPlaceholder();
+            });
+
+            Input.addEvent('keyup', function () {
+                self.setAttribute('placeholder', this.value);
+                self.$refreshPlaceholder();
+            });
+
+            if (this.getAttribute('placeholder')) {
+                Input.value = self.getAttribute('placeholder');
+            }
 
             // elements
             new Element('span', {
@@ -109,7 +138,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                 self.$onTextChange(this);
             };
 
-            radioChange = function () {
+            checkboxChange = function () {
                 self.$setDefaultOption(this);
             };
 
@@ -125,7 +154,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
 
                 Option = new Element('div', {
                     'class': 'qui-form-field-checkbox-settings-choice',
-                    html   : '<input type="radio" name="' + selectdId + '" />' +
+                    html   : '<input type="checkbox" name="' + selectdId + '" />' +
                              '<input type="input" name="title" />'
                 });
 
@@ -145,8 +174,8 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                     }).inject(Option);
                 }
 
-                Option.getElement('[type="radio"]').addEvents({
-                    change: radioChange
+                Option.getElement('[type="checkbox"]').addEvents({
+                    change: checkboxChange
                 });
 
                 Option.getElement('[type="input"]').addEvents({
@@ -160,10 +189,10 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                 Option.getElement('[name="title"]').fireEvent('change');
 
                 if (entries[i].selected) {
-                    Option.getElement('[type="radio"]').set('checked', true);
+                    Option.getElement('[type="checkbox"]').set('checked', true);
                 }
 
-                Option.getElement('[type="radio"]').fireEvent('change');
+                //Option.getElement('[type="checkbox"]').fireEvent('change');
             }
         },
 
@@ -288,7 +317,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
             this.setAttribute('entries', entries);
 
 
-            Clone.getElement('[type="radio"]')
+            Clone.getElement('[type="checkbox"]')
                 .removeEvent('change')
                 .addEvents({
                     change: function () {
@@ -310,7 +339,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
         },
 
         /**
-         *
+         * event : delete option
          * @param Btn
          */
         $onDeleteOption: function (Btn) {
@@ -343,12 +372,11 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
         /**
          * event : on selectable change
          *
-         * @param {HTMLElement} Input - radio box
+         * @param {HTMLElement} Input - checkbox box
          */
         $setDefaultOption: function (Input) {
-            if (!Input.checked) {
-                return;
-            }
+
+            var status = Input.checked;
 
             var index   = QUIElements.getChildIndex(Input.getParent()),
                 entries = this.getAttribute('entries');
@@ -357,19 +385,62 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                 return;
             }
 
-            for (var i = 0, len = entries.length; i < len; i++) {
-                entries[i].selected = 0;
+            var Option;
+
+            if (status) {
+                for (var i = 0, len = entries.length; i < len; i++) {
+                    entries[i].selected = 0;
+                }
+
+                entries[index].selected = status;
+
+                Input.getParent()
+                    .getParent()
+                    .getElements('[type="checkbox"]')
+                    .set('checked', false);
+
+                Input.checked = true;
+
+                this.$Select.getElements('option').set('selected', false);
             }
 
-            entries[index].selected = 1;
 
-            this.$Select.getElements('option').set('selected', false);
+            if (this.$Select.getElement('[value=""]')) {
+                Option = this.$Select
+                    .getElements('option:nth-child(' + (index + 2) + ')');
 
-            this.$Select
-                .getElements('option:nth-child(' + (index + 1) + ')')
-                .set('selected', true);
+            } else {
+                Option = this.$Select
+                    .getElements('option:nth-child(' + (index + 1) + ')');
+
+            }
+
+            Option.set('selected', status);
 
             this.setAttribute('entries', entries);
+        },
+
+        /**
+         * Refresh the placeholder display
+         */
+        $refreshPlaceholder: function () {
+            if (!this.getAttribute('placeholder')) {
+                if (!this.$SelectPlaceholder) {
+                    this.$SelectPlaceholder.destroy();
+                }
+                return;
+            }
+
+            if (!this.$SelectPlaceholder) {
+                this.$SelectPlaceholder = new Element('option', {
+                    value: ''
+                }).inject(this.$Select, 'top');
+            }
+
+            this.$SelectPlaceholder.set(
+                'html',
+                this.getAttribute('placeholder')
+            );
         }
     });
 });

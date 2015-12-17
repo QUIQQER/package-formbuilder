@@ -33,7 +33,7 @@ class Input extends FormBuilder\Field
 
         $content = str_replace(
             'value=""',
-            'value="' . $this->getAttribute('data') . '"',
+            'value="' . htmlspecialchars($this->getAttribute('data')) . '"',
             $content
         );
 
