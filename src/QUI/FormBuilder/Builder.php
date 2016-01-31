@@ -278,6 +278,14 @@ class Builder extends QUI\QDOM
     }
 
     /**
+     * @return array
+     */
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
+    /**
      * was the form sent successfully?
      *
      * @return bool
