@@ -95,7 +95,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             this.$ButtonAdd = new QUIButton({
                 text     : QUILocale.get(lg, 'button.add.field'),
-                textimage: 'icon-plus',
+                textimage: 'fa fa-plus',
                 events   : {
                     onClick: this.openFieldList
                 },
@@ -106,7 +106,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             //
             this.$ButtonSettings = new QUIButton({
                 title : QUILocale.get(lg, 'button.form.settings.title'),
-                icon  : 'icon-gear',
+                icon  : 'fa fa-gear',
                 events: {
                     onClick: this.openFormSettings
                 },
@@ -116,7 +116,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             }).inject(this.$Buttons);
 
             this.$ButtonSort = new QUIButton({
-                textimage: 'icon-sort',
+                textimage: 'fa fa-sort',
                 text     : QUILocale.get(lg, 'button.form.sort.text'),
                 title    : QUILocale.get(lg, 'button.form.sort.title'),
                 events   : {
@@ -255,7 +255,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             var self = this;
 
             new QUIConfirm({
-                icon     : 'icon-plus fa fa-plus',
+                icon     : 'fa fa-plus',
                 title    : QUILocale.get(lg, 'window.add.field.title'),
                 maxWidth : 800,
                 maxHeight: 600,
@@ -263,7 +263,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 cancel_button: {
                     text     : QUILocale.get('quiqqer/system', 'cancel'),
-                    textimage: 'icon-remove fa fa-remove'
+                    textimage: 'fa fa-remove'
                 },
 
                 ok_button: {

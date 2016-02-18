@@ -159,7 +159,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                 });
 
                 new QUIButton({
-                    icon  : 'icon-plus',
+                    icon  : 'fa fa-plus',
                     events: {
                         onClick: this.$onAddOption
                     }
@@ -167,7 +167,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
 
                 if (i !== 0) {
                     new QUIButton({
-                        icon  : 'icon-minus',
+                        icon  : 'fa fa-minus',
                         events: {
                             onClick: this.$onDeleteOption
                         }
@@ -301,14 +301,14 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
             Clone.getElements('button').destroy();
 
             new QUIButton({
-                icon  : 'icon-plus',
+                icon  : 'fa fa-plus',
                 events: {
                     onClick: this.$onAddOption
                 }
             }).inject(Clone);
 
             new QUIButton({
-                icon  : 'icon-minus',
+                icon  : 'fa fa-minus',
                 events: {
                     onClick: this.$onDeleteOption
                 }

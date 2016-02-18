@@ -103,8 +103,8 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             // elements
             new Element('span', {
-                'class' : 'qui-formfield-settings-setting-title',
-                html    : QUILocale.get(
+                'class': 'qui-formfield-settings-setting-title',
+                html   : QUILocale.get(
                     'quiqqer/formbuilder',
                     'field.checkbox.settings.select.label'
                 )
@@ -144,14 +144,14 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 Clone.getElements('button').destroy();
 
                 new QUIButton({
-                    icon  : 'icon-plus',
+                    icon  : 'fa fa-plus',
                     events: {
                         onClick: btnClickAddChoiceAfter
                     }
                 }).inject(Clone);
 
                 new QUIButton({
-                    icon  : 'icon-minus',
+                    icon  : 'fa fa-minus',
                     events: {
                         onClick: btnClickDeleteChoice
                     }
@@ -198,7 +198,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 Btn.getElm().getParent().destroy();
 
                 delete choices[index - 1];
-                choices    = choices.clean();
+                choices = choices.clean();
 
                 self.setAttribute('choices', choices);
             };
@@ -266,7 +266,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 });
 
                 new QUIButton({
-                    icon  : 'icon-plus',
+                    icon  : 'fa fa-plus',
                     events: {
                         onClick: btnClickAddChoiceAfter
                     }
@@ -274,7 +274,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
                 if (i !== 0) {
                     new QUIButton({
-                        icon  : 'icon-minus',
+                        icon  : 'fa fa-minus',
                         events: {
                             onClick: btnClickDeleteChoice
                         }

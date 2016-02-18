@@ -111,7 +111,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
             new Element('div', {
                 'class': 'qui-formfield-button-dublicate qui-button',
-                html   : '<span class="icon-plus"></span>',
+                html   : '<span class="fa fa-plus"></span>',
                 events : {
                     click: function () {
                         self.dublicate();
@@ -121,7 +121,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
             new Element('div', {
                 'class': 'qui-formfield-button-delete qui-button',
-                html   : '<span class="icon-minus"></span>',
+                html   : '<span class="fa fa-minus"></span>',
                 events : {
                     click: function () {
                         self.destroy();
