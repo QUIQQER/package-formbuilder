@@ -266,7 +266,7 @@ class Builder extends QUI\QDOM
      */
     public function getMailBody()
     {
-        $template = OPT_DIR . 'quiqqer/contact/templates/mailBody.html';
+        $template = dirname(__FILE__) . '/mailBody.html';
         $Engine   = QUI::getTemplateManager()->getEngine();
 
         $Engine->assign(array(
