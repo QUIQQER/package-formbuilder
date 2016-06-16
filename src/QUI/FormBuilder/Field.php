@@ -100,9 +100,9 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
      */
     public function getHtmlForMail()
     {
+        $Engine = QUI::getTemplateManager()->getEngine();
         $name   = $this->getAttribute('name');
         $value  = '';
-        $result = '';
 
         if (!$name) {
             $name = $this->getAttribute('label');
@@ -120,10 +120,13 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
             $value = '-';
         }
 
-        $result .= '<p><span class="title">' . $name . '</span><br />';
-        $result .= $value . '</p>';
+        $Engine->assign(array(
+            'title' => $name,
+            'value' => $value,
+            'this'  => $this
+        ));
 
-        return $result;
+        return $Engine->fetch(dirname(__FILE__) . '/Field.html');
     }
 
     /**

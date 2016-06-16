@@ -266,15 +266,15 @@ class Builder extends QUI\QDOM
      */
     public function getMailBody()
     {
-        $result = '';
+        $template = OPT_DIR . 'quiqqer/contact/templates/mailBody.html';
+        $Engine   = QUI::getTemplateManager()->getEngine();
 
-        foreach ($this->elements as $Element) {
-            /* @var $Element Field */
-            $result .= $Element->getHtmlForMail();
-            $result .= '<p></p>';
-        }
+        $Engine->assign(array(
+            'elements' => $this->elements,
+            'this'     => $this
+        ));
 
-        return $result;
+        return $Engine->fetch($template);
     }
 
     /**
@@ -323,7 +323,7 @@ class Builder extends QUI\QDOM
     {
         $this->addresses[] = array(
             'email' => $email,
-            'name' => $name
+            'name'  => $name
         );
     }
 
