@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
+    <groups name="quiqqer/formbuilder" datatype="php,js">
+        <locale name="package.title">
+            <de><![CDATA[QUIQQER - Formularbuilder]]></de>
+            <en><![CDATA[QUIQQER - Formbuilder]]></en>
+        </locale>
+        <locale name="exception.missing.field">
+            <de><![CDATA[Bitte füllen Sie dieses Feld aus]]></de>
+            <en><![CDATA[Please fill out this field]]></en>
+        </locale>
+        <locale name="exception.missing.fields">
+            <de><![CDATA[Bitte füllen Sie alle Pflichtfelder korrekt aus.]]></de>
+            <en><![CDATA[Please fill in all mandatory fields correctly.]]></en>
+        </locale>
+    </groups>
+
     <groups name="quiqqer/formbuilder" datatype="js">
         <locale name="button.add.field">
             <de><![CDATA[Feld hinzufügen]]></de>
@@ -62,6 +77,10 @@
             <de><![CDATA[Erster Eintrag]]></de>
             <en><![CDATA[First entry]]></en>
         </locale>
+        <locale name="field.select.settings.select.label">
+            <de><![CDATA[Select Box]]></de>
+            <en><![CDATA[Select Box]]></en>
+        </locale>
 
         <locale name="field.users.settings.mailreceiver.label">
             <de><![CDATA[Als Mail Empfänger]]></de>
@@ -90,20 +109,5 @@
 
     <groups name="quiqqer/formbuilder" datatype="php">
 
-    </groups>
-
-    <groups name="quiqqer/formbuilder" datatype="php,js">
-        <locale name="package.title">
-            <de><![CDATA[QUIQQER - Formularbuilder]]></de>
-            <en><![CDATA[QUIQQER - Formbuilder]]></en>
-        </locale>
-        <locale name="exception.missing.field">
-            <de><![CDATA[Bitte füllen Sie dieses Feld aus]]></de>
-            <en><![CDATA[Please fill out this field]]></en>
-        </locale>
-        <locale name="exception.missing.fields">
-            <de><![CDATA[Bitte füllen Sie alle Pflichtfelder korrekt aus.]]></de>
-            <en><![CDATA[Please fill in all mandatory fields correctly.]]></en>
-        </locale>
     </groups>
 </locales>
