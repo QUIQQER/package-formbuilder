@@ -8,13 +8,15 @@
  * @require qui/controls/buttons/Button
  * @require qui/utils/Elements
  * @require Locale
+ * @require css!package/quiqqer/formbuilder/bin/fields/Checkbox.css
  */
 define('package/quiqqer/formbuilder/bin/fields/Select', [
 
     'package/quiqqer/formbuilder/bin/FormField',
     'qui/controls/buttons/Button',
     'qui/utils/Elements',
-    'Locale'
+    'Locale',
+    'css!package/quiqqer/formbuilder/bin/fields/Checkbox.css'
 
 ], function (FieldInput, QUIButton, QUIElements, QUILocale) {
     "use strict";
@@ -97,11 +99,11 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
             var entries = this.getAttribute('entries'),
 
                 Node    = new Element('div', {
-                    html:                                                                    '<label>' +
-                          '    <span class="qui-formfield-settings-setting-title">'          +
+                    html: '<label>' +
+                          '    <span class="qui-formfield-settings-setting-title">' +
                           QUILocale.get('quiqqer/formbuilder', 'field.settings.placeholder') +
-                          '    </span>'                                                      +
-                          '    <input type="text" name="placeholder" />'                     +
+                          '    </span>' +
+                          '    <input type="text" name="placeholder" />' +
                           '</label>'
                 }).inject(Elm),
 
