@@ -104,6 +104,10 @@
             Please add a unique name to each field.
             ]]></en>
         </locale>
+        <locale name="field.select.settings.select.label">
+            <de><![CDATA[Auswahlfelder]]></de>
+            <en><![CDATA[Option fields]]></en>
+        </locale>
 
     </groups>
 
