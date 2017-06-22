@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Select
  */
+
 namespace QUI\FormBuilder\Fields;
 
 use QUI;
@@ -42,13 +43,12 @@ class Select extends FormBuilder\Field
 
         foreach ($entries as $entry) {
             $selected = '';
-            $value    = '';
 
             if (isset($entry['selected']) && $entry['selected']) {
                 $selected = ' selected="selected"';
             }
 
-            $content .= '<option name="" value="' . $value . '" ' . $selected . '>';
+            $content .= '<option name="" value="' . htmlspecialchars($entry['text']) . '" ' . $selected . '>';
             $content .= htmlspecialchars($entry['text']);
             $content .= '</option>';
         }
