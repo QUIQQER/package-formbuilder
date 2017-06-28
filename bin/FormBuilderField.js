@@ -77,7 +77,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
             var Elm   = this.getElm(),
                 title = Elm.get('title');
 
-
             this.setAttribute('text', Elm.get('html'));
             this.setAttribute('field', Elm.get('data-field'));
             this.create().replaces(Elm);
@@ -89,7 +88,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilderField', [
          * event : on input change
          */
         $onChange: function () {
-
             var value = this.getValue();
 
             if (value <= 0) {
