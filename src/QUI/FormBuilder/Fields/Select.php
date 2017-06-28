@@ -64,9 +64,29 @@ class Select extends FormBuilder\Field
      */
     public function checkValue()
     {
-        $data = $this->getAttribute('data');
+        $data    = $this->getAttribute('data');
+        $entries = $this->getAttribute('entries');
 
         $this->setAttribute('error', false);
+
+        if (empty($entries)) {
+            return;
+        }
+
+        $existsValues = function () use ($entries) {
+            foreach ($entries as $entry) {
+                if (!empty($entry['text'])) {
+                    return true;
+                }
+            }
+
+            return false;
+        };
+
+        if ($existsValues() === false) {
+            return;
+        }
+
 
         if (empty($data)) {
             $this->setAttribute('error', true);

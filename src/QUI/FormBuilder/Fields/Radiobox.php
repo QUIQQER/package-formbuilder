@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Radiobox
  */
+
 namespace QUI\FormBuilder\Fields;
 
 use QUI\FormBuilder;
@@ -27,7 +28,7 @@ class Radiobox extends FormBuilder\Field
 
         $name = FormBuilder\Builder::parseFieldName($name);
 
-        if (isset($choice['require']) && $choice['require']) {
+        if ($this->getAttribute('required')) {
             $require = 'required="required" ';
         }
 
