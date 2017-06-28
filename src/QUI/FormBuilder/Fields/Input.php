@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Input
  */
+
 namespace QUI\FormBuilder\Fields;
 
 use QUI\FormBuilder;
@@ -59,6 +60,8 @@ class Input extends FormBuilder\Field
                 $content
             );
         }
+
+        var_dump($this->getAttributes());
 
         if ($this->getAttribute('required')) {
             $content = str_replace(' />', ' required="required" />', $content);

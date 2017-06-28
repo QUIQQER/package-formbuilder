@@ -62,7 +62,6 @@ define('package/quiqqer/formbuilder/bin/fields/Input', [
          * @param Elm
          */
         $onGetSettings: function (self, Elm) {
-
             var Node  = new Element('div', {
                     html: '<label>' +
                           '    <span class="qui-formfield-settings-setting-title">' +

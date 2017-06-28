@@ -78,7 +78,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @returns {HTMLElement}
          */
         create: function () {
-
             this.$Elm = new Element('div', {
                 'class': 'qui-formbuilder',
                 html   : formBuilder
@@ -103,7 +102,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     width: 'calc(100% - 50px)'
                 }
             }).inject(this.$Buttons);
-            //
+
             this.$ButtonSettings = new QUIButton({
                 title : QUILocale.get(lg, 'button.form.settings.title'),
                 icon  : 'fa fa-gear',
@@ -147,7 +146,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          *  }}
          */
         save: function () {
-
             var elements    = [],
                 fields      = this.$Container.getElements('.qui-formfield'),
                 emptyLabels = 0;
@@ -155,7 +153,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             var i, len, Field, attributes;
 
             for (i = 0, len = fields.length; i < len; i++) {
-
                 if (typeof this.$fields[fields[i].get('data-quiid')] === 'undefined') {
                     continue;
                 }
@@ -196,7 +193,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @param {object} formData
          */
         load: function (formData) {
-
             if (typeOf(formData) !== 'object') {
                 return;
             }
@@ -222,18 +218,18 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             typeCollection = typeCollection.unique();
 
             require(typeCollection, function () {
-
                 var i, len, index, Control;
 
                 for (i = 0, len = elements.length; i < len; i++) {
-
                     index   = typeCollection.indexOf(elements[i].type);
                     Control = arguments[index];
 
+                    if (!("required" in elements[i].attributes)) {
+                        elements[i].attributes.required = 1;
+                    }
+
                     self.addField(
-                        new Control(
-                            elements[i].attributes
-                        )
+                        new Control(elements[i].attributes)
                     );
                 }
 
