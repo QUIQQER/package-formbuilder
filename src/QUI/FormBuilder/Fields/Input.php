@@ -61,8 +61,6 @@ class Input extends FormBuilder\Field
             );
         }
 
-        var_dump($this->getAttributes());
-
         if ($this->getAttribute('required')) {
             $content = str_replace(' />', ' required="required" />', $content);
         }
