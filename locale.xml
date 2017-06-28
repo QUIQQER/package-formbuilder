@@ -109,6 +109,10 @@
             <en><![CDATA[Option fields]]></en>
         </locale>
 
+        <locale name="field.text.label">
+            <de><![CDATA[Inhaltsbereich]]></de>
+            <en><![CDATA[Content]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="php">

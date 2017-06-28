@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Builder
  */
+
 namespace QUI\FormBuilder;
 
 use QUI;
@@ -123,6 +124,10 @@ class Builder extends QUI\QDOM
 
                 case 'package/quiqqer/formbuilder/bin/fields/Select':
                     $Field = new Fields\Select($this);
+                    break;
+
+                case 'package/quiqqer/formbuilder/bin/fields/Text':
+                    $Field = new Fields\Text($this);
                     break;
             }
 

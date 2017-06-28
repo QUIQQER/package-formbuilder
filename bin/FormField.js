@@ -60,7 +60,6 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          * @returns {HTMLElement}
          */
         create: function () {
-
             this.$Elm = new Element('fieldset', {
                 'class': 'qui-formfield'
             });
@@ -102,7 +101,6 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          * Select the field for editing
          */
         select: function () {
-
             var self = this;
 
             this.fireEvent('select', [this]);
@@ -134,7 +132,6 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          * Unselect the field
          */
         unselect: function () {
-
             this.$Elm.removeClass('qui-formfield-active');
             this.$Prevent.getElements('.qui-formfield-button-dublicate').destroy();
             this.$Prevent.getElements('.qui-formfield-button-delete').destroy();
@@ -144,7 +141,6 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          * copy the form field and insert it to the parent
          */
         dublicate: function () {
-
             var self   = this,
                 Parent = this.getParent();
 
@@ -169,9 +165,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          * @return {HTMLElement}
          */
         getSettings: function () {
-
             var self     = this,
-
                 Settings = new Element('div', {
                     html: settings
                 });
