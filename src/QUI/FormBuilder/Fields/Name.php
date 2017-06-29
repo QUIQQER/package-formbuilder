@@ -33,6 +33,11 @@ class Name extends FormBuilder\Field
             $content = '<div class="form-name--extend">' . $content . '</div>';
         }
 
+        if ($this->getAttribute('required')) {
+            $content = str_replace('name="firstname"', 'name="firstname" required="required"', $content);
+            $content = str_replace('name="lastname"', 'name="lastname" required="required"', $content);
+        }
+
         return $content;
     }
 
