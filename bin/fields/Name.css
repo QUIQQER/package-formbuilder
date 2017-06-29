@@ -14,7 +14,7 @@
 
 .form-name-title,
 .form-name-suffix {
-    display: none;
+    display: none !important;
 }
 
 .form-name-title,

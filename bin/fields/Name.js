@@ -6,6 +6,7 @@
  *
  * @reuquire package/quiqqer/formbuilder/bin/FormField
  * @reuquire Mustache
+ * @reuquire Locale
  * @reuquire text!package/quiqqer/formbuilder/bin/fields/Name.html
  * @reuquire css!package/quiqqer/formbuilder/bin/fields/Name.css
  */
