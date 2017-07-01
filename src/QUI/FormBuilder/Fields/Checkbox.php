@@ -51,7 +51,7 @@ class Checkbox extends FormBuilder\Field
             $values[$_data] = true;
         }
 
-        if ($this->getAttribute('require')) {
+        if ($this->getAttribute('required')) {
             $require = 'required="required" ';
         }
 

@@ -132,44 +132,6 @@ define('package/quiqqer/formbuilder/bin/fields/Text', [
                         Editors.getEditor(null).then(function (Editor) {
                             Win.$Editor = Editor;
 
-                            // minimal toolbar
-                            Win.$Editor.setAttribute('buttons', {
-                                lines: [
-                                    [[
-                                        {
-                                            type  : "button",
-                                            button: "Bold"
-                                        },
-                                        {
-                                            type  : "button",
-                                            button: "Italic"
-                                        },
-                                        {
-                                            type  : "button",
-                                            button: "Underline"
-                                        },
-                                        {
-                                            type: "separator"
-                                        },
-                                        {
-                                            type  : "button",
-                                            button: "RemoveFormat"
-                                        },
-                                        {
-                                            type: "separator"
-                                        },
-                                        {
-                                            type  : "button",
-                                            button: "NumberedList"
-                                        },
-                                        {
-                                            type  : "button",
-                                            button: "BulletedList"
-                                        }
-                                    ]]
-                                ]
-                            });
-
                             Win.$Editor.addEvent('onLoaded', function () {
                                 Win.$Editor.switchToWYSIWYG();
                                 Win.$Editor.showToolbar();
