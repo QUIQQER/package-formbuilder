@@ -23,15 +23,6 @@ class Input extends FormBuilder\Field
     {
         $file    = OPT_DIR . 'quiqqer/formbuilder/bin/fields/Input.html';
         $content = file_get_contents($file);
-        $name    = '';
-
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-        }
-
-        $name = FormBuilder\Builder::parseFieldName($name);
-
-
         $content = str_replace(
             'value=""',
             'value="' . htmlspecialchars($this->getAttribute('data')) . '"',
@@ -40,7 +31,7 @@ class Input extends FormBuilder\Field
 
         $content = str_replace(
             'name=""',
-            'name="' . $name . '"',
+            'name="' . $this->name . '"',
             $content
         );
 

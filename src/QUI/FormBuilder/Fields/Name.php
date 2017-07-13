@@ -34,9 +34,15 @@ class Name extends FormBuilder\Field
             $content = '<div class="form-name--extend">' . $content . '</div>';
         }
 
+        $firstnameName = $this->name . '-firstname';
+        $lastnameName  = $this->name . '-lastname';
+
         if ($this->getAttribute('required')) {
-            $content = str_replace('name="firstname"', 'name="firstname" required="required"', $content);
-            $content = str_replace('name="lastname"', 'name="lastname" required="required"', $content);
+            $content = str_replace('name="firstname"', 'name="' . $firstnameName . '" required="required"', $content);
+            $content = str_replace('name="lastname"', 'name="' . $lastnameName . '" required="required"', $content);
+        } else {
+            $content = str_replace('name="firstname"', 'name="' . $firstnameName . '"', $content);
+            $content = str_replace('name="lastname"', 'name="' . $lastnameName . '"', $content);
         }
 
         return $content;
@@ -59,13 +65,16 @@ class Name extends FormBuilder\Field
     {
         $data = $this->getAttribute('data');
 
+        $firstnameName = $this->name . '-firstname';
+        $lastnameName  = $this->name . '-lastname';
+
         // workaround, da das Namenfeld mehrere input fields hat
-        if (isset($_REQUEST['firstname']) && empty($data['firstname'])) {
-            $data['firstname'] = $_REQUEST['firstname'];
+        if (isset($_REQUEST[$firstnameName]) && empty($data['firstname'])) {
+            $data['firstname'] = $_REQUEST[$firstnameName];
         }
 
-        if (isset($_REQUEST['lastname']) && empty($data['lastname'])) {
-            $data['lastname'] = $_REQUEST['lastname'];
+        if (isset($_REQUEST[$lastnameName]) && empty($data['lastname'])) {
+            $data['lastname'] = $_REQUEST[$lastnameName];
         }
 
         if (empty($data['firstname']) || empty($data['lastname'])) {
@@ -76,5 +85,7 @@ class Name extends FormBuilder\Field
                 'missing.field'
             ));
         }
+
+        $this->setAttribute('data', $data);
     }
 }

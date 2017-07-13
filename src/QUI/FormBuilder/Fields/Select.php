@@ -22,17 +22,10 @@ class Select extends FormBuilder\Field
      */
     public function getBody()
     {
-        $name    = '';
         $entries = $this->getAttribute('entries');
         $content = '<select';
 
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-        }
-
-        $name = FormBuilder\Builder::parseFieldName($name);
-
-        $content .= ' name="' . $name . '"';
+        $content .= ' name="' . $this->name . '"';
         $content .= '>';
 
         if ($this->getAttribute('placeholder')) {

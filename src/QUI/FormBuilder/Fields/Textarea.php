@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Textarea
  */
+
 namespace QUI\FormBuilder\Fields;
 
 use QUI;
@@ -22,10 +23,8 @@ class Textarea extends FormBuilder\Field
     public function getBody()
     {
         $textarea = '<textarea';
-        $name     = '';
-
-        $height = '200px';
-        $width  = '100%';
+        $height   = '200px';
+        $width    = '100%';
 
         // defaults
         if ($this->getAttribute('width')) {
@@ -36,13 +35,7 @@ class Textarea extends FormBuilder\Field
             $height = $this->getAttribute('height');
         }
 
-
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-        }
-
-        $name = FormBuilder\Builder::parseFieldName($name);
-        $textarea .= ' name="' . $name . '"';
+        $textarea .= ' name="' . $this->name . '"';
 
         if ($this->getAttribute('required')) {
             $textarea .= ' required="required"';
@@ -50,7 +43,7 @@ class Textarea extends FormBuilder\Field
 
         if ($this->getAttribute('placeholder')) {
             $placeholder = htmlspecialchars($this->getAttribute('placeholder'));
-            $textarea .= ' placeholder="' . $placeholder . '"';
+            $textarea    .= ' placeholder="' . $placeholder . '"';
         }
 
         if ($this->getAttribute('error')) {

@@ -22,6 +22,13 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     protected $Parent = null;
 
     /**
+     * Internal name
+     *
+     * @var string
+     */
+    protected $name = 0;
+
+    /**
      * Field constructor.
      * @param Builder $Form
      */
@@ -147,5 +154,15 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function getParent()
     {
         return $this->Parent;
+    }
+
+    /**
+     * Set internal name id
+     *
+     * @param int $id
+     */
+    public function setNameId($id)
+    {
+        $this->name = 'field-' . $id;
     }
 }

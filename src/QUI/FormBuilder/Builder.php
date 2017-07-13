@@ -190,8 +190,12 @@ class Builder extends QUI\QDOM
             );
         }
 
+        $fieldIdCounter = 0;
+
         foreach ($this->elements as $Element) {
             /* @var $Element Field */
+            $Element->setNameId($fieldIdCounter++);
+
             /* @var $Template QUI\Template */
             $result .= $Element->create();
 
@@ -226,21 +230,25 @@ class Builder extends QUI\QDOM
             return;
         }
 
-        $missing      = array();
-        $this->status = self::STATUS_SEND;
+        $missing        = array();
+        $this->status   = self::STATUS_SEND;
+        $fieldIdCounter = 0;
 
-        foreach ($this->elements as $Element) {
+        foreach ($this->elements as $k => $Element) {
             /* @var $Element Field */
+            $Element->setNameId($fieldIdCounter);
+
             $name = $Element->getAttribute('name');
 
             if (!$name) {
                 $name = $Element->getAttribute('label');
             }
 
-            $name = self::parseFieldName($name);
+            $name    = self::parseFieldName($name);
+            $fieldId = 'field-' . $fieldIdCounter++;
 
-            if (isset($_REQUEST[$name])) {
-                $Element->setAttribute('data', $_REQUEST[$name]);
+            if (isset($_REQUEST[$fieldId])) {
+                $Element->setAttribute('data', $_REQUEST[$fieldId]);
             }
 
             if ($Element->getAttribute('required')) {

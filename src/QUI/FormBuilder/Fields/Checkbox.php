@@ -22,20 +22,8 @@ class Checkbox extends FormBuilder\Field
     {
         $result  = '<div>';
         $require = '';
-        $name    = '';
-
         $data    = $this->getAttribute('data');
         $choices = $this->getAttribute('choices');
-
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-
-            if (is_array($choices) && count($choices) > 1) {
-                $name .= '[]';
-            }
-        }
-
-        $name = FormBuilder\Builder::parseFieldName($name);
 
         if (!is_array($data) && is_bool($data)) {
             $data = array();
@@ -84,7 +72,7 @@ class Checkbox extends FormBuilder\Field
 
             $result .= '<label ' . $error . '>' .
                        '<input type="checkbox"
-                               name="' . $name . '"
+                               name="' . $this->name . '[]"
                                value="' . $text . '" ' . $checked . $require . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';

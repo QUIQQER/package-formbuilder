@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Users
  */
+
 namespace QUI\FormBuilder\Fields;
 
 use QUI;
@@ -55,7 +56,6 @@ class Users extends FormBuilder\Field
                             $User->getName()
                         );
                     }
-
                 } catch (QUI\Exception $Exception) {
                     QUI\System\Log::addDebug($Exception->getMessage());
                 }
@@ -74,15 +74,8 @@ class Users extends FormBuilder\Field
             return '';
         }
 
-        $users = $this->getAttribute('users');
-        $name  = '';
-
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-        }
-
-        $name   = FormBuilder\Builder::parseFieldName($name);
-        $result = '<select name="' . $name . '">';
+        $users  = $this->getAttribute('users');
+        $result = '<select name="' . $this->name . '">';
 
         foreach ($users as $uid) {
             if (empty($uid)) {
@@ -95,7 +88,6 @@ class Users extends FormBuilder\Field
                 $result .= '<option value="' . $uid . '">' .
                            $User->getName() .
                            '</option>';
-
             } catch (QUI\Exception $Exception) {
                 QUI\System\Log::addDebug($Exception->getMessage());
             }
