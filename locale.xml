@@ -54,6 +54,10 @@
             <de><![CDATA[Text des Versand Buttons]]></de>
             <en><![CDATA[text of the submit button]]></en>
         </locale>
+        <locale name="form.settings.receivers.label">
+            <de><![CDATA[Empfänger]]></de>
+            <en><![CDATA[Receivers]]></en>
+        </locale>
 
         <locale name="field.settings.placeholder">
             <de><![CDATA[Platzhalter]]></de>

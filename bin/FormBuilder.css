@@ -63,6 +63,15 @@
     width: 100%;
 }
 
+.qui-form-settings-label {
+    float: left;
+    width: 100%;
+}
+
+.qui-form-settings-label:not(:last-child) {
+    margin-bottom: 20px;
+}
+
 .qui-form-settings-setting-title {
     float: left;
     font-weight: bold;

@@ -19,13 +19,20 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'qui/controls/buttons/Button',
     'qui/controls/windows/Confirm',
     'package/quiqqer/bricks/bin/Sortables',
+
+    'controls/users/Input',
+    'controls/users/Entry',
+
     'Locale',
+    'Mustache',
 
     'text!package/quiqqer/formbuilder/bin/FormBuilder.html',
     'text!package/quiqqer/formbuilder/bin/FormBuilderFields.html',
+    'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html',
     'css!package/quiqqer/formbuilder/bin/FormBuilder.css'
 
-], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, QUILocale, formBuilder, formBuilderFields) {
+], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, UserInput, UserEntry,
+             QUILocale, Mustache, formBuilder, formBuilderFields, formBuilderSettings) {
     "use strict";
 
     var lg = 'quiqqer/formbuilder';
@@ -50,7 +57,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         ],
 
         options: {
-            submit: 'Senden'
+            submit   : 'Senden',
+            receivers: []
         },
 
         initialize: function (options) {
@@ -233,6 +241,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     );
                 }
 
+                self.openFormSettings();
             });
         },
 
@@ -529,7 +538,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 self.hideSettings().then(function () {
-
                     self.$SettingsContent.set('html', '');
                     self.$Settings.setStyles('display', null);
 
@@ -589,37 +597,64 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             }
 
             return new Promise(function (resolve) {
-                require([
-                    'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html'
-                ], function (formSettings) {
-                    self.$SettingsContent.set('html', formSettings);
-                    self.$Settings.setStyles('display', null);
+                self.$SettingsContent.set('html', Mustache.render(formBuilderSettings, {
+                    labelSendBtnText: QUILocale.get(lg,
+                        'form.settings.sendButton.label'
+                    ),
+                    labelReceivers  : QUILocale.get(lg,
+                        'form.settings.receivers.label'
+                    )
+                }));
 
-                    self.$SettingsContent.getElement('.form-settings').set({
-                        html: QUILocale.get(lg, 'form.settings.sendButton.label')
-                    });
+                self.$Settings.setStyles('display', null);
 
-                    var Submit = self.$Settings.getElement('[name="form-submit"]');
+                self.$SettingsContent.getElement('.form-settings').set({
+                    html: QUILocale.get(lg, 'form.settings.sendButton.label')
+                });
 
-                    //form-submit
-                    Submit.addEvents({
-                        change: function () {
-                            self.setAttribute('submit', this.value);
-                        },
+                var Submit = self.$Settings.getElement('[name="form-submit"]');
 
-                        keyup: function () {
-                            self.setAttribute('submit', this.value);
+                //form-submit
+                Submit.addEvents({
+                    change: function () {
+                        self.setAttribute('submit', this.value);
+                    },
+
+                    keyup: function () {
+                        self.setAttribute('submit', this.value);
+                    }
+                });
+
+                Submit.value = self.getAttribute('submit');
+
+                // receivers
+                var ReceiversElm = self.$SettingsContent.getElement(
+                    '.form-receivers'
+                );
+
+                var receivers = self.getAttribute('receivers');
+
+                var UserInputCtrl = new UserInput({
+                    events: {
+                        onChange: function (Input) {
+                            var value = Input.getValue().trim(',').split(',');
+                            self.setAttribute('receivers', value);
                         }
-                    });
+                    },
+                    styles: {
+                        width: '100%'
+                    }
+                }).inject(ReceiversElm, 'top');
 
-                    Submit.value = self.getAttribute('submit');
+                for (var i = 0, len = receivers.length; i < len; i++) {
+                    UserInputCtrl.addUser(receivers[i]);
+                }
 
-                    moofx(self.$Settings).animate({
-                        opacity: 1
-                    }, {
-                        duration: 250,
-                        callback: resolve
-                    });
+                moofx(self.$Settings).animate({
+                    opacity: 1
+                }, {
+                    duration: 250,
+                    callback: resolve
                 });
             });
         }

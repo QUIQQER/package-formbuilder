@@ -1,8 +1,16 @@
 <div class="qui-form-settings-setting">
-    <label>
+    <label class="qui-form-settings-label">
         <span class="qui-form-settings-setting-title form-settings">
-            Text des Versand Buttons
+            {{labelSendBtnText}}
         </span>
         <input name="form-submit" style="width: 100%;" />
     </label>
+    <div class="qui-form-settings-label">
+        <span class="qui-form-settings-setting-title form-settings">
+            {{labelReceivers}}
+        </span>
+        <div class="form-receivers">
+            <div class="form-receivers-users"></div>
+        </div>
+    </div>
 </div>

@@ -75,6 +75,27 @@ class Builder extends QUI\QDOM
             $this->setAttributes($formData['settings']);
         }
 
+        // parse receivers
+        $receivers = $this->getAttribute('receivers');
+
+        if (!empty($receivers)) {
+            $Users = QUI::getUsers();
+
+            foreach ($receivers as $userId) {
+                try {
+                    $User  = $Users->get((int)$userId);
+                    $email = $User->getAttribute('email');
+
+                    if (empty($email)) {
+                        continue;
+                    }
+
+                    $this->addAddress($email, $User->getName());
+                } catch (\Exception $Exception) {
+                    continue;
+                }
+            }
+        }
 
         if (!isset($formData['elements'])) {
             return;
