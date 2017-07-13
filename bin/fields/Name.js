@@ -37,8 +37,8 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
         options: {
             extend: false,
             title : QUILocale.get('quiqqer/quiqqer', 'title'),
-            first : QUILocale.get('quiqqer/quiqqer', 'first'),
-            last  : QUILocale.get('quiqqer/quiqqer', 'last'),
+            first : QUILocale.get('quiqqer/quiqqer', 'firstname'),
+            last  : QUILocale.get('quiqqer/quiqqer', 'lastname'),
             suffix: QUILocale.get('quiqqer/quiqqer', 'suffix')
         },
 

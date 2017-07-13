@@ -73,7 +73,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$SettingsContent = null;
             this.$Settings        = null;
 
-            this.$fields = {};
+            this.$fields         = {};
+            this.$fieldPositions = [];
 
             this.addEvents({
                 onInject: this.$onInject
@@ -86,6 +87,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @returns {HTMLElement}
          */
         create: function () {
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'class': 'qui-formbuilder',
                 html   : formBuilder
@@ -104,7 +107,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 text     : QUILocale.get(lg, 'button.add.field'),
                 textimage: 'fa fa-plus',
                 events   : {
-                    onClick: this.openFieldList
+                    onClick: function() {
+                        self.openFieldList();
+                    }
                 },
                 styles   : {
                     width: 'calc(100% - 50px)'
@@ -254,9 +259,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
         /**
          * opens the field dialog
+         *
+         * @param {Number} [insertPos] - Position where the new selected fields are inserted
          */
-        openFieldList: function () {
-
+        openFieldList: function (insertPos) {
             var self = this;
 
             new QUIConfirm({
@@ -350,6 +356,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                                         First = Insert;
                                     }
 
+                                    if (typeof insertPos !== 'undefined') {
+                                        Insert.setAttribute('pos', insertPos++);
+                                    }
+
                                     self.addField(Insert);
                                 }
                             });
@@ -372,10 +382,15 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @param {Object} Field - package/quiqqer/formbuilder/bin/FormField
          */
         addField: function (Field) {
-
             var self = this;
 
             this.$fields[Field.getId()] = Field;
+
+            var FuncSetPositionsToFields = function() {
+                self.$fieldPositions.forEach(function (Field, k) {
+                    Field.setAttribute('pos', k);
+                });
+            };
 
             Field.addEvents({
                 onSelect : function (Field) {
@@ -388,6 +403,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 },
                 onDestroy: function (Field) {
                     delete self.$fields[Field.getId()];
+                    self.$fieldPositions.splice(Field.getAttribute('pos'), 1);
+
+                    FuncSetPositionsToFields();
 
                     if (self.$Active.getId() === Field.getId()) {
                         self.$Active = null;
@@ -398,7 +416,42 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             });
 
             Field.setParent(this);
-            Field.inject(this.$Container);
+
+            var pos = Field.getAttribute('pos');
+
+            if (pos === false) {
+                pos = this.$fieldPositions.length;
+            }
+
+            pos = parseInt(pos);
+
+            this.$fieldPositions.splice(pos, 0, Field);
+
+            FuncSetPositionsToFields();
+
+            if (this.$fieldPositions.length === 1) {
+                Field.inject(this.$Container);
+                return;
+            }
+
+            // insert Field in correct position
+            var fieldElms = this.$Container.getElements('.qui-formfield');
+
+            if (pos === 0) {
+                Field.inject(fieldElms[0], 'before');
+                return;
+            }
+
+            for (var i = 0, len = fieldElms.length; i < len; i++) {
+                if (i < (pos - 1)) {
+                    continue;
+                }
+
+                var FieldElm = fieldElms[i];
+                Field.inject(FieldElm, 'after');
+
+                break;
+            }
         },
 
         /**
