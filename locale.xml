@@ -5,6 +5,11 @@
             <de><![CDATA[QUIQQER - Formularbuilder]]></de>
             <en><![CDATA[QUIQQER - Formbuilder]]></en>
         </locale>
+        <locale name="package.description">
+            <de><![CDATA[]]></de>
+            <en><![CDATA[]]></en>
+        </locale>
+
         <locale name="exception.missing.field">
             <de><![CDATA[Bitte füllen Sie dieses Feld aus]]></de>
             <en><![CDATA[Please fill out this field]]></en>
