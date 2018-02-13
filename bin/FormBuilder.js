@@ -53,11 +53,13 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             'toggleSort',
 
             'openFormSettings',
-            'hideSettings'
+            'hideSettings',
+
+            'save'
         ],
 
         options: {
-            submit   : 'Senden',
+            submit   : false,
             receivers: []
         },
 
@@ -107,7 +109,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 text     : QUILocale.get(lg, 'button.add.field'),
                 textimage: 'fa fa-plus',
                 events   : {
-                    onClick: function() {
+                    onClick: function () {
                         self.openFieldList();
                     }
                 },
@@ -386,7 +388,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             this.$fields[Field.getId()] = Field;
 
-            var FuncSetPositionsToFields = function() {
+            var FuncSetPositionsToFields = function () {
                 self.$fieldPositions.forEach(function (Field, k) {
                     Field.setAttribute('pos', k);
                 });
@@ -665,20 +667,25 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     html: QUILocale.get(lg, 'form.settings.sendButton.label')
                 });
 
-                var Submit = self.$Settings.getElement('[name="form-submit"]');
+                var Submit      = self.$Settings.getElement('[name="form-submit"]');
+                var submitValue = self.getAttribute('submit');
 
                 //form-submit
                 Submit.addEvents({
                     change: function () {
                         self.setAttribute('submit', this.value);
                     },
-
-                    keyup: function () {
+                    keyup : function () {
                         self.setAttribute('submit', this.value);
                     }
                 });
 
-                Submit.value = self.getAttribute('submit');
+                if (!submitValue) {
+                    submitValue = QUILocale.get(lg, 'form.settings.sendButton.default_value');
+                    self.setAttribute('submit', submitValue);
+                }
+
+                Submit.value = submitValue;
 
                 // receivers
                 var ReceiversElm = self.$SettingsContent.getElement(

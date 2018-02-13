@@ -59,6 +59,10 @@
             <de><![CDATA[Text des Versand Buttons]]></de>
             <en><![CDATA[text of the submit button]]></en>
         </locale>
+        <locale name="form.settings.sendButton.default_value">
+            <de><![CDATA[Senden]]></de>
+            <en><![CDATA[Send]]></en>
+        </locale>
         <locale name="form.settings.receivers.label">
             <de><![CDATA[Empfänger]]></de>
             <en><![CDATA[Receivers]]></en>
