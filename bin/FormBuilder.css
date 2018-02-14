@@ -48,6 +48,10 @@
     width: 300px;
 }
 
+.qui-formbuilder-settings__hidden {
+    display: none !important;
+}
+
 .qui-formbuilder-settings-content {
     float: left;
     padding: 10px;

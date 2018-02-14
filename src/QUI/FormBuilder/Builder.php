@@ -278,6 +278,8 @@ class Builder extends QUI\QDOM
         $this->status   = self::STATUS_SEND;
         $fieldIdCounter = 0;
 
+        \QUI\System\Log::writeRecursive($_REQUEST);
+
         foreach ($this->elements as $k => $Element) {
             /* @var $Element Field */
             $Element->setNameId($fieldIdCounter);
@@ -292,7 +294,19 @@ class Builder extends QUI\QDOM
             $fieldId = 'field-' . $fieldIdCounter++;
 
             if (isset($_REQUEST[$fieldId])) {
-                $Element->setAttribute('data', $_REQUEST[$fieldId]);
+                $Element->setAttribute('data', $Element->parseFormData($_REQUEST[$fieldId]));
+            } else {
+                $elementData = array();
+
+                foreach ($_REQUEST as $field => $data) {
+                    if (mb_strpos($field, $fieldId . '-') !== false) {
+                        $elementData[$field] = $data;
+                    }
+                }
+
+                if (!empty($elementData)) {
+                    $Element->setAttribute('data', $Element->parseFormData($elementData));
+                }
             }
 
             if ($Element->getAttribute('required')) {

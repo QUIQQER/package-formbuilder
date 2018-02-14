@@ -42,17 +42,17 @@
             <en><![CDATA[Add field]]></en>
         </locale>
 
-        <locale name="settings.field.labels">
-            <de><![CDATA[Feld Text]]></de>
+        <locale name="settings.fieldLabel">
+            <de><![CDATA[Feld-Bezeichnung]]></de>
             <en><![CDATA[Field label]]></en>
         </locale>
-        <locale name="settings.required.labels">
-            <de><![CDATA[Pflichtfeld]]></de>
-            <en><![CDATA[Required field]]></en>
+        <locale name="settings.requiredLabel">
+            <de><![CDATA[Ist Pflichtfeld]]></de>
+            <en><![CDATA[Is required field]]></en>
         </locale>
-        <locale name="settings.css.labels">
-            <de><![CDATA[CSS Klasse]]></de>
-            <en><![CDATA[CSS classes]]></en>
+        <locale name="settings.extraCssLabel">
+            <de><![CDATA[CSS-Klasse]]></de>
+            <en><![CDATA[CSS class]]></en>
         </locale>
 
         <locale name="form.settings.sendButton.label">
@@ -129,6 +129,27 @@
         <locale name="field.text.label">
             <de><![CDATA[Inhaltsbereich]]></de>
             <en><![CDATA[Content]]></en>
+        </locale>
+
+        <locale name="field.settings.Name.label.title">
+            <de><![CDATA[Titel]]></de>
+            <en><![CDATA[Title]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.first">
+            <de><![CDATA[Vorname]]></de>
+            <en><![CDATA[First name]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.last">
+            <de><![CDATA[Nachname]]></de>
+            <en><![CDATA[Last name]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.suffix">
+            <de><![CDATA[Namens-Suffix]]></de>
+            <en><![CDATA[Name suffix]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.extend">
+            <de><![CDATA[Extra-Felder]]></de>
+            <en><![CDATA[Extra fields]]></en>
         </locale>
     </groups>
 

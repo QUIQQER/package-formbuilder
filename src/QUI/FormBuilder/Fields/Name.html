@@ -1,0 +1,23 @@
+{if $extended}
+    <label class="form-name-input form-name-title">
+        <input type="text" name="{$fieldname}-title" value=""/>
+        <span>{$titleLabel}</span>
+    </label>
+{/if}
+
+<label class="form-name-input form-name-firstname">
+    <input type="text" name="{$fieldname}-firstname" value=""{if $required} required{/if}/>
+    <span>{$firstLabel}</span>
+</label>
+
+<label class="form-name-input form-name-lastname">
+    <input type="text" name="{$fieldname}-lastname" value=""{if $required} required{/if}/>
+    <span>{$lastLabel}</span>
+</label>
+
+{if $extended}
+    <label class="form-name-input">
+        <input type="text" name="{$fieldname}-suffix" value=""/>
+        <span>{$suffixLabel}</span>
+    </label>
+{/if}

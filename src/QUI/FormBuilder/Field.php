@@ -149,6 +149,17 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     }
 
     /**
+     * Parse form data and put it in the right format for evaluation / display
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function parseFormData($data)
+    {
+        return $data;
+    }
+
+    /**
      * Set the field parent
      *
      * @param Builder $Form
