@@ -278,8 +278,6 @@ class Builder extends QUI\QDOM
         $this->status   = self::STATUS_SEND;
         $fieldIdCounter = 0;
 
-        \QUI\System\Log::writeRecursive($_REQUEST);
-
         foreach ($this->elements as $k => $Element) {
             /* @var $Element Field */
             $Element->setNameId($fieldIdCounter);

@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Field
  */
+
 namespace QUI\FormBuilder;
 
 use QUI;
@@ -109,10 +110,10 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function getHtmlForMail()
     {
         $Engine = QUI::getTemplateManager()->getEngine();
-        $name   = $this->getAttribute('name');
+        $name   = $this->getAttribute('label');
 
         if (!$name) {
-            $name = $this->getAttribute('label');
+            $name = $this->name;
         }
 
         $Engine->assign(array(
