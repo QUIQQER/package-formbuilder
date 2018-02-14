@@ -2,16 +2,17 @@
     float: left;
     margin-right: 20px;
     margin-bottom: 10px;
-    width: 200px;
+    width: 30%;
 }
 
 .qui-formbuilder-field-display {
     background: #eee;
     border-radius: 3px;
     float: left;
+    height: 50px;
     padding: 5px 20px;
     text-align: center;
-    width: calc(200px - 55px);
+    width: calc(100% - 60px);
 }
 
 .qui-formbuilder-field-input {

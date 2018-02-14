@@ -301,9 +301,25 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 events: {
                     onOpen: function (Win) {
+                        var lgPrefix = 'field.list.label.';
+
                         Win.Loader.show();
                         Win.getContent().setStyle('opacity', 0);
-                        Win.getContent().set('html', formBuilderFields);
+                        Win.getContent().set('html', Mustache.render(formBuilderFields, {
+                            fieldCategoryStandard: QUILocale.get(lg, lgPrefix + 'fieldCategoryStandard'),
+                            inputLabel           : QUILocale.get(lg, lgPrefix + 'inputLabel'),
+                            checkboxLabel        : QUILocale.get(lg, lgPrefix + 'checkboxLabel'),
+                            radioLabel           : QUILocale.get(lg, lgPrefix + 'radioLabel'),
+                            textareaLabel        : QUILocale.get(lg, lgPrefix + 'textareaLabel'),
+                            selectLabel          : QUILocale.get(lg, lgPrefix + 'selectLabel'),
+                            fieldCategoryExtra   : QUILocale.get(lg, lgPrefix + 'fieldCategoryExtra'),
+                            nameLabel            : QUILocale.get(lg, lgPrefix + 'nameLabel'),
+                            userLabel            : QUILocale.get(lg, lgPrefix + 'userLabel'),
+                            emailLabel           : QUILocale.get(lg, lgPrefix + 'emailLabel'),
+                            phoneLabel           : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
+                            fieldCategoryText    : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
+                            contentLabel         : QUILocale.get(lg, lgPrefix + 'contentLabel')
+                        }));
 
                         QUI.parse(Win.getContent()).then(function () {
                             Win.Loader.hide();

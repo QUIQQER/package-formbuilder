@@ -151,6 +151,59 @@
             <de><![CDATA[Extra-Felder]]></de>
             <en><![CDATA[Extra fields]]></en>
         </locale>
+        
+        <locale name="field.list.label.fieldCategoryStandard">
+            <de><![CDATA[Standard Form-Felder]]></de>
+            <en><![CDATA[Standard form fields]]></en>
+        </locale>
+        <locale name="field.list.label.inputLabel">
+            <de><![CDATA[Eingabefeld (einzeilig)]]></de>
+            <en><![CDATA[Input field (single line)]]></en>
+        </locale>
+        <locale name="field.list.label.checkboxLabel">
+            <de><![CDATA[Mehrfach-Auswahl (Checkboxen)]]></de>
+            <en><![CDATA[Checkboxes]]></en>
+        </locale>
+        <locale name="field.list.label.radioLabel">
+            <de><![CDATA[Einfach-Auswahl (Radio-Buttons)]]></de>
+            <en><![CDATA[Radio buttons]]></en>
+        </locale>
+        <locale name="field.list.label.textareaLabel">
+            <de><![CDATA[Eingabefeld (mehrzeilig)]]></de>
+            <en><![CDATA[Textarea (multi-line input)]]></en>
+        </locale>
+        <locale name="field.list.label.selectLabel">
+            <de><![CDATA[Einfach-Auswahl (Dropdown-Menü)]]></de>
+            <en><![CDATA[Dropdown menu]]></en>
+        </locale>
+        <locale name="field.list.label.fieldCategoryExtra">
+            <de><![CDATA[Spezielle Form-Felder]]></de>
+            <en><![CDATA[Extra form fields]]></en>
+        </locale>
+        <locale name="field.list.label.nameLabel">
+            <de><![CDATA[Name]]></de>
+            <en><![CDATA[Name]]></en>
+        </locale>
+        <locale name="field.list.label.userLabel">
+            <de><![CDATA[Benutzer]]></de>
+            <en><![CDATA[User]]></en>
+        </locale>
+        <locale name="field.list.label.emailLabel">
+            <de><![CDATA[E-Mail-Adresse]]></de>
+            <en><![CDATA[Email address]]></en>
+        </locale>
+        <locale name="field.list.label.phoneLabel">
+            <de><![CDATA[Telefonnummer]]></de>
+            <en><![CDATA[Phone number]]></en>
+        </locale>
+        <locale name="field.list.label.fieldCategoryText">
+            <de><![CDATA[Text-Anezige]]></de>
+            <en><![CDATA[Text display]]></en>
+        </locale>
+        <locale name="field.list.label.contentLabel">
+            <de><![CDATA[Inhalt (HTML)]]></de>
+            <en><![CDATA[Content (HTML)]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="php">
