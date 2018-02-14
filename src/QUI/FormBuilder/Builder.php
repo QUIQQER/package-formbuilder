@@ -71,6 +71,9 @@ class Builder extends QUI\QDOM
      */
     public function load(array $formData)
     {
+
+        \QUI\System\Log::writeRecursive($formData);
+
         if (isset($formData['settings'])) {
             $this->setAttributes($formData['settings']);
         }
