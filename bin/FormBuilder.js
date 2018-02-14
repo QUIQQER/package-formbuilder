@@ -23,6 +23,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'controls/users/Select',
     'controls/email/Select',
 
+    'Users',
+
     'Locale',
     'Mustache',
 
@@ -32,7 +34,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'css!package/quiqqer/formbuilder/bin/FormBuilder.css'
 
 ], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, UserSelect, EmailSelect,
-             QUILocale, Mustache, formBuilder, formBuilderFields, formBuilderSettings) {
+             Users, QUILocale, Mustache, formBuilder, formBuilderFields, formBuilderSettings) {
     "use strict";
 
     var lg = 'quiqqer/formbuilder';
@@ -761,6 +763,32 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 for (i = 0, len = receivers.users.length; i < len; i++) {
                     self.$ReceiversUsers.addItem(receivers.users[i]);
                 }
+
+                self.$ReceiversUsers.addEvents({
+                    onAddItem: function(Control, userId, Item) {
+                        Control.Loader.show();
+
+                        Users.hasEmail(userId).then(function(hasEmail) {
+                            Control.Loader.hide();
+
+                            if (hasEmail) {
+                                return;
+                            }
+
+                            QUI.getMessageHandler().then(function(MH) {
+                                MH.addAttention(
+                                    QUILocale.get(
+                                        lg,
+                                        'form.settings.receivers.user.no_email_address'
+                                    ),
+                                    Control.getElm()
+                                );
+                            });
+
+                            Item.destroy();
+                        });
+                    }
+                });
 
                 self.$ReceiversEmailAddresses = new EmailSelect().inject(
                     ReceiversElm.getElement('.form-receivers-emailaddresses')

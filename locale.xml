@@ -55,6 +55,10 @@
             <en><![CDATA[CSS class]]></en>
         </locale>
 
+        <locale name="form.settings.receivers.user.no_email_address">
+            <de><![CDATA[Der Benutzer kann nicht als Empfänger hinzugefügt werden, da er keine E-Mail-Adresse hat.]]></de>
+            <en><![CDATA[The user cannot be added as a receiver because he has no email address.]]></en>
+        </locale>
         <locale name="form.settings.sendButton.label">
             <de><![CDATA[Text des "Abschicken"-Buttons]]></de>
             <en><![CDATA[text of the submit button]]></en>
