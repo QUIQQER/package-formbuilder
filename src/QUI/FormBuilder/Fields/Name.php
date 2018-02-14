@@ -68,13 +68,30 @@ class Name extends FormBuilder\Field
         foreach ($fields as $field) {
             $fieldName = $this->name . '-' . $field;
 
-            if (isset($data[$fieldName]) && empty($data[$fieldName])) {
+            if (isset($data[$fieldName])) {
                 $data[$field] = $_REQUEST[$fieldName];
                 unset($data[$fieldName]);
             }
         }
 
         return $data;
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $data  = $this->getAttribute('data');
+        $value = '';
+
+        if (is_array($data)) {
+            $value = implode(' ', $data);
+        }
+
+        return $value;
     }
 
     /**
