@@ -63,7 +63,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             receivers: {
                 users         : [],
                 emailaddresses: []
-            }
+            },
+            formCss  : ''
         },
 
         initialize: function (options) {
@@ -693,6 +694,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     ),
                     labelReceiversEmailAddresses: QUILocale.get(lg,
                         'form.settings.receivers_emailaddresses.label'
+                    ),
+                    labelFormCss                : QUILocale.get(lg,
+                        'form.settings.formCss.label'
                     )
                 }));
 
@@ -721,6 +725,18 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 Submit.value = submitValue;
+
+                // form css
+                var FormCss      = self.$Settings.getElement('[name="form-css"]');
+                var formCssValue = self.getAttribute('formCss');
+
+                FormCss.addEvents({
+                    change: function () {
+                        self.setAttribute('formCss', this.value);
+                    }
+                });
+
+                FormCss.value = formCssValue;
 
                 // receivers
                 var ReceiversElm = self.$SettingsContent.getElement(

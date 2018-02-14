@@ -223,8 +223,23 @@ class Builder extends QUI\QDOM
 
         $result = '<form name="' . $formName . '"
                          action="' . $formAction . '"
-                         method="' . $method . '"
-                         class="qui-form">';
+                         method="' . $method . '"';
+
+        $formCss    = $this->getAttribute('formCss');
+        $cssClasses = array(
+            'qui-form'
+        );
+
+        if (!empty($formCss)) {
+            $formCss = explode(' ', $formCss);
+
+            foreach ($formCss as $formCssEntry) {
+                $formCssEntry = ltrim($formCssEntry, '.');
+                $cssClasses[] = $formCssEntry;
+            }
+        }
+
+        $result .= ' class="' . implode(' ', $cssClasses) . '">';
 
         $Template = $this->getAttribute('Template');
 

@@ -56,8 +56,12 @@
         </locale>
 
         <locale name="form.settings.sendButton.label">
-            <de><![CDATA[Text des Versand Buttons]]></de>
+            <de><![CDATA[Text des "Abschicken"-Buttons]]></de>
             <en><![CDATA[text of the submit button]]></en>
+        </locale>
+        <locale name="form.settings.formCss.label">
+            <de><![CDATA[Formular CSS-Klasse]]></de>
+            <en><![CDATA[Form CSS class]]></en>
         </locale>
         <locale name="form.settings.sendButton.default_value">
             <de><![CDATA[Senden]]></de>
