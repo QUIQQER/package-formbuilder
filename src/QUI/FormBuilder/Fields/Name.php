@@ -22,30 +22,19 @@ class Name extends FormBuilder\Field
      */
     public function getBody()
     {
-        $file    = OPT_DIR . 'quiqqer/formbuilder/bin/fields/Name.html';
-        $content = file_get_contents($file);
+        $Engine = QUI::getTemplateManager()->getEngine();
 
-        $content = str_replace('{{title}}', $this->getAttribute('title'), $content);
-        $content = str_replace('{{first}}', $this->getAttribute('first'), $content);
-        $content = str_replace('{{last}}', $this->getAttribute('last'), $content);
-        $content = str_replace('{{suffix}}', $this->getAttribute('suffix'), $content);
+        $Engine->assign(array(
+            'titleLabel'  => $this->getAttribute('title'),
+            'firstLabel'  => $this->getAttribute('first'),
+            'lastLabel'   => $this->getAttribute('last'),
+            'suffixLabel' => $this->getAttribute('suffix'),
+            'extended'    => $this->getAttribute('extend'),
+            'required'    => $this->getAttribute('required'),
+            'fieldname'   => $this->name,
+        ));
 
-        if ($this->getAttribute('extend')) {
-            $content = '<div class="form-name--extend">' . $content . '</div>';
-        }
-
-        $firstnameName = $this->name . '-firstname';
-        $lastnameName  = $this->name . '-lastname';
-
-        if ($this->getAttribute('required')) {
-            $content = str_replace('name="firstname"', 'name="' . $firstnameName . '" required="required"', $content);
-            $content = str_replace('name="lastname"', 'name="' . $lastnameName . '" required="required"', $content);
-        } else {
-            $content = str_replace('name="firstname"', 'name="' . $firstnameName . '"', $content);
-            $content = str_replace('name="lastname"', 'name="' . $lastnameName . '"', $content);
-        }
-
-        return $content;
+        return $Engine->fetch(dirname(__FILE__) . '/Name.html');
     }
 
     /**
@@ -59,23 +48,43 @@ class Name extends FormBuilder\Field
     }
 
     /**
+     * Parse form data and put it in the right format for evaluation / display
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function parseFormData($data)
+    {
+        $fields = array(
+            'firstname',
+            'lastname'
+        );
+
+        if ($this->getAttribute('extend')) {
+            $fields[] = 'title';
+            $fields[] = 'suffix';
+        }
+
+        foreach ($fields as $field) {
+            $fieldName = $this->name . '-' . $field;
+
+            if (isset($data[$fieldName]) && empty($data[$fieldName])) {
+                $data[$field] = $_REQUEST[$fieldName];
+                unset($data[$fieldName]);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Check value for the input
+     *
+     * @throws QUI\Exception
      */
     public function checkValue()
     {
         $data = $this->getAttribute('data');
-
-        $firstnameName = $this->name . '-firstname';
-        $lastnameName  = $this->name . '-lastname';
-
-        // workaround, da das Namenfeld mehrere input fields hat
-        if (isset($_REQUEST[$firstnameName]) && empty($data['firstname'])) {
-            $data['firstname'] = $_REQUEST[$firstnameName];
-        }
-
-        if (isset($_REQUEST[$lastnameName]) && empty($data['lastname'])) {
-            $data['lastname'] = $_REQUEST[$lastnameName];
-        }
 
         if (empty($data['firstname']) || empty($data['lastname'])) {
             $this->setAttribute('error', true);
@@ -85,7 +94,5 @@ class Name extends FormBuilder\Field
                 'missing.field'
             ));
         }
-
-        $this->setAttribute('data', $data);
     }
 }
