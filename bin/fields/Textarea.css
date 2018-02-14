@@ -1,0 +1,4 @@
+.qui-formfield-settings-textarea label:not(:first-of-type) {
+    float: left;
+    margin-top: 15px;
+}

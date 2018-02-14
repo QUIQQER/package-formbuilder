@@ -84,8 +84,6 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
          * @param {HTMLElement} Elm
          */
         $onGetSettings: function (self, Elm) {
-            var FormPreview = this.getBody();
-
             this.$SettingsContainer = new Element('div', {
                 'class': 'qui-formfield-settings-setting'
             }).inject(Elm);

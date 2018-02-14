@@ -80,7 +80,16 @@
             <de><![CDATA[Platzhalter]]></de>
             <en><![CDATA[Placeholder]]></en>
         </locale>
-
+        <locale name="field.settings.textarea.height">
+            <de><![CDATA[Höhe (px oder %)]]></de>
+            <en><![CDATA[Height (px or %)]]></en>
+        </locale>
+        <locale name="field.settings.textarea.width">
+            <de><![CDATA[Breite (px oder %)]]></de>
+            <en><![CDATA[Width (px or %)]]></en>
+        </locale>
+        
+        
         <locale name="field.checkbox.settings.select.label">
             <de><![CDATA[Anzahl Select Boxen]]></de>
             <en><![CDATA[Number of select boxes]]></en>
