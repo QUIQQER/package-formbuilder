@@ -104,16 +104,34 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     /**
      * Return the html of the element for the mail body
      * @return string
+     * @throws QUI\Exception
      */
     public function getHtmlForMail()
     {
         $Engine = QUI::getTemplateManager()->getEngine();
         $name   = $this->getAttribute('name');
-        $value  = '';
 
         if (!$name) {
             $name = $this->getAttribute('label');
         }
+
+        $Engine->assign(array(
+            'title' => $name,
+            'value' => $this->getValueText(),
+            'this'  => $this
+        ));
+
+        return $Engine->fetch(dirname(__FILE__) . '/Field.html');
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value = false;
 
         if ($this->getAttribute('data')) {
             $value = Orthos::clearFormRequest($this->getAttribute('data'));
@@ -127,13 +145,7 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
             $value = '-';
         }
 
-        $Engine->assign(array(
-            'title' => $name,
-            'value' => $value,
-            'this'  => $this
-        ));
-
-        return $Engine->fetch(dirname(__FILE__) . '/Field.html');
+        return $value;
     }
 
     /**

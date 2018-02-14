@@ -3,10 +3,13 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Checkbox
  */
+
 namespace QUI\FormBuilder\Fields;
 
+use function GuzzleHttp\Promise\queue;
 use QUI;
 use QUI\FormBuilder;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Input
@@ -43,7 +46,7 @@ class Checkbox extends FormBuilder\Field
             $require = 'required="required" ';
         }
 
-        foreach ($choices as $choice) {
+        foreach ($choices as $k => $choice) {
             $text    = '';
             $checked = '';
 
@@ -70,10 +73,12 @@ class Checkbox extends FormBuilder\Field
                 $error = ' class="qui-form-error"';
             }
 
+            $choiceValue = $this->name . '-' . $k;
+
             $result .= '<label ' . $error . '>' .
                        '<input type="checkbox"
                                name="' . $this->name . '[]"
-                               value="' . $text . '" ' . $checked . $require . ' /> ' .
+                               value="' . $choiceValue . '" ' . $checked . $require . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }
@@ -81,6 +86,43 @@ class Checkbox extends FormBuilder\Field
         $result .= '</div>';
 
         return $result;
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value = '';
+        $data  = $this->getAttribute('data');
+
+        if (is_array($data)) {
+            $values  = array();
+            $choices = $this->getAttribute('choices');
+
+            foreach ($data as $choice) {
+                $choice = Orthos::clearFormRequest($choice);
+                $choice = explode('-', $choice);
+
+                if (isset($choice[2])) {
+                    $valueIndex = (int)$choice[2];
+
+                    if (!empty($choices[$valueIndex]['text'])) {
+                        $values[] = $choices[$valueIndex]['text'];
+                    }
+                }
+            }
+
+            $value = implode(', ', $values);
+        }
+
+        if (empty($value)) {
+            $value = '-';
+        }
+
+        return $value;
     }
 
     /**

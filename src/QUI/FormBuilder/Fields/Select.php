@@ -56,26 +56,20 @@ class Select extends FormBuilder\Field
     }
 
     /**
-     * Return the html of the element for the mail body
+     * Get text for the current value of the form field
+     *
      * @return string
-     * @throws QUI\Exception
      */
-    public function getHtmlForMail()
+    public function getValueText()
     {
-        $Engine = QUI::getTemplateManager()->getEngine();
-        $name   = $this->getAttribute('name');
         $value  = '';
-
-        if (!$name) {
-            $name = $this->getAttribute('label');
-        }
 
         if ($this->getAttribute('data')) {
             $entries = $this->getAttribute('entries');
             $data    = Orthos::clearFormRequest($this->getAttribute('data'));
             $data    = explode('-', $data);
 
-            if (!empty($data[2])) {
+            if (isset($data[2])) {
                 $valueIndex = (int)$data[2];
 
                 if (!empty($entries[$valueIndex]['text'])) {
@@ -88,13 +82,7 @@ class Select extends FormBuilder\Field
             $value = '-';
         }
 
-        $Engine->assign(array(
-            'title' => $name,
-            'value' => $value,
-            'this'  => $this
-        ));
-
-        return $Engine->fetch(dirname(__FILE__, 2) . '/Field.html');
+        return $value;
     }
 
     /**
