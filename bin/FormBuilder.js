@@ -20,8 +20,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'qui/controls/windows/Confirm',
     'package/quiqqer/bricks/bin/Sortables',
 
-    'controls/users/Input',
-    'controls/users/Entry',
+    'controls/users/Select',
+    'controls/email/Select',
 
     'Locale',
     'Mustache',
@@ -31,7 +31,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html',
     'css!package/quiqqer/formbuilder/bin/FormBuilder.css'
 
-], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, UserInput, UserEntry,
+], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, UserSelect, EmailSelect,
              QUILocale, Mustache, formBuilder, formBuilderFields, formBuilderSettings) {
     "use strict";
 
@@ -60,7 +60,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
         options: {
             submit   : false,
-            receivers: []
+            receivers: {
+                users         : [],
+                emailaddresses: []
+            }
         },
 
         initialize: function (options) {
@@ -74,6 +77,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$ButtonSort      = null;
             this.$SettingsContent = null;
             this.$Settings        = null;
+
+            this.$ReceiversUsers          = null;
+            this.$ReceiversEmailAddresses = null;
 
             this.$fields         = {};
             this.$fieldPositions = [];
@@ -196,6 +202,16 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 });
             }
 
+            var receiverUsers          = this.$ReceiversUsers.getValue();
+            var receiverEmailAddresses = this.$ReceiversEmailAddresses.getValue();
+
+            var receivers = {
+                users         : receiverUsers ? receiverUsers.split(',') : [],
+                emailaddresses: receiverEmailAddresses ? receiverEmailAddresses.split(',') : []
+            };
+
+            this.setAttribute('receivers', receivers);
+
             return {
                 elements: elements,
                 settings: this.getAttributes()
@@ -312,7 +328,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         for (i = 0, len = controls.length; i < len; i++) {
                             Field = controls[i];
 
-                            if (Field.getType() != 'package/quiqqer/formbuilder/bin/FormBuilderFields') {
+                            if (Field.getType() !== 'package/quiqqer/formbuilder/bin/FormBuilderFields') {
                                 continue;
                             }
 
@@ -530,7 +546,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 clone : function (event) {
                     var Target = event.target;
 
-                    if (Target.nodeName != 'FIELDSET') {
+                    if (Target.nodeName !== 'FIELDSET') {
                         Target = Target.getParent('fieldset');
                     }
 
@@ -653,11 +669,14 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             return new Promise(function (resolve) {
                 self.$SettingsContent.set('html', Mustache.render(formBuilderSettings, {
-                    labelSendBtnText: QUILocale.get(lg,
+                    labelSendBtnText            : QUILocale.get(lg,
                         'form.settings.sendButton.label'
                     ),
-                    labelReceivers  : QUILocale.get(lg,
-                        'form.settings.receivers.label'
+                    labelReceiversUsers         : QUILocale.get(lg,
+                        'form.settings.receivers_users.label'
+                    ),
+                    labelReceiversEmailAddresses: QUILocale.get(lg,
+                        'form.settings.receivers_emailaddresses.label'
                     )
                 }));
 
@@ -693,21 +712,30 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 );
 
                 var receivers = self.getAttribute('receivers');
+                var i, len;
 
-                var UserInputCtrl = new UserInput({
-                    events: {
-                        onChange: function (Input) {
-                            var value = Input.getValue().trim(',').split(',');
-                            self.setAttribute('receivers', value);
-                        }
-                    },
-                    styles: {
-                        width: '100%'
-                    }
-                }).inject(ReceiversElm, 'top');
+                // fallback for old API
+                if (!("users" in receivers)) {
+                    receivers = {
+                        users         : receivers,
+                        emailaddresses: []
+                    };
+                }
 
-                for (var i = 0, len = receivers.length; i < len; i++) {
-                    UserInputCtrl.addUser(receivers[i]);
+                self.$ReceiversUsers = new UserSelect().inject(
+                    ReceiversElm.getElement('.form-receivers-users')
+                );
+
+                for (i = 0, len = receivers.users.length; i < len; i++) {
+                    self.$ReceiversUsers.addItem(receivers.users[i]);
+                }
+
+                self.$ReceiversEmailAddresses = new EmailSelect().inject(
+                    ReceiversElm.getElement('.form-receivers-emailaddresses')
+                );
+
+                for (i = 0, len = receivers.emailaddresses.length; i < len; i++) {
+                    self.$ReceiversEmailAddresses.addItem(receivers.emailaddresses[i]);
                 }
 
                 moofx(self.$Settings).animate({

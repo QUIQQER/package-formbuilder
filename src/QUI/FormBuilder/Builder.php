@@ -68,12 +68,10 @@ class Builder extends QUI\QDOM
 
     /**
      * @param array $formData
+     * @throws QUI\ExceptionStack
      */
     public function load(array $formData)
     {
-
-        \QUI\System\Log::writeRecursive($formData);
-
         if (isset($formData['settings'])) {
             $this->setAttributes($formData['settings']);
         }
@@ -82,9 +80,22 @@ class Builder extends QUI\QDOM
         $receivers = $this->getAttribute('receivers');
 
         if (!empty($receivers)) {
+            // fallback for old API
+            if (!isset($receivers['users'])) {
+                $receivers = array(
+                    'users'          => $receivers,
+                    'emailaddresses' => array()
+                );
+            }
+
+            // add receiver users
             $Users = QUI::getUsers();
 
-            foreach ($receivers as $userId) {
+            foreach ($receivers['users'] as $userId) {
+                if (empty($userId)) {
+                    continue;
+                }
+
                 try {
                     $User  = $Users->get((int)$userId);
                     $email = $User->getAttribute('email');
@@ -97,6 +108,15 @@ class Builder extends QUI\QDOM
                 } catch (\Exception $Exception) {
                     continue;
                 }
+            }
+
+            // add receiver email addresses
+            foreach ($receivers['emailaddresses'] as $emailaddress) {
+                if (empty($emailaddress)) {
+                    continue;
+                }
+
+                $this->addAddress($emailaddress, $emailaddress);
             }
         }
 

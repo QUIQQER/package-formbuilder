@@ -63,9 +63,13 @@
             <de><![CDATA[Senden]]></de>
             <en><![CDATA[Send]]></en>
         </locale>
-        <locale name="form.settings.receivers.label">
-            <de><![CDATA[Empfänger]]></de>
-            <en><![CDATA[Receivers]]></en>
+        <locale name="form.settings.receivers_users.label">
+            <de><![CDATA[Empfänger (Benutzer)]]></de>
+            <en><![CDATA[Receivers (Users)]]></en>
+        </locale>
+        <locale name="form.settings.receivers_emailaddresses.label">
+            <de><![CDATA[Empfänger (E-Mail-Adressen)]]></de>
+            <en><![CDATA[Receivers (email addresses)]]></en>
         </locale>
 
         <locale name="field.settings.placeholder">

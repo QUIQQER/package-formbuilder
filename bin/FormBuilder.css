@@ -83,6 +83,12 @@
     width: 100%;
 }
 
+.form-receivers-emailaddresses {
+    float: left;
+    margin-top: 20px;
+    width: 100%;
+}
+
 /** field list
  ============================================== */
 
