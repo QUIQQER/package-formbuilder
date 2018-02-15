@@ -24,7 +24,6 @@ class Checkbox extends FormBuilder\Field
     public function getBody()
     {
         $result  = '<div>';
-        $require = '';
         $data    = $this->getAttribute('data');
         $choices = $this->getAttribute('choices');
 
@@ -40,10 +39,6 @@ class Checkbox extends FormBuilder\Field
 
         foreach ($data as $_data) {
             $values[$_data] = true;
-        }
-
-        if ($this->getAttribute('required')) {
-            $require = 'required="required" ';
         }
 
         foreach ($choices as $k => $choice) {
@@ -78,7 +73,7 @@ class Checkbox extends FormBuilder\Field
             $result .= '<label ' . $error . '>' .
                        '<input type="checkbox"
                                name="' . $this->name . '[]"
-                               value="' . $choiceValue . '" ' . $checked . $require . ' /> ' .
+                               value="' . $choiceValue . '" ' . $checked . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }
@@ -140,9 +135,10 @@ class Checkbox extends FormBuilder\Field
      */
     public function checkValue()
     {
-        $data = $this->getAttribute('data');
+        $data     = $this->getAttribute('data');
+        $required = $this->getAttribute('required');
 
-        if (empty($data)) {
+        if ($required && empty($data)) {
             $this->setAttribute('error', true);
 
             throw new QUI\Exception(array(
