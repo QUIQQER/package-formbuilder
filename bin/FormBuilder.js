@@ -62,6 +62,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
         options: {
             submit   : false,
+            captcha  : false,
             save     : null,
             receivers: {
                 users         : [],
@@ -692,6 +693,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     labelSaveText               : QUILocale.get(lg,
                         'form.settings.save.label'
                     ),
+                    labelCaptchaText            : QUILocale.get(lg,
+                        'form.settings.captcha.label'
+                    ),
                     labelSendBtnText            : QUILocale.get(lg,
                         'form.settings.sendButton.label'
                     ),
@@ -727,6 +731,26 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 Save.checked = saveValue;
+
+                // form-captcha
+                var Captcha      = self.$Settings.getElement('[name="form-captcha"]');
+                var captchaValue = self.getAttribute('save');
+
+                Captcha.addEvents({
+                    change: function () {
+                        self.setAttribute('captcha', this.checked);
+                    },
+                    keyup : function () {
+                        self.setAttribute('captcha', this.checked);
+                    }
+                });
+
+                if (captchaValue === null) {
+                    self.setAttribute('captcha', true);
+                    captchaValue = true;
+                }
+
+                Captcha.checked = captchaValue;
 
                 // form-submit
                 var Submit      = self.$Settings.getElement('[name="form-submit"]');

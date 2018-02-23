@@ -68,7 +68,6 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         $result .= $body;
         $result .= '</div>';
 
-
         $result .= '</fieldset>';
 
         return $result;

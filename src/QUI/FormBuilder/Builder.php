@@ -7,7 +7,8 @@
 namespace QUI\FormBuilder;
 
 use QUI;
-use QUI\Contact\RequestList;
+use QUI\FormBuilder\Exception as FormBuilderException;
+use QUI\Captcha\Handler as CaptchaHandler;
 
 /**
  * Class Builder
@@ -289,6 +290,23 @@ class Builder extends QUI\QDOM
             }
         }
 
+        // CAPTCHA
+        if ($this->getAttribute('captcha')) {
+            $CaptchaDisplay = new QUI\Captcha\Controls\CaptchaDisplay();
+
+            $result .= '<fieldset class="qui-formfield">';
+
+            // legend
+            $result .= '<legend>' . QUI::getLocale()->get('quiqqer/formbuilder', 'captcha.label') . '</legend>';
+
+            // content
+            $result .= '<div class="qui-formfield-body">';
+            $result .= $CaptchaDisplay->create();
+            $result .= '</div>';
+
+            $result .= '</fieldset>';
+        }
+
         // submit button
         if ($this->getAttribute('submit')) {
             $result .= '<input type="submit" name="submit" value="' . $this->getAttribute('submit') . '" />';
@@ -308,6 +326,23 @@ class Builder extends QUI\QDOM
     {
         if (!isset($_REQUEST['submit'])) {
             return;
+        }
+
+        // validate CAPTCHA
+        if ($this->getAttribute('captcha')) {
+            if (empty($_REQUEST['captchaResponse'])) {
+                throw new FormBuilderException(array(
+                    'quiqqer/formbuilder',
+                    'exception.Builder.wrong_captcha'
+                ));
+            }
+
+            if (!CaptchaHandler::isResponseValid($_REQUEST['captchaResponse'])) {
+                throw new FormBuilderException(array(
+                    'quiqqer/formbuilder',
+                    'exception.Builder.wrong_captcha'
+                ));
+            }
         }
 
         $missing        = array();

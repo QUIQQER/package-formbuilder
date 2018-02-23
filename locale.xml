@@ -67,6 +67,10 @@
             <de><![CDATA[Formular-Anfragen in Datenbank speichern]]></de>
             <en><![CDATA[Save submitted form requests in database]]></en>
         </locale>
+        <locale name="form.settings.captcha.label">
+            <de><![CDATA[Formular mittels CAPTCHA vor automatisiertem Spam schützen]]></de>
+            <en><![CDATA[Protect form from automated spam via CAPTCHA]]></en>
+        </locale>
         <locale name="form.settings.formCss.label">
             <de><![CDATA[Formular CSS-Klasse]]></de>
             <en><![CDATA[Form CSS class]]></en>
@@ -96,8 +100,8 @@
             <de><![CDATA[Breite (px oder %)]]></de>
             <en><![CDATA[Width (px or %)]]></en>
         </locale>
-        
-        
+
+
         <locale name="field.checkbox.settings.select.label">
             <de><![CDATA[Anzahl Select Boxen]]></de>
             <en><![CDATA[Number of select boxes]]></en>
@@ -172,7 +176,7 @@
             <de><![CDATA[Extra-Felder]]></de>
             <en><![CDATA[Extra fields]]></en>
         </locale>
-        
+
         <locale name="field.list.label.fieldCategoryStandard">
             <de><![CDATA[Standard Form-Felder]]></de>
             <en><![CDATA[Standard form fields]]></en>
@@ -246,6 +250,16 @@
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="php">
-
+        
+        <!-- Class: Builder -->
+        <locale name="exception.Builder.wrong_captcha">
+            <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
+            <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
+        </locale>
+        <locale name="captcha.label">
+            <de><![CDATA[Sicherheitsprüfung]]></de>
+            <en><![CDATA[Security check]]></en>
+        </locale>
+        
     </groups>
 </locales>
