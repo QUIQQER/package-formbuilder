@@ -62,6 +62,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
         options: {
             submit   : false,
+            save     : null,
             receivers: {
                 users         : [],
                 emailaddresses: []
@@ -688,6 +689,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             return new Promise(function (resolve) {
                 self.$SettingsContent.set('html', Mustache.render(formBuilderSettings, {
+                    labelSaveText               : QUILocale.get(lg,
+                        'form.settings.save.label'
+                    ),
                     labelSendBtnText            : QUILocale.get(lg,
                         'form.settings.sendButton.label'
                     ),
@@ -704,14 +708,30 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 self.$Settings.setStyles('display', null);
 
-                self.$SettingsContent.getElement('.form-settings').set({
-                    html: QUILocale.get(lg, 'form.settings.sendButton.label')
+                // form-save
+                var Save      = self.$Settings.getElement('[name="form-save"]');
+                var saveValue = self.getAttribute('save');
+
+                Save.addEvents({
+                    change: function () {
+                        self.setAttribute('save', this.checked);
+                    },
+                    keyup : function () {
+                        self.setAttribute('save', this.checked);
+                    }
                 });
 
+                if (saveValue === null) {
+                    self.setAttribute('save', true);
+                    saveValue = true;
+                }
+
+                Save.checked = saveValue;
+
+                // form-submit
                 var Submit      = self.$Settings.getElement('[name="form-submit"]');
                 var submitValue = self.getAttribute('submit');
 
-                //form-submit
                 Submit.addEvents({
                     change: function () {
                         self.setAttribute('submit', this.value);
@@ -765,17 +785,17 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 self.$ReceiversUsers.addEvents({
-                    onAddItem: function(Control, userId, Item) {
+                    onAddItem: function (Control, userId, Item) {
                         Control.Loader.show();
 
-                        Users.hasEmail(userId).then(function(hasEmail) {
+                        Users.hasEmail(userId).then(function (hasEmail) {
                             Control.Loader.hide();
 
                             if (hasEmail) {
                                 return;
                             }
 
-                            QUI.getMessageHandler().then(function(MH) {
+                            QUI.getMessageHandler().then(function (MH) {
                                 MH.addAttention(
                                     QUILocale.get(
                                         lg,

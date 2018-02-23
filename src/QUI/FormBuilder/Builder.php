@@ -7,7 +7,7 @@
 namespace QUI\FormBuilder;
 
 use QUI;
-use QUI\Utils\Security\Orthos;
+use QUI\Contact\RequestList;
 
 /**
  * Class Builder
@@ -57,6 +57,13 @@ class Builder extends QUI\QDOM
      * @var QUI\Events\Event
      */
     public $Events = null;
+
+    /**
+     * The Site this form belongs to
+     *
+     * @var QUI\Projects\Site
+     */
+    public $Site = null;
 
     /**
      * Builder constructor.
@@ -131,60 +138,74 @@ class Builder extends QUI\QDOM
                 continue;
             }
 
-            $Field = false;
-
-            switch ($element['type']) {
-                case 'package/quiqqer/formbuilder/bin/fields/Input':
-                    $Field = new Fields\Input($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Checkbox':
-                    $Field = new Fields\Checkbox($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Radiobox':
-                    $Field = new Fields\Radiobox($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Name':
-                    $Field = new Fields\Name($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Textarea':
-                    $Field = new Fields\Textarea($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Users':
-                    $Field = new Fields\Users($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/EMail':
-                    $Field = new Fields\EMail($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Phone':
-                    $Field = new Fields\Phone($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Select':
-                    $Field = new Fields\Select($this);
-                    break;
-
-                case 'package/quiqqer/formbuilder/bin/fields/Text':
-                    $Field = new Fields\Text($this);
-                    break;
-            }
+            $Field = $this->getField($element);
 
             if (!$Field) {
                 continue;
             }
 
-            $Field->setAttributes($element['attributes']);
-
             $this->elements[] = $Field;
         }
 
         $this->Events->fireEvent('loaded');
+    }
+
+    /**
+     * Get Field with attributes by fieldData
+     *
+     * @param array $fieldData
+     * @return QUI\FormBuilder\Interfaces\Field|false
+     */
+    public function getField($fieldData)
+    {
+        switch ($fieldData['type']) {
+            case 'package/quiqqer/formbuilder/bin/fields/Input':
+                $Field = new Fields\Input($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Checkbox':
+                $Field = new Fields\Checkbox($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Radiobox':
+                $Field = new Fields\Radiobox($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Name':
+                $Field = new Fields\Name($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Textarea':
+                $Field = new Fields\Textarea($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Users':
+                $Field = new Fields\Users($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/EMail':
+                $Field = new Fields\EMail($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Phone':
+                $Field = new Fields\Phone($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Select':
+                $Field = new Fields\Select($this);
+                break;
+
+            case 'package/quiqqer/formbuilder/bin/fields/Text':
+                $Field = new Fields\Text($this);
+                break;
+
+            default:
+                return false;
+        }
+
+        $Field->setAttributes($fieldData['attributes']);
+
+        return $Field;
     }
 
     /**
@@ -297,10 +318,10 @@ class Builder extends QUI\QDOM
             /* @var $Element Field */
             $Element->setNameId($fieldIdCounter);
 
-            $name = $Element->getAttribute('name');
+            $name = $Element->getAttribute('label');
 
             if (!$name) {
-                $name = $Element->getAttribute('label');
+                $name = $Element->getName();
             }
 
             $name    = self::parseFieldName($name);
@@ -341,7 +362,6 @@ class Builder extends QUI\QDOM
         }
 
         $this->Events->fireEvent('statusSuccess');
-
         $this->status = self::STATUS_SUCCESS;
     }
 
@@ -418,6 +438,16 @@ class Builder extends QUI\QDOM
     public function getAddresses()
     {
         return $this->addresses;
+    }
+
+    /**
+     * Set Site this Form belongs to
+     *
+     * @param QUI\Projects\Site $Site
+     */
+    public function setSite(QUI\Projects\Site $Site)
+    {
+        $this->Site = $Site;
     }
 
     /**

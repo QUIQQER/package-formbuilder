@@ -189,4 +189,14 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     {
         $this->name = 'field-' . $id;
     }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }
