@@ -63,6 +63,10 @@
             <de><![CDATA[Text des "Abschicken"-Buttons]]></de>
             <en><![CDATA[text of the submit button]]></en>
         </locale>
+        <locale name="form.settings.save.label">
+            <de><![CDATA[Formular-Anfragen in Datenbank speichern]]></de>
+            <en><![CDATA[Save submitted form requests in database]]></en>
+        </locale>
         <locale name="form.settings.formCss.label">
             <de><![CDATA[Formular CSS-Klasse]]></de>
             <en><![CDATA[Form CSS class]]></en>
@@ -220,6 +224,24 @@
         <locale name="field.list.label.contentLabel">
             <de><![CDATA[Inhalt (HTML)]]></de>
             <en><![CDATA[Content (HTML)]]></en>
+        </locale>
+
+        <!-- Control: FormField -->
+        <locale name="controls.FormField.insert_before">
+            <de><![CDATA[Davor einfügen]]></de>
+            <en><![CDATA[Insert before]]></en>
+        </locale>
+        <locale name="controls.FormField.insert_after">
+            <de><![CDATA[Danach einfügen]]></de>
+            <en><![CDATA[Insert after]]></en>
+        </locale>
+        <locale name="controls.FormField.copy_before">
+            <de><![CDATA[Kopieren davor]]></de>
+            <en><![CDATA[Copy before]]></en>
+        </locale>
+        <locale name="controls.FormField.copy_after">
+            <de><![CDATA[Kopieren danach]]></de>
+            <en><![CDATA[Copy after]]></en>
         </locale>
     </groups>
 

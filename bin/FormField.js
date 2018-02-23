@@ -130,7 +130,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
             // insert before
             DuplicateBtn.appendChild({
                 'class': 'qui-formfield-button-duplicate-child',
-                text   : 'Davor einfügen',
+                text   : QUILocale.get(lg, 'controls.FormField.insert_before'),
                 icon   : 'fa fa-arrow-up',
                 events : {
                     onClick: function () {
@@ -140,7 +140,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
                 }
             }).appendChild({
                 'class': 'qui-formfield-button-duplicate-child',
-                text   : 'Danach einfügen',
+                text   : QUILocale.get(lg, 'controls.FormField.insert_after'),
                 icon   : 'fa fa-arrow-down',
                 events : {
                     onClick: function () {
@@ -150,7 +150,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
                 }
             }).appendChild({
                 'class': 'qui-formfield-button-duplicate-child',
-                text   : 'Kopieren davor',
+                text   : QUILocale.get(lg, 'controls.FormField.copy_before'),
                 icon   : 'fa fa-files-o',
                 events : {
                     onClick: function () {
@@ -160,7 +160,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
                 }
             }).appendChild({
                 'class': 'qui-formfield-button-duplicate-child',
-                text   : 'Kopieren danach',
+                text   : QUILocale.get(lg, 'controls.FormField.copy_after'),
                 icon   : 'fa fa-files-o',
                 events : {
                     onClick: function () {
