@@ -1,9 +1,12 @@
 {
   "name": "quiqqer/formbuilder",
   "type": "quiqqer-plugin",
-  "description": "Form Builder for QUIQQER",
+  "description": "API and controls to build forms in QUIQQER",
   "version": "dev-dev",
-  "license": "",
+  "license": [
+    "PCSG QL-1.0",
+    "CC BY-NC-SA 4.0"
+  ],
   "authors": [
     {
       "name": "Henning Leutz",
