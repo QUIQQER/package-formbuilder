@@ -47,6 +47,15 @@ class Text extends FormBuilder\Field
     }
 
     /**
+     * Return the html of the element for the mail body
+     * @return string
+     */
+    public function getHtmlForMail()
+    {
+        return '';
+    }
+
+    /**
      * placeholder method
      */
     public function checkValue()

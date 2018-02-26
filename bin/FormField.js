@@ -15,14 +15,16 @@
  */
 define('package/quiqqer/formbuilder/bin/FormField', [
 
-    'qui/QUI',
     'qui/controls/Control',
+    'qui/controls/buttons/Button',
+
     'Locale',
+    'Mustache',
 
     'text!package/quiqqer/formbuilder/bin/FormFieldSettings.html',
     'css!package/quiqqer/formbuilder/bin/FormField.css'
 
-], function (QUI, QUIControl, QUILocale, settings) {
+], function (QUIControl, QUIButton, QUILocale, Mustache, settings) {
     "use strict";
 
     var lg = 'quiqqer/formbuilder';
@@ -43,7 +45,8 @@ define('package/quiqqer/formbuilder/bin/FormField', [
             // values
             label     : 'Untitled',
             cssClasses: '',
-            required  : 1
+            required  : 1,
+            pos       : false // position in form builder
         },
 
         initialize: function (options) {
@@ -107,16 +110,67 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
             this.$Elm.addClass('qui-formfield-active');
 
-            new Element('div', {
-                'class': 'qui-formfield-button-dublicate qui-button',
-                html   : '<span class="fa fa-plus"></span>',
-                events : {
-                    click: function () {
-                        self.dublicate();
-                    }
-                }
+            var DuplicateBtn = new QUIButton({
+                'class': 'qui-formfield-button-duplicate',
+                icon   : 'fa fa-plus'
             }).inject(this.$Prevent);
 
+            // duplicate options
+            var ContextMenu;
+
+            DuplicateBtn.getContextMenu(function (Menu) {
+                ContextMenu = Menu;
+                ContextMenu.addEvents({
+                    onMouseLeave: function () {
+                        ContextMenu.hide();
+                    }
+                });
+            });
+
+            // insert before
+            DuplicateBtn.appendChild({
+                'class': 'qui-formfield-button-duplicate-child',
+                text   : QUILocale.get(lg, 'controls.FormField.insert_before'),
+                icon   : 'fa fa-arrow-up',
+                events : {
+                    onClick: function () {
+                        self.addNewField("up");
+                        ContextMenu.hide();
+                    }
+                }
+            }).appendChild({
+                'class': 'qui-formfield-button-duplicate-child',
+                text   : QUILocale.get(lg, 'controls.FormField.insert_after'),
+                icon   : 'fa fa-arrow-down',
+                events : {
+                    onClick: function () {
+                        self.addNewField("down");
+                        ContextMenu.hide();
+                    }
+                }
+            }).appendChild({
+                'class': 'qui-formfield-button-duplicate-child',
+                text   : QUILocale.get(lg, 'controls.FormField.copy_before'),
+                icon   : 'fa fa-files-o',
+                events : {
+                    onClick: function () {
+                        self.duplicate("up");
+                        ContextMenu.hide();
+                    }
+                }
+            }).appendChild({
+                'class': 'qui-formfield-button-duplicate-child',
+                text   : QUILocale.get(lg, 'controls.FormField.copy_after'),
+                icon   : 'fa fa-files-o',
+                events : {
+                    onClick: function () {
+                        self.duplicate("down");
+                        ContextMenu.hide();
+                    }
+                }
+            });
+
+            // delete btn
             new Element('div', {
                 'class': 'qui-formfield-button-delete qui-button',
                 html   : '<span class="fa fa-minus"></span>',
@@ -133,14 +187,40 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          */
         unselect: function () {
             this.$Elm.removeClass('qui-formfield-active');
-            this.$Prevent.getElements('.qui-formfield-button-dublicate').destroy();
+            this.$Prevent.getElements('.qui-formfield-button-duplicate').destroy();
             this.$Prevent.getElements('.qui-formfield-button-delete').destroy();
         },
 
         /**
-         * copy the form field and insert it to the parent
+         * Add new field to a position relevant this Fields position
+         *
+         * @param {String} direction - Determine the direction the new field is added to ("up"/"down")
          */
-        dublicate: function () {
+        addNewField: function (direction) {
+            var self   = this,
+                Parent = this.getParent();
+
+            if (!Parent) {
+                return;
+            }
+
+            var insertPos;
+
+            if (direction === 'up') {
+                insertPos = self.getAttribute('pos');
+            } else {
+                insertPos = self.getAttribute('pos') + 1;
+            }
+
+            Parent.openFieldList(insertPos);
+        },
+
+        /**
+         * copy the form field and insert it to the parent
+         *
+         * @param {String} direction - Determine the direction the duplicate is added to ("up"/"down")
+         */
+        duplicate: function (direction) {
             var self   = this,
                 Parent = this.getParent();
 
@@ -153,9 +233,21 @@ define('package/quiqqer/formbuilder/bin/FormField', [
             }
 
             require([this.getType()], function (Field) {
-                Parent.addField(
-                    new Field(self.getAttributes())
-                );
+                var DuplicateField = new Field(self.getAttributes());
+
+                if (direction === 'up') {
+                    DuplicateField.setAttribute(
+                        'pos',
+                        self.getAttribute('pos')
+                    );
+                } else {
+                    DuplicateField.setAttribute(
+                        'pos',
+                        self.getAttribute('pos') + 1
+                    );
+                }
+
+                Parent.addField(DuplicateField);
             });
         },
 
@@ -165,30 +257,23 @@ define('package/quiqqer/formbuilder/bin/FormField', [
          * @return {HTMLElement}
          */
         getSettings: function () {
-            var self     = this,
-                Settings = new Element('div', {
-                    html: settings
-                });
+            var self = this;
+
+            var lgPrefix = 'settings.';
+
+            var Settings = new Element('div', {
+                html: Mustache.render(settings, {
+                    fieldLabel   : QUILocale.get(lg, lgPrefix + 'fieldLabel'),
+                    requiredLabel: QUILocale.get(lg, lgPrefix + 'requiredLabel'),
+                    extraCssLabel: QUILocale.get(lg, lgPrefix + 'extraCssLabel')
+                })
+            });
 
             this.fireEvent('getSettings', [this, Settings]);
 
             var Label      = Settings.getElement('[name="label"]'),
                 CssClasses = Settings.getElement('[name="cssClasses"]'),
                 Required   = Settings.getElement('[name="required"]');
-
-            // locale
-            Settings.getElement('.field-settings').set({
-                html: QUILocale.get(lg, 'settings.field.labels')
-            });
-
-            Settings.getElement('.required-settings').set({
-                html: QUILocale.get(lg, 'settings.required.labels')
-            });
-
-            Settings.getElement('.css-settings').set({
-                html: QUILocale.get(lg, 'settings.css.labels')
-            });
-
 
             // label events
             Label.addEvents({

@@ -22,6 +22,8 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
 ], function (Field, Mustache, QUILocale, body) {
     "use strict";
 
+    var lg = 'quiqqer/formbuilder';
+
     return new Class({
 
         Extends: Field,
@@ -36,14 +38,19 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
 
         options: {
             extend: false,
-            title : QUILocale.get('quiqqer/quiqqer', 'title'),
-            first : QUILocale.get('quiqqer/quiqqer', 'first'),
-            last  : QUILocale.get('quiqqer/quiqqer', 'last'),
-            suffix: QUILocale.get('quiqqer/quiqqer', 'suffix')
+            title : QUILocale.get(lg, 'field.settings.Name.label.title'),
+            first : QUILocale.get(lg, 'field.settings.Name.label.first'),
+            last  : QUILocale.get(lg, 'field.settings.Name.label.last'),
+            suffix: QUILocale.get(lg, 'field.settings.Name.label.suffix')
         },
 
         initialize: function (options) {
             this.parent(options);
+
+            this.$Title  = null;
+            this.$First  = null;
+            this.$Last   = null;
+            this.$Suffix = null;
 
             this.addEvents({
                 onCreate     : this.$onCreate,
@@ -63,7 +70,9 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
             }));
 
             if (this.getAttribute('extend')) {
-                this.getBody().addClass('form-name--extend');
+                this.$toggleExtended(true);
+            } else {
+                this.$toggleExtended(false);
             }
         },
 
@@ -79,68 +88,124 @@ define('package/quiqqer/formbuilder/bin/fields/Name', [
                 'class': 'qui-formfield-settings-setting'
             }).inject(Elm);
 
-            // #locale
+            var lgPrefix = 'field.settings.Name.label.';
+
+            this.$Title = new Element('div', {
+                'class': 'qui-formfield-settings-setting qui-formbuilder-settings__hidden',
+                html   : '<label>' +
+                '</label><span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get(lg, lgPrefix + 'title') +
+                '</span>' +
+                '<input name="title" type="text" />' +
+                '</label>'
+            }).inject(Elm);
+
+            this.$First = new Element('label', {
+                'class': 'qui-formfield-settings-setting',
+                html   : '<label>' +
+                '<span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get(lg, lgPrefix + 'first') +
+                '</span>' +
+                '<input name="first" type="text" />' +
+                '</label>'
+            }).inject(Elm);
+
+            this.$Last = new Element('label', {
+                'class': 'qui-formfield-settings-setting',
+                html   : '<label>' +
+                '<span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get(lg, lgPrefix + 'last') +
+                '</span>' +
+                '<input name="last" type="text" />' +
+                '</label>'
+            }).inject(Elm);
+
+            this.$Suffix = new Element('label', {
+                'class': 'qui-formfield-settings-setting qui-formbuilder-settings__hidden',
+                html   : '<label>' +
+                '<span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get(lg, lgPrefix + 'suffix') +
+                '</span>' +
+                '<input name="suffix" type="text" />' +
+                '</label>'
+            }).inject(Elm);
+
+            var TitleInput  = this.$Title.getElement('[name="title"]');
+            var FirstInput  = this.$First.getElement('[name="first"]');
+            var LastInput   = this.$Last.getElement('[name="last"]');
+            var SuffixInput = this.$Suffix.getElement('[name="suffix"]');
+
+            TitleInput.addEvent('change', this.$inputChange);
+            FirstInput.addEvent('change', this.$inputChange);
+            LastInput.addEvent('change', this.$inputChange);
+            SuffixInput.addEvent('change', this.$inputChange);
+
+            TitleInput.value  = this.getAttribute('title');
+            FirstInput.value  = this.getAttribute('first');
+            LastInput.value   = this.getAttribute('last');
+            SuffixInput.value = this.getAttribute('suffix');
+
+            // init attributes
+            this.setAttributes({
+                title : this.getAttribute('title'),
+                first : this.getAttribute('first'),
+                last  : this.getAttribute('last'),
+                suffix: this.getAttribute('suffix')
+            });
+
+            // extend attributes
             new Element('label', {
                 html: '<input type="checkbox" name="extend" />' +
-                      '<span>Erweitert</span>'
+                '<span>' +
+                QUILocale.get(lg, 'field.settings.Name.label.extend') +
+                '</span>'
             }).inject(this.$SettingsContainer);
 
             var Extend = this.$SettingsContainer.getElement('[name="extend"]');
 
             Extend.addEvents({
                 change: function () {
-                    self.setAttribute('extend', this.checked);
-
-                    if (this.checked) {
-                        self.getBody().addClass('form-name--extend');
-                    } else {
-                        self.getBody().removeClass('form-name--extend');
-                    }
+                    self.$toggleExtended(this.checked);
                 }
             });
 
             if (this.getAttribute('extend')) {
-                Extend.set('checked', true);
+                Extend.checked = true;
             }
+        },
 
+        /**
+         * Toggle extended form fields
+         *
+         * @param {Boolean} enabled
+         */
+        $toggleExtended: function (enabled) {
+            var FormPreview         = this.getBody();
+            var extendedPreviewElms = FormPreview.getElements('.form-name-extended');
 
-            var Title = new Element('div', {
-                'class': 'qui-formfield-settings-setting',
-                html   : '<label>' +
-                         '</label><span class="qui-formfield-settings-setting-title">Title</span>' +
-                         '<input name="title" type="text" />' +
-                         '</label>'
-            }).inject(Elm);
+            this.setAttribute('extend', enabled);
 
-            var First = new Element('label', {
-                'class': 'qui-formfield-settings-setting',
-                html   : '<label>' +
-                         '<span class="qui-formfield-settings-setting-title">First</span>' +
-                         '<input name="first" type="text" />' +
-                         '</label>'
-            }).inject(Elm);
+            if (enabled) {
+                if (this.$Title) {
+                    this.$Title.removeClass('qui-formbuilder-settings__hidden');
+                }
 
-            var Last = new Element('label', {
-                'class': 'qui-formfield-settings-setting',
-                html   : '<label>' +
-                         '<span class="qui-formfield-settings-setting-title">Last</span>' +
-                         '<input name="last" type="text" />' +
-                         '</label>'
-            }).inject(Elm);
+                if (this.$Suffix) {
+                    this.$Suffix.removeClass('qui-formbuilder-settings__hidden');
+                }
 
-            var Suffix = new Element('label', {
-                'class': 'qui-formfield-settings-setting',
-                html   : '<label>' +
-                         '<span class="qui-formfield-settings-setting-title">suffix</span>' +
-                         '<input name="suffix" type="text" />' +
-                         '</label>'
-            }).inject(Elm);
+                extendedPreviewElms.removeClass('qui-formbuilder-settings__hidden');
+            } else {
+                if (this.$Title) {
+                    this.$Title.addClass('qui-formbuilder-settings__hidden');
+                }
 
+                if (this.$Suffix) {
+                    this.$Suffix.addClass('qui-formbuilder-settings__hidden');
+                }
 
-            Title.getElement('[name="title"]').addEvent('change', this.$inputChange);
-            First.getElement('[name="first"]').addEvent('change', this.$inputChange);
-            Last.getElement('[name="last"]').addEvent('change', this.$inputChange);
-            Suffix.getElement('[name="suffix"]').addEvent('change', this.$inputChange);
+                extendedPreviewElms.addClass('qui-formbuilder-settings__hidden');
+            }
         },
 
         /**

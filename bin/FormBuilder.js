@@ -19,13 +19,22 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
     'qui/controls/buttons/Button',
     'qui/controls/windows/Confirm',
     'package/quiqqer/bricks/bin/Sortables',
+
+    'controls/users/Select',
+    'controls/email/Select',
+
+    'Users',
+
     'Locale',
+    'Mustache',
 
     'text!package/quiqqer/formbuilder/bin/FormBuilder.html',
     'text!package/quiqqer/formbuilder/bin/FormBuilderFields.html',
+    'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html',
     'css!package/quiqqer/formbuilder/bin/FormBuilder.css'
 
-], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, QUILocale, formBuilder, formBuilderFields) {
+], function (QUI, QUIControl, QUIButton, QUIConfirm, Sortables, UserSelect, EmailSelect,
+             Users, QUILocale, Mustache, formBuilder, formBuilderFields, formBuilderSettings) {
     "use strict";
 
     var lg = 'quiqqer/formbuilder';
@@ -46,11 +55,20 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             'toggleSort',
 
             'openFormSettings',
-            'hideSettings'
+            'hideSettings',
+
+            'save'
         ],
 
         options: {
-            submit: 'Senden'
+            submit   : false,
+            captcha  : false,
+            save     : null,
+            receivers: {
+                users         : [],
+                emailaddresses: []
+            },
+            formCss  : ''
         },
 
         initialize: function (options) {
@@ -65,7 +83,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             this.$SettingsContent = null;
             this.$Settings        = null;
 
-            this.$fields = {};
+            this.$ReceiversUsers          = null;
+            this.$ReceiversEmailAddresses = null;
+
+            this.$fields         = {};
+            this.$fieldPositions = [];
 
             this.addEvents({
                 onInject: this.$onInject
@@ -78,6 +100,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @returns {HTMLElement}
          */
         create: function () {
+            var self = this;
+
             this.$Elm = new Element('div', {
                 'class': 'qui-formbuilder',
                 html   : formBuilder
@@ -96,7 +120,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 text     : QUILocale.get(lg, 'button.add.field'),
                 textimage: 'fa fa-plus',
                 events   : {
-                    onClick: this.openFieldList
+                    onClick: function () {
+                        self.openFieldList();
+                    }
                 },
                 styles   : {
                     width: 'calc(100% - 50px)'
@@ -181,6 +207,16 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 });
             }
 
+            var receiverUsers          = this.$ReceiversUsers.getValue();
+            var receiverEmailAddresses = this.$ReceiversEmailAddresses.getValue();
+
+            var receivers = {
+                users         : receiverUsers ? receiverUsers.split(',') : [],
+                emailaddresses: receiverEmailAddresses ? receiverEmailAddresses.split(',') : []
+            };
+
+            this.setAttribute('receivers', receivers);
+
             return {
                 elements: elements,
                 settings: this.getAttributes()
@@ -233,6 +269,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     );
                 }
 
+                self.openFormSettings();
             });
         },
 
@@ -245,9 +282,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
         /**
          * opens the field dialog
+         *
+         * @param {Number} [insertPos] - Position where the new selected fields are inserted
          */
-        openFieldList: function () {
-
+        openFieldList: function (insertPos) {
             var self = this;
 
             new QUIConfirm({
@@ -268,9 +306,25 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 events: {
                     onOpen: function (Win) {
+                        var lgPrefix = 'field.list.label.';
+
                         Win.Loader.show();
                         Win.getContent().setStyle('opacity', 0);
-                        Win.getContent().set('html', formBuilderFields);
+                        Win.getContent().set('html', Mustache.render(formBuilderFields, {
+                            fieldCategoryStandard: QUILocale.get(lg, lgPrefix + 'fieldCategoryStandard'),
+                            inputLabel           : QUILocale.get(lg, lgPrefix + 'inputLabel'),
+                            checkboxLabel        : QUILocale.get(lg, lgPrefix + 'checkboxLabel'),
+                            radioLabel           : QUILocale.get(lg, lgPrefix + 'radioLabel'),
+                            textareaLabel        : QUILocale.get(lg, lgPrefix + 'textareaLabel'),
+                            selectLabel          : QUILocale.get(lg, lgPrefix + 'selectLabel'),
+                            fieldCategoryExtra   : QUILocale.get(lg, lgPrefix + 'fieldCategoryExtra'),
+                            nameLabel            : QUILocale.get(lg, lgPrefix + 'nameLabel'),
+                            userLabel            : QUILocale.get(lg, lgPrefix + 'userLabel'),
+                            emailLabel           : QUILocale.get(lg, lgPrefix + 'emailLabel'),
+                            phoneLabel           : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
+                            fieldCategoryText    : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
+                            contentLabel         : QUILocale.get(lg, lgPrefix + 'contentLabel')
+                        }));
 
                         QUI.parse(Win.getContent()).then(function () {
                             Win.Loader.hide();
@@ -295,7 +349,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         for (i = 0, len = controls.length; i < len; i++) {
                             Field = controls[i];
 
-                            if (Field.getType() != 'package/quiqqer/formbuilder/bin/FormBuilderFields') {
+                            if (Field.getType() !== 'package/quiqqer/formbuilder/bin/FormBuilderFields') {
                                 continue;
                             }
 
@@ -341,6 +395,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                                         First = Insert;
                                     }
 
+                                    if (typeof insertPos !== 'undefined') {
+                                        Insert.setAttribute('pos', insertPos++);
+                                    }
+
                                     self.addField(Insert);
                                 }
                             });
@@ -363,10 +421,15 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
          * @param {Object} Field - package/quiqqer/formbuilder/bin/FormField
          */
         addField: function (Field) {
-
             var self = this;
 
             this.$fields[Field.getId()] = Field;
+
+            var FuncSetPositionsToFields = function () {
+                self.$fieldPositions.forEach(function (Field, k) {
+                    Field.setAttribute('pos', k);
+                });
+            };
 
             Field.addEvents({
                 onSelect : function (Field) {
@@ -379,6 +442,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 },
                 onDestroy: function (Field) {
                     delete self.$fields[Field.getId()];
+                    self.$fieldPositions.splice(Field.getAttribute('pos'), 1);
+
+                    FuncSetPositionsToFields();
 
                     if (self.$Active.getId() === Field.getId()) {
                         self.$Active = null;
@@ -389,7 +455,42 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             });
 
             Field.setParent(this);
-            Field.inject(this.$Container);
+
+            var pos = Field.getAttribute('pos');
+
+            if (pos === false) {
+                pos = this.$fieldPositions.length;
+            }
+
+            pos = parseInt(pos);
+
+            this.$fieldPositions.splice(pos, 0, Field);
+
+            FuncSetPositionsToFields();
+
+            if (this.$fieldPositions.length === 1) {
+                Field.inject(this.$Container);
+                return;
+            }
+
+            // insert Field in correct position
+            var fieldElms = this.$Container.getElements('.qui-formfield');
+
+            if (pos === 0) {
+                Field.inject(fieldElms[0], 'before');
+                return;
+            }
+
+            for (var i = 0, len = fieldElms.length; i < len; i++) {
+                if (i < (pos - 1)) {
+                    continue;
+                }
+
+                var FieldElm = fieldElms[i];
+                Field.inject(FieldElm, 'after');
+
+                break;
+            }
         },
 
         /**
@@ -466,7 +567,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 clone : function (event) {
                     var Target = event.target;
 
-                    if (Target.nodeName != 'FIELDSET') {
+                    if (Target.nodeName !== 'FIELDSET') {
                         Target = Target.getParent('fieldset');
                     }
 
@@ -529,7 +630,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 self.hideSettings().then(function () {
-
                     self.$SettingsContent.set('html', '');
                     self.$Settings.setStyles('display', null);
 
@@ -589,37 +689,164 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             }
 
             return new Promise(function (resolve) {
-                require([
-                    'text!package/quiqqer/formbuilder/bin/FormBuilderSettings.html'
-                ], function (formSettings) {
-                    self.$SettingsContent.set('html', formSettings);
-                    self.$Settings.setStyles('display', null);
+                self.$SettingsContent.set('html', Mustache.render(formBuilderSettings, {
+                    labelSaveText               : QUILocale.get(lg,
+                        'form.settings.save.label'
+                    ),
+                    labelCaptchaText            : QUILocale.get(lg,
+                        'form.settings.captcha.label'
+                    ),
+                    labelSendBtnText            : QUILocale.get(lg,
+                        'form.settings.sendButton.label'
+                    ),
+                    labelReceiversUsers         : QUILocale.get(lg,
+                        'form.settings.receivers_users.label'
+                    ),
+                    labelReceiversEmailAddresses: QUILocale.get(lg,
+                        'form.settings.receivers_emailaddresses.label'
+                    ),
+                    labelFormCss                : QUILocale.get(lg,
+                        'form.settings.formCss.label'
+                    )
+                }));
 
-                    self.$SettingsContent.getElement('.form-settings').set({
-                        html: QUILocale.get(lg, 'form.settings.sendButton.label')
-                    });
+                self.$Settings.setStyles('display', null);
 
-                    var Submit = self.$Settings.getElement('[name="form-submit"]');
+                // form-save
+                var Save      = self.$Settings.getElement('[name="form-save"]');
+                var saveValue = self.getAttribute('save');
 
-                    //form-submit
-                    Submit.addEvents({
-                        change: function () {
-                            self.setAttribute('submit', this.value);
-                        },
+                Save.addEvents({
+                    change: function () {
+                        self.setAttribute('save', this.checked);
+                    },
+                    keyup : function () {
+                        self.setAttribute('save', this.checked);
+                    }
+                });
 
-                        keyup: function () {
-                            self.setAttribute('submit', this.value);
-                        }
-                    });
+                if (saveValue === null) {
+                    self.setAttribute('save', true);
+                    saveValue = true;
+                }
 
-                    Submit.value = self.getAttribute('submit');
+                Save.checked = saveValue;
 
-                    moofx(self.$Settings).animate({
-                        opacity: 1
-                    }, {
-                        duration: 250,
-                        callback: resolve
-                    });
+                // form-captcha
+                var Captcha      = self.$Settings.getElement('[name="form-captcha"]');
+                var captchaValue = self.getAttribute('save');
+
+                Captcha.addEvents({
+                    change: function () {
+                        self.setAttribute('captcha', this.checked);
+                    },
+                    keyup : function () {
+                        self.setAttribute('captcha', this.checked);
+                    }
+                });
+
+                if (captchaValue === null) {
+                    self.setAttribute('captcha', true);
+                    captchaValue = true;
+                }
+
+                Captcha.checked = captchaValue;
+
+                // form-submit
+                var Submit      = self.$Settings.getElement('[name="form-submit"]');
+                var submitValue = self.getAttribute('submit');
+
+                Submit.addEvents({
+                    change: function () {
+                        self.setAttribute('submit', this.value);
+                    },
+                    keyup : function () {
+                        self.setAttribute('submit', this.value);
+                    }
+                });
+
+                if (!submitValue) {
+                    submitValue = QUILocale.get(lg, 'form.settings.sendButton.default_value');
+                    self.setAttribute('submit', submitValue);
+                }
+
+                Submit.value = submitValue;
+
+                // form css
+                var FormCss      = self.$Settings.getElement('[name="form-css"]');
+                var formCssValue = self.getAttribute('formCss');
+
+                FormCss.addEvents({
+                    change: function () {
+                        self.setAttribute('formCss', this.value);
+                    }
+                });
+
+                FormCss.value = formCssValue;
+
+                // receivers
+                var ReceiversElm = self.$SettingsContent.getElement(
+                    '.form-receivers'
+                );
+
+                var receivers = self.getAttribute('receivers');
+                var i, len;
+
+                // fallback for old API
+                if (!("users" in receivers)) {
+                    receivers = {
+                        users         : receivers,
+                        emailaddresses: []
+                    };
+                }
+
+                self.$ReceiversUsers = new UserSelect().inject(
+                    ReceiversElm.getElement('.form-receivers-users')
+                );
+
+                for (i = 0, len = receivers.users.length; i < len; i++) {
+                    self.$ReceiversUsers.addItem(receivers.users[i]);
+                }
+
+                self.$ReceiversUsers.addEvents({
+                    onAddItem: function (Control, userId, Item) {
+                        Control.Loader.show();
+
+                        Users.hasEmail(userId).then(function (hasEmail) {
+                            Control.Loader.hide();
+
+                            if (hasEmail) {
+                                return;
+                            }
+
+                            QUI.getMessageHandler().then(function (MH) {
+                                MH.addAttention(
+                                    QUILocale.get(
+                                        lg,
+                                        'form.settings.receivers.user.no_email_address'
+                                    ),
+                                    Control.getElm()
+                                );
+                            });
+
+                            Item.destroy();
+                        });
+                    }
+                });
+
+                self.$ReceiversEmailAddresses = new EmailSelect().inject(
+                    ReceiversElm.getElement('.form-receivers-emailaddresses')
+                );
+
+                for (i = 0, len = receivers.emailaddresses.length; i < len; i++) {
+                    self.$ReceiversEmailAddresses.addItem(receivers.emailaddresses[i]);
+                }
+
+                moofx(self.$Settings).animate({
+                    opacity: 1
+                }, {
+                    duration: 250,
+                    callback: resolve
                 });
             });
         }

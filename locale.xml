@@ -5,6 +5,11 @@
             <de><![CDATA[QUIQQER - Formularbuilder]]></de>
             <en><![CDATA[QUIQQER - Formbuilder]]></en>
         </locale>
+        <locale name="package.description">
+            <de><![CDATA[]]></de>
+            <en><![CDATA[]]></en>
+        </locale>
+
         <locale name="exception.missing.field">
             <de><![CDATA[Bitte füllen Sie dieses Feld aus]]></de>
             <en><![CDATA[Please fill out this field]]></en>
@@ -37,28 +42,65 @@
             <en><![CDATA[Add field]]></en>
         </locale>
 
-        <locale name="settings.field.labels">
-            <de><![CDATA[Feld Text]]></de>
+        <locale name="settings.fieldLabel">
+            <de><![CDATA[Feld-Bezeichnung]]></de>
             <en><![CDATA[Field label]]></en>
         </locale>
-        <locale name="settings.required.labels">
-            <de><![CDATA[Pflichtfeld]]></de>
-            <en><![CDATA[Required field]]></en>
+        <locale name="settings.requiredLabel">
+            <de><![CDATA[Ist Pflichtfeld]]></de>
+            <en><![CDATA[Is required field]]></en>
         </locale>
-        <locale name="settings.css.labels">
-            <de><![CDATA[CSS Klasse]]></de>
-            <en><![CDATA[CSS classes]]></en>
+        <locale name="settings.extraCssLabel">
+            <de><![CDATA[CSS-Klasse]]></de>
+            <en><![CDATA[CSS class]]></en>
         </locale>
 
+        <locale name="form.settings.receivers.user.no_email_address">
+            <de><![CDATA[Der Benutzer kann nicht als Empfänger hinzugefügt werden, da er keine E-Mail-Adresse hat.]]></de>
+            <en><![CDATA[The user cannot be added as a receiver because he has no email address.]]></en>
+        </locale>
         <locale name="form.settings.sendButton.label">
-            <de><![CDATA[Text des Versand Buttons]]></de>
+            <de><![CDATA[Text des "Abschicken"-Buttons]]></de>
             <en><![CDATA[text of the submit button]]></en>
+        </locale>
+        <locale name="form.settings.save.label">
+            <de><![CDATA[Formular-Anfragen in Datenbank speichern]]></de>
+            <en><![CDATA[Save submitted form requests in database]]></en>
+        </locale>
+        <locale name="form.settings.captcha.label">
+            <de><![CDATA[Formular mittels CAPTCHA vor automatisiertem Spam schützen]]></de>
+            <en><![CDATA[Protect form from automated spam via CAPTCHA]]></en>
+        </locale>
+        <locale name="form.settings.formCss.label">
+            <de><![CDATA[Formular CSS-Klasse]]></de>
+            <en><![CDATA[Form CSS class]]></en>
+        </locale>
+        <locale name="form.settings.sendButton.default_value">
+            <de><![CDATA[Senden]]></de>
+            <en><![CDATA[Send]]></en>
+        </locale>
+        <locale name="form.settings.receivers_users.label">
+            <de><![CDATA[Empfänger (Benutzer)]]></de>
+            <en><![CDATA[Receivers (Users)]]></en>
+        </locale>
+        <locale name="form.settings.receivers_emailaddresses.label">
+            <de><![CDATA[Empfänger (E-Mail-Adressen)]]></de>
+            <en><![CDATA[Receivers (email addresses)]]></en>
         </locale>
 
         <locale name="field.settings.placeholder">
             <de><![CDATA[Platzhalter]]></de>
             <en><![CDATA[Placeholder]]></en>
         </locale>
+        <locale name="field.settings.textarea.height">
+            <de><![CDATA[Höhe (px oder %)]]></de>
+            <en><![CDATA[Height (px or %)]]></en>
+        </locale>
+        <locale name="field.settings.textarea.width">
+            <de><![CDATA[Breite (px oder %)]]></de>
+            <en><![CDATA[Width (px or %)]]></en>
+        </locale>
+
 
         <locale name="field.checkbox.settings.select.label">
             <de><![CDATA[Anzahl Select Boxen]]></de>
@@ -113,9 +155,111 @@
             <de><![CDATA[Inhaltsbereich]]></de>
             <en><![CDATA[Content]]></en>
         </locale>
+
+        <locale name="field.settings.Name.label.title">
+            <de><![CDATA[Titel]]></de>
+            <en><![CDATA[Title]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.first">
+            <de><![CDATA[Vorname]]></de>
+            <en><![CDATA[First name]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.last">
+            <de><![CDATA[Nachname]]></de>
+            <en><![CDATA[Last name]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.suffix">
+            <de><![CDATA[Namens-Suffix]]></de>
+            <en><![CDATA[Name suffix]]></en>
+        </locale>
+        <locale name="field.settings.Name.label.extend">
+            <de><![CDATA[Extra-Felder]]></de>
+            <en><![CDATA[Extra fields]]></en>
+        </locale>
+
+        <locale name="field.list.label.fieldCategoryStandard">
+            <de><![CDATA[Standard Form-Felder]]></de>
+            <en><![CDATA[Standard form fields]]></en>
+        </locale>
+        <locale name="field.list.label.inputLabel">
+            <de><![CDATA[Eingabefeld (einzeilig)]]></de>
+            <en><![CDATA[Input field (single line)]]></en>
+        </locale>
+        <locale name="field.list.label.checkboxLabel">
+            <de><![CDATA[Mehrfach-Auswahl (Checkboxen)]]></de>
+            <en><![CDATA[Checkboxes]]></en>
+        </locale>
+        <locale name="field.list.label.radioLabel">
+            <de><![CDATA[Einfach-Auswahl (Radio-Buttons)]]></de>
+            <en><![CDATA[Radio buttons]]></en>
+        </locale>
+        <locale name="field.list.label.textareaLabel">
+            <de><![CDATA[Eingabefeld (mehrzeilig)]]></de>
+            <en><![CDATA[Textarea (multi-line input)]]></en>
+        </locale>
+        <locale name="field.list.label.selectLabel">
+            <de><![CDATA[Einfach-Auswahl (Dropdown-Menü)]]></de>
+            <en><![CDATA[Dropdown menu]]></en>
+        </locale>
+        <locale name="field.list.label.fieldCategoryExtra">
+            <de><![CDATA[Spezielle Form-Felder]]></de>
+            <en><![CDATA[Extra form fields]]></en>
+        </locale>
+        <locale name="field.list.label.nameLabel">
+            <de><![CDATA[Name]]></de>
+            <en><![CDATA[Name]]></en>
+        </locale>
+        <locale name="field.list.label.userLabel">
+            <de><![CDATA[Benutzer]]></de>
+            <en><![CDATA[User]]></en>
+        </locale>
+        <locale name="field.list.label.emailLabel">
+            <de><![CDATA[E-Mail-Adresse]]></de>
+            <en><![CDATA[Email address]]></en>
+        </locale>
+        <locale name="field.list.label.phoneLabel">
+            <de><![CDATA[Telefonnummer]]></de>
+            <en><![CDATA[Phone number]]></en>
+        </locale>
+        <locale name="field.list.label.fieldCategoryText">
+            <de><![CDATA[Text-Anezige]]></de>
+            <en><![CDATA[Text display]]></en>
+        </locale>
+        <locale name="field.list.label.contentLabel">
+            <de><![CDATA[Inhalt (HTML)]]></de>
+            <en><![CDATA[Content (HTML)]]></en>
+        </locale>
+
+        <!-- Control: FormField -->
+        <locale name="controls.FormField.insert_before">
+            <de><![CDATA[Davor einfügen]]></de>
+            <en><![CDATA[Insert before]]></en>
+        </locale>
+        <locale name="controls.FormField.insert_after">
+            <de><![CDATA[Danach einfügen]]></de>
+            <en><![CDATA[Insert after]]></en>
+        </locale>
+        <locale name="controls.FormField.copy_before">
+            <de><![CDATA[Kopieren davor]]></de>
+            <en><![CDATA[Copy before]]></en>
+        </locale>
+        <locale name="controls.FormField.copy_after">
+            <de><![CDATA[Kopieren danach]]></de>
+            <en><![CDATA[Copy after]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="php">
-
+        
+        <!-- Class: Builder -->
+        <locale name="exception.Builder.wrong_captcha">
+            <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
+            <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
+        </locale>
+        <locale name="captcha.label">
+            <de><![CDATA[Sicherheitsprüfung]]></de>
+            <en><![CDATA[Security check]]></en>
+        </locale>
+        
     </groups>
 </locales>

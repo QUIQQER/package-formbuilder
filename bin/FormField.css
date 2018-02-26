@@ -34,12 +34,18 @@
 /** action buttons
  * ================================================ */
 
-.qui-formfield-button-dublicate {
+.qui-formfield-button-duplicate {
     bottom: 10px;
     position: absolute;
     right: 50px;
     text-align: center;
     width: 30px;
+}
+
+.qui-formfield-button-duplicate .qui-button-drop {
+    bottom: -4px;
+    font-size: 7px;
+    left: -3px;
 }
 
 .qui-formfield-button-delete {

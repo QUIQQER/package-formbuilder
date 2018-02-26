@@ -6,6 +6,7 @@
 namespace QUI\FormBuilder\Interfaces;
 
 use QUI;
+use QUI\FormBuilder\Builder;
 
 /**
  * Interface Field
@@ -36,4 +37,51 @@ interface Field
      * @throws QUI\Exception
      */
     public function checkValue();
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText();
+
+    /**
+     * Parse form data and put it in the right format for evaluation / display
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function parseFormData($data);
+
+    /**
+     * Set the field parent
+     *
+     * @param Builder $Form
+     */
+    public function setParent(Builder $Form);
+
+    /**
+     * Return the field parent
+     *
+     * @return null|Builder
+     */
+    public function getParent();
+
+    /**
+     * Set internal name id
+     *
+     * @param int $id
+     */
+    public function setNameId($id);
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName();
+
+    public function getAttribute($k);
+    public function setAttribute($k, $v);
+    public function getAttributes();
 }

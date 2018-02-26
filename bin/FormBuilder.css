@@ -48,6 +48,10 @@
     width: 300px;
 }
 
+.qui-formbuilder-settings__hidden {
+    display: none !important;
+}
+
 .qui-formbuilder-settings-content {
     float: left;
     padding: 10px;
@@ -63,6 +67,15 @@
     width: 100%;
 }
 
+.qui-form-settings-label {
+    float: left;
+    width: 100%;
+}
+
+.qui-form-settings-label:not(:last-child) {
+    margin-bottom: 20px;
+}
+
 .qui-form-settings-setting-title {
     float: left;
     font-weight: bold;
@@ -71,6 +84,12 @@
 }
 
 .qui-formbuilder-settings-content input[type="text"] {
+    width: 100%;
+}
+
+.form-receivers-emailaddresses {
+    float: left;
+    margin-top: 20px;
     width: 100%;
 }
 

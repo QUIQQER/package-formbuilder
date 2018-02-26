@@ -3,10 +3,13 @@
 /**
  * This file contains \QUI\FormBuilder\Fields\Checkbox
  */
+
 namespace QUI\FormBuilder\Fields;
 
+use function GuzzleHttp\Promise\queue;
 use QUI;
 use QUI\FormBuilder;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Input
@@ -21,21 +24,8 @@ class Checkbox extends FormBuilder\Field
     public function getBody()
     {
         $result  = '<div>';
-        $require = '';
-        $name    = '';
-
         $data    = $this->getAttribute('data');
         $choices = $this->getAttribute('choices');
-
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-
-            if (is_array($choices) && count($choices) > 1) {
-                $name .= '[]';
-            }
-        }
-
-        $name = FormBuilder\Builder::parseFieldName($name);
 
         if (!is_array($data) && is_bool($data)) {
             $data = array();
@@ -51,11 +41,7 @@ class Checkbox extends FormBuilder\Field
             $values[$_data] = true;
         }
 
-        if ($this->getAttribute('required')) {
-            $require = 'required="required" ';
-        }
-
-        foreach ($choices as $choice) {
+        foreach ($choices as $k => $choice) {
             $text    = '';
             $checked = '';
 
@@ -82,10 +68,12 @@ class Checkbox extends FormBuilder\Field
                 $error = ' class="qui-form-error"';
             }
 
+            $choiceValue = $this->name . '-' . $k;
+
             $result .= '<label ' . $error . '>' .
                        '<input type="checkbox"
-                               name="' . $name . '"
-                               value="' . $text . '" ' . $checked . $require . ' /> ' .
+                               name="' . $this->name . '[]"
+                               value="' . $choiceValue . '" ' . $checked . ' /> ' .
                        '<span>' . $text . '</span>' .
                        '</label>';
         }
@@ -93,6 +81,43 @@ class Checkbox extends FormBuilder\Field
         $result .= '</div>';
 
         return $result;
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value = '';
+        $data  = $this->getAttribute('data');
+
+        if (is_array($data)) {
+            $values  = array();
+            $choices = $this->getAttribute('choices');
+
+            foreach ($data as $choice) {
+                $choice = Orthos::clearFormRequest($choice);
+                $choice = explode('-', $choice);
+
+                if (isset($choice[2])) {
+                    $valueIndex = (int)$choice[2];
+
+                    if (!empty($choices[$valueIndex]['text'])) {
+                        $values[] = $choices[$valueIndex]['text'];
+                    }
+                }
+            }
+
+            $value = implode(', ', $values);
+        }
+
+        if (empty($value)) {
+            $value = '-';
+        }
+
+        return $value;
     }
 
     /**
@@ -110,9 +135,10 @@ class Checkbox extends FormBuilder\Field
      */
     public function checkValue()
     {
-        $data = $this->getAttribute('data');
+        $data     = $this->getAttribute('data');
+        $required = $this->getAttribute('required');
 
-        if (empty($data)) {
+        if ($required && empty($data)) {
             $this->setAttribute('error', true);
 
             throw new QUI\Exception(array(

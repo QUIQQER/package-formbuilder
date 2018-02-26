@@ -5,34 +5,22 @@
     width: 100%;
 }
 
-.form-name-firstname,
-.form-name-lastname {
+.form-name-input {
     clear: none;
     float: left;
     max-width: 50%;
 }
 
-.form-name-title,
-.form-name-suffix {
-    display: none !important;
-}
-
-.form-name-title,
-.form-name-firstname,
-.form-name-lastname {
+.form-name-input {
     padding-right: 10px;
 }
 
-.form-name-firstname span,
-.form-name-lastname span {
+.form-name-input span {
     clear: both;
     display: block;
 }
 
-.form-name-title input,
-.form-name-firstname input,
-.form-name-lastname input,
-.form-name-suffix input {
+.form-name-input input {
     width: 100%;
 }
 

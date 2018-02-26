@@ -8,6 +8,7 @@ namespace QUI\FormBuilder\Fields;
 
 use QUI;
 use QUI\FormBuilder;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Input
@@ -22,17 +23,10 @@ class Select extends FormBuilder\Field
      */
     public function getBody()
     {
-        $name    = '';
         $entries = $this->getAttribute('entries');
         $content = '<select';
 
-        if ($this->getAttribute('label')) {
-            $name = $this->getAttribute('label');
-        }
-
-        $name = FormBuilder\Builder::parseFieldName($name);
-
-        $content .= ' name="' . $name . '"';
+        $content .= ' name="' . $this->name . '"';
         $content .= '>';
 
         if ($this->getAttribute('placeholder')) {
@@ -41,14 +35,16 @@ class Select extends FormBuilder\Field
             $content .= '</option>';
         }
 
-        foreach ($entries as $entry) {
+        foreach ($entries as $k => $entry) {
             $selected = '';
 
             if (isset($entry['selected']) && $entry['selected']) {
                 $selected = ' selected="selected"';
             }
 
-            $content .= '<option name="" value="' . htmlspecialchars($entry['text']) . '" ' . $selected . '>';
+            $optionName = $this->name . '-' . $k;
+
+            $content .= '<option name="' . $optionName . '" value="' . $optionName . '" ' . $selected . '>';
             $content .= htmlspecialchars($entry['text']);
             $content .= '</option>';
         }
@@ -57,6 +53,36 @@ class Select extends FormBuilder\Field
         $content .= '</select>';
 
         return $content;
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value  = '';
+
+        if ($this->getAttribute('data')) {
+            $entries = $this->getAttribute('entries');
+            $data    = Orthos::clearFormRequest($this->getAttribute('data'));
+            $data    = explode('-', $data);
+
+            if (isset($data[2])) {
+                $valueIndex = (int)$data[2];
+
+                if (!empty($entries[$valueIndex]['text'])) {
+                    $value = $entries[$valueIndex]['text'];
+                }
+            }
+        }
+
+        if (empty($value)) {
+            $value = '-';
+        }
+
+        return $value;
     }
 
     /**

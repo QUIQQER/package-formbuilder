@@ -6,7 +6,9 @@
 
 namespace QUI\FormBuilder\Fields;
 
+use QUI;
 use QUI\FormBuilder;
+use QUI\Utils\Security\Orthos;
 
 /**
  * Class Input
@@ -23,16 +25,13 @@ class Radiobox extends FormBuilder\Field
     {
         $result  = '';
         $choices = $this->getAttribute('choices');
-        $name    = $this->getAttribute('label');
         $require = '';
-
-        $name = FormBuilder\Builder::parseFieldName($name);
 
         if ($this->getAttribute('required')) {
             $require = 'required="required" ';
         }
 
-        foreach ($choices as $choice) {
+        foreach ($choices as $k => $choice) {
             $text    = '';
             $checked = '';
 
@@ -44,15 +43,48 @@ class Radiobox extends FormBuilder\Field
                 $checked = 'checked="checked" ';
             }
 
+            $choiceValue = $this->name . '-' . $k;
+
             $result .= '<label>' .
-                       '<input type="radio" name="' . $name . '" ' .
-                       'value="' . htmlspecialchars($text) . '" ' .
+                       '<input type="radio" name="' . $this->name . '" ' .
+                       'value="' . $choiceValue . '" ' .
                        $checked . $require . '/>' .
                        '<span>' . htmlspecialchars($text) . '</span>' .
                        '</label>';
         }
 
         return $result;
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value  = '';
+
+        if ($this->getAttribute('data')) {
+            $choices = $this->getAttribute('choices');
+
+            $data = Orthos::clearFormRequest($this->getAttribute('data'));
+            $data = explode('-', $data);
+
+            if (isset($data[2])) {
+                $valueIndex = (int)$data[2];
+
+                if (!empty($choices[$valueIndex]['text'])) {
+                    $value = $choices[$valueIndex]['text'];
+                }
+            }
+        }
+
+        if (empty($value)) {
+            $value = '-';
+        }
+
+        return $value;
     }
 
     /**

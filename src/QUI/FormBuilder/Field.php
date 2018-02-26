@@ -3,6 +3,7 @@
 /**
  * This file contains \QUI\FormBuilder\Field
  */
+
 namespace QUI\FormBuilder;
 
 use QUI;
@@ -20,6 +21,13 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
      * @var null|QUI\FormBuilder\Builder
      */
     protected $Parent = null;
+
+    /**
+     * Internal name
+     *
+     * @var string
+     */
+    protected $name = 0;
 
     /**
      * Field constructor.
@@ -60,7 +68,6 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         $result .= $body;
         $result .= '</div>';
 
-
         $result .= '</fieldset>';
 
         return $result;
@@ -97,16 +104,34 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     /**
      * Return the html of the element for the mail body
      * @return string
+     * @throws QUI\Exception
      */
     public function getHtmlForMail()
     {
         $Engine = QUI::getTemplateManager()->getEngine();
-        $name   = $this->getAttribute('name');
-        $value  = '';
+        $name   = $this->getAttribute('label');
 
         if (!$name) {
-            $name = $this->getAttribute('label');
+            $name = $this->name;
         }
+
+        $Engine->assign(array(
+            'title' => $name,
+            'value' => $this->getValueText(),
+            'this'  => $this
+        ));
+
+        return $Engine->fetch(dirname(__FILE__) . '/Field.html');
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value = false;
 
         if ($this->getAttribute('data')) {
             $value = Orthos::clearFormRequest($this->getAttribute('data'));
@@ -120,13 +145,18 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
             $value = '-';
         }
 
-        $Engine->assign(array(
-            'title' => $name,
-            'value' => $value,
-            'this'  => $this
-        ));
+        return $value;
+    }
 
-        return $Engine->fetch(dirname(__FILE__) . '/Field.html');
+    /**
+     * Parse form data and put it in the right format for evaluation / display
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function parseFormData($data)
+    {
+        return $data;
     }
 
     /**
@@ -147,5 +177,25 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function getParent()
     {
         return $this->Parent;
+    }
+
+    /**
+     * Set internal name id
+     *
+     * @param int $id
+     */
+    public function setNameId($id)
+    {
+        $this->name = 'field-' . $id;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

@@ -9,7 +9,9 @@
 define('package/quiqqer/formbuilder/bin/fields/Textarea', [
 
     'package/quiqqer/formbuilder/bin/FormField',
-    'Locale'
+    'Locale',
+
+    'css!package/quiqqer/formbuilder/bin/fields/Textarea.css'
 
 ], function (Field, QUILocale) {
     "use strict";
@@ -25,7 +27,9 @@ define('package/quiqqer/formbuilder/bin/fields/Textarea', [
         ],
 
         options: {
-            placeholder: ''
+            placeholder: '',
+            height     : '',
+            width      : ''
         },
 
         initialize: function (options) {
@@ -63,30 +67,52 @@ define('package/quiqqer/formbuilder/bin/fields/Textarea', [
          */
         $onGetSettings: function (self, Elm) {
 
-            var Node  = new Element('div', {
-                    html: '<label>' +
-                          '    <span class="qui-formfield-settings-setting-title">' +
-                          QUILocale.get('quiqqer/formbuilder', 'field.settings.placeholder') +
-                          '    </span>' +
-                          '    <input type="text" name="placeholder" />' +
-                          '</label>'
-                }).inject(Elm),
+            var Node = new Element('div', {
+                'class': 'qui-formfield-settings-textarea',
+                html   : '<label>' +
+                '    <span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get('quiqqer/formbuilder', 'field.settings.placeholder') +
+                '    </span>' +
+                '    <input type="text" name="placeholder" />' +
+                '</label>' +
+                '<label>' +
+                '    <span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get('quiqqer/formbuilder', 'field.settings.textarea.height') +
+                '    </span>' +
+                '    <input type="text" name="height" />' +
+                '</label>' +
+                '<label>' +
+                '    <span class="qui-formfield-settings-setting-title">' +
+                QUILocale.get('quiqqer/formbuilder', 'field.settings.textarea.width') +
+                '    </span>' +
+                '    <input type="text" name="width" />' +
+                '</label>'
+            }).inject(Elm);
 
-                Input = Node.getElement('[name="placeholder"]');
+            var settingInputs    = Node.getElements('input'),
+                PlaceholderInput = Node.getElement('[name="placeholder"]'),
+                HeightInput      = Node.getElement('[name="height"]'),
+                WidthInput       = Node.getElement('[name="width"]');
 
-
-            Input.addEvent('change', function () {
-                self.setAttribute('placeholder', this.value);
-                self.$Textarea.set('placeholder', this.value);
+            settingInputs.addEvent('change', function (event) {
+                var attribute = event.target.get('name');
+                self.setAttribute(attribute, event.target.value);
             });
 
-            Input.addEvent('keyup', function () {
-                self.setAttribute('placeholder', this.value);
+            PlaceholderInput.addEvent('keyup', function () {
                 self.$Textarea.set('placeholder', this.value);
             });
 
             if (self.getAttribute('placeholder')) {
-                Input.value = self.getAttribute('placeholder');
+                PlaceholderInput.value = self.getAttribute('placeholder');
+            }
+
+            if (self.getAttribute('height')) {
+                HeightInput.value = self.getAttribute('height');
+            }
+
+            if (self.getAttribute('width')) {
+                WidthInput.value = self.getAttribute('width');
             }
         }
     });
