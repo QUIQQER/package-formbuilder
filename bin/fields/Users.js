@@ -13,15 +13,13 @@
 define('package/quiqqer/formbuilder/bin/fields/Users', [
 
     'package/quiqqer/formbuilder/bin/FormField',
-    'qui/controls/buttons/Button',
-    'qui/utils/Elements',
-    'controls/users/Input',
+    'controls/users/Select',
     'controls/users/Entry',
     'Locale',
 
     'css!package/quiqqer/formbuilder/bin/fields/Users.css'
 
-], function (Field, QUIButton, QUIElements, UserInput, UserEntry, QUILocale) {
+], function (Field, UserSelect, UserEntry, QUILocale) {
     "use strict";
 
     return new Class({
@@ -35,9 +33,7 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
         ],
 
         options: {
-            users     : [],
-            mailusers : 0,
-            selectable: 1
+            users: []
         },
 
         initialize: function (options) {
@@ -88,43 +84,6 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
          * @param {HTMLElement} Elm
          */
         $onGetSettings: function (self, Elm) {
-
-            var myself = this;
-
-            new Element('div', {
-                html   : '<label>' +
-                         '    <input type="checkbox" name="mailusers" />' +
-                         '    <span class="qui-formfield-settings-setting-title">' +
-                         QUILocale.get('quiqqer/formbuilder', 'field.users.settings.mailreceiver.label') +
-                         '    </span>' +
-                         '</label>' +
-                         '<label>' +
-                         '    <input type="checkbox" name="selectable" />' +
-                         '    <span class="qui-formfield-settings-setting-title">' +
-                         QUILocale.get('quiqqer/formbuilder', 'field.users.settings.selectable.label') +
-                         '    </span>' +
-                         '</label>',
-                'class': 'qui-formfield-settings-setting __checkbox'
-            }).inject(Elm);
-
-            Elm.getElements('[type="checkbox"]').addEvents({
-                change: function () {
-                    myself.setAttribute(
-                        this.name,
-                        this.checked ? 1 : 0
-                    );
-                }
-            });
-
-            if (this.getAttribute('mailusers')) {
-                Elm.getElement('[name="mailusers"]').checked = true;
-            }
-
-            if (this.getAttribute('selectable')) {
-                Elm.getElement('[name="selectable"]').checked = true;
-            }
-
-
             new Element('span', {
                 'class': 'qui-formfield-settings-setting-title',
                 html   : QUILocale.get(
@@ -139,44 +98,53 @@ define('package/quiqqer/formbuilder/bin/fields/Users', [
                 }
             }).inject(Elm);
 
-            this.$UserInput = new UserInput({
-                events: {
-                    onChange: function (Input) {
-                        var value = Input.getValue().trim(',').split(',');
-
-                        self.setAttribute('users', value);
-                        self.refresh();
-                    }
-                },
-                styles: {
-                    width: '100%'
-                }
-            }).inject(this.$SettingsContainer);
-
+            this.$UserInput = new UserSelect().inject(this.$SettingsContainer);
 
             // add user to the input
             var users = this.getAttribute('users');
 
             users = users.clean();
 
-            for (var i = 0, len = users.length; i < len; i++) {
-                if (users[i]) {
-                    this.$UserInput.addUser(users[i]);
+            self.$UserInput.addEvents({
+                onChange: function (Control) {
+                    self.setAttribute('users', Control.getValue().split(','));
+                    self.refresh();
                 }
+            });
+
+            for (var i = 0, len = users.length; i < len; i++) {
+                self.$UserInput.addItem(users[i]);
             }
         },
 
         /**
-         * Add a choice
+         * Add a user to the form preview
          *
          * @param {Number} userId
          */
         addUser: function (userId) {
-            if (!userId) {
+            var Body    = this.getBody();
+            var UserElm = Body.getElement('div.users-entry[data-id="' + userId + '"]');
+
+            if (UserElm) {
                 return;
             }
 
             new UserEntry(userId).inject(this.getBody());
+        },
+
+        /**
+         * Remove user from form preview
+         *
+         * @param {Number} userId
+         */
+        removeUser: function (userId) {
+            var Body    = this.getBody();
+            var UserElm = Body.getElement('div.users-entry[data-id="' + userId + '"]');
+
+            if (UserElm) {
+                UserElm.destroy();
+            }
         }
     });
 });

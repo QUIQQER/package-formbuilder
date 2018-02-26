@@ -68,12 +68,6 @@ class Users extends FormBuilder\Field
      */
     public function getBody()
     {
-        $selectable = $this->getAttribute('selectable');
-
-        if (!$selectable) {
-            return '';
-        }
-
         $users  = $this->getAttribute('users');
         $result = '<select name="' . $this->name . '">';
 
@@ -96,5 +90,31 @@ class Users extends FormBuilder\Field
         $result .= '</select>';
 
         return $result;
+    }
+
+    /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $value = '';
+        $data  = $this->getAttribute('data');
+
+        if (empty($data)) {
+            return $value;
+        }
+
+        try {
+            $User  = QUI::getUsers()->get((int)$data);
+            $value = $User->getName();
+        } catch (\Exception $Exception) {
+            QUI\System\Log::addError(
+                'quiqqer/formbuilder :: User #' . $data . ' could not be loaded.'
+            );
+        }
+
+        return $value;
     }
 }
