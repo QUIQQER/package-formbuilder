@@ -1,43 +1,74 @@
+![QUIQQER Form Builder](bin/images/Readme.jpg)
 
-Form-Builder
+QUIQQER Form Builder
 ========
 
-Packetname:
+The QUIQQER Form Builder plugin offers controls to build custom forms (i.e. like the one used in `quiqqer/contact`)
+and validate them. Build forms out of a variety of standard and custom-made form fields.
+
+Package name:
 
     quiqqer/formbuilder
 
-
 Features
 --------
-
-- Drag & Drop Formular Ersteller
-- Formular Versand
-- Formular Prüfung
-
+* FormBuilder control to build forms easily via drag & drop
+* API for form validation
 
 Installation
 ------------
+Package name: quiqqer/formbuilder
 
-Der Paketname ist: quiqqer/formbuilder
-
-
-Mitwirken
+Usage
 ----------
+#### Frontend
+```js
+// FormBuilder control
+require(['package/quiqqer/formbuilder/bin/FormBuilder'], function(FormBuilderControl) {
+    var FormBuilder = new FormBuilderControl().inject(document.body);
+    
+    // Use form builder to configure your form...
+    
+    // get form configuration data
+    var formData = FormBuilder.save();
+    
+    // send to backend
+    sendFormDataToBackend(formData);
+});
 
+```
+
+#### Backend
+```php
+    $Form = new QUI\FormBuilder\Builder();
+    
+    $Form->load($formData); // $formData from frontend; usually $formData is retrieved from database (e.g. from a Site)
+    
+    // show form
+    $Engine = QUI::getTemplateManager()->getEngine();
+    $Engine->assign('Form', $Form->create()); // display $Form in template engine
+    
+    // execute this if your form is submitted
+    $Form->handleRequest();
+    
+    if ($Form->isSuccess()) {
+        // form was successfully validated
+    } else {
+        // form was not successfully validated
+    }
+```
+
+Collaboration
+----------
 - Issue Tracker: https://dev.quiqqer.com/quiqqer/package-formbuilder/issues
-- Source Code: https://dev.quiqqer.com/quiqqer/package-formbuilder/tree/master
-
+- Source Code: https://dev.quiqqer.com/quiqqer/package-formbuilder
 
 Support
 -------
-
-Falls Sie ein Fehler gefunden haben oder Verbesserungen wünschen,
-Dann können Sie gerne an support@pcsg.de eine E-Mail schreiben.
-
+If you found any bugs or flaws, have any wishes or suggestions you can send an email
+to [support@pcsg.de](mailto:support@pcsg.de) to inform us about your concerns. 
+We will try to respond to your request and forward it to the responsible developer.
 
 License
 -------
-
-
-Entwickler
---------
+PCSG QL-1.0, CC BY-NC-SA 4.0
