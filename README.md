@@ -53,6 +53,13 @@ require(['package/quiqqer/formbuilder/bin/FormBuilder'], function(FormBuilderCon
     
     if ($Form->isSuccess()) {
         // form was successfully validated
+        $formFields = $Form->getElements();
+        
+        /** @var \QUI\FormBuilder\Interfaces $FormField */
+        foreach ($formFields as $FormField) {
+            $value = $FormField->getValueText();
+            // $value contains the content/option the user chose when the form was submitted        
+        }
     } else {
         // form was not successfully validated
     }
