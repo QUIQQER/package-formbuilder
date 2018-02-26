@@ -330,14 +330,14 @@ class Builder extends QUI\QDOM
 
         // validate CAPTCHA
         if ($this->getAttribute('captcha')) {
-            if (empty($_REQUEST['captchaResponse'])) {
+            if (empty($_REQUEST['quiqqer-captcha-response'])) {
                 throw new FormBuilderException(array(
                     'quiqqer/formbuilder',
                     'exception.Builder.wrong_captcha'
                 ));
             }
 
-            if (!CaptchaHandler::isResponseValid($_REQUEST['captchaResponse'])) {
+            if (!CaptchaHandler::isResponseValid($_REQUEST['quiqqer-captcha-response'])) {
                 throw new FormBuilderException(array(
                     'quiqqer/formbuilder',
                     'exception.Builder.wrong_captcha'
