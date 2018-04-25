@@ -734,7 +734,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 // form-captcha
                 var Captcha      = self.$Settings.getElement('[name="form-captcha"]');
-                var captchaValue = self.getAttribute('save');
+                var captchaValue = self.getAttribute('captcha');
 
                 Captcha.addEvents({
                     change: function () {
