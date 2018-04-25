@@ -264,9 +264,6 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             require(typeCollection, function () {
                 var i, len, index, Control;
 
-                console.log(typeCollection);
-                console.log(elements);
-
                 for (i = 0, len = elements.length; i < len; i++) {
                     index   = typeCollection.indexOf(elements[i].type);
                     Control = arguments[index];
