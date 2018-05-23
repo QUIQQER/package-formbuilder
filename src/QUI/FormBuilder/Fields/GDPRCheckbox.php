@@ -25,7 +25,8 @@ class GDPRCheckbox extends FormBuilder\Field
 
         if (empty($text)) {
             $text = QUI::getLocale()->get(
-                'quiqqer/formbuilder', 'field.settings.GDPRCheckbox.label.default'
+                'quiqqer/formbuilder',
+                'field.settings.GDPRCheckbox.label.default'
             );
         }
 
