@@ -47,7 +47,7 @@ class GDPRCheckbox extends FormBuilder\Field
 
         $Engine->assign([
             'label'       => $text,
-            'name'        => $this->name,
+            'name'        => $this->getName(),
             'required'    => $this->getAttribute('required'),
             'projectName' => $Project->getName(),
             'projectLang' => $Project->getLang(),

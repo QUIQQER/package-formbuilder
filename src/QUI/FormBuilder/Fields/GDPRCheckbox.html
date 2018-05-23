@@ -4,33 +4,35 @@
 </label>
 
 <script>
-    var name="{$name}";
-    var projectName="{$projectName}";
-    var projectLang="{$projectLang}";
-    var siteId="{$siteId}";
+    {literal}(function() {{/literal}
+        var name        = "{$name}";
+        var projectName = "{$projectName}";
+        var projectLang = "{$projectLang}";
+        var siteId      = "{$siteId}";
 
-    {literal}
-    require([
-        'package/quiqqer/controls/bin/site/Window',
-        'Locale'
-    ], function(QUISiteWindow, QUILocale) {
-        var Link = document.getElement('input[name="' + name + '"]').getParent().getElements('a');
+        {literal}
+        require([
+            'package/quiqqer/controls/bin/site/Window',
+            'Locale'
+        ], function (QUISiteWindow, QUILocale) {
+            var Links = document.getElement('input[name="' + name + '"]').getParent().getElements('a');
 
-        if (!Link.length) {
-            return;
-        }
+            if (!Links.length) {
+                return;
+            }
 
-        Link.addEvent('click', function(event) {
-            event.stop();
+            Links.addEvent('click', function (event) {
+                event.stop();
 
-            new QUISiteWindow({
-                closeButtonText: QUILocale.get('quiqqer/system', 'btn.close'),
-                showTitle      : true,
-                project        : projectName,
-                lang           : projectLang,
-                id             : siteId
-            }).open();
+                new QUISiteWindow({
+                    closeButtonText: QUILocale.get('quiqqer/system', 'btn.close'),
+                    showTitle      : true,
+                    project        : projectName,
+                    lang           : projectLang,
+                    id             : siteId
+                }).open();
+            });
         });
-    });
+    })();
     {/literal}
 </script>

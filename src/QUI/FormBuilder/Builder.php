@@ -40,7 +40,7 @@ class Builder extends QUI\QDOM
      * list of form elements
      * @var array
      */
-    protected $elements = array();
+    protected $elements = [];
 
     /**
      * internal send status
@@ -52,7 +52,7 @@ class Builder extends QUI\QDOM
      * internal mail recipient adresses
      * @var array
      */
-    protected $addresses = array();
+    protected $addresses = [];
 
     /**
      * @var QUI\Events\Event
@@ -67,11 +67,32 @@ class Builder extends QUI\QDOM
     public $Site = null;
 
     /**
-     * Builder constructor.
+     * Custom form fields
+     *
+     * @var array
      */
-    public function __construct()
+    protected $customFields = [];
+
+    /**
+     * Builder constructor.
+     *
+     * @param array $customFields (optional) - Add custom fields to the form that are not
+     * defined via the Form Site [default: no custom fields]
+     *
+     * Example for $customFields:
+     * [
+     *   [
+     *     'type'       => 'package/quiqqer/formbuilder/bin/fields/GDPRCheckbox',
+     *     'attributes' => [
+     *       'text' => 'My label text'
+     *     ]
+     *   ]
+     * [
+     */
+    public function __construct($customFields = [])
     {
-        $this->Events = new QUI\Events\Event();
+        $this->Events       = new QUI\Events\Event();
+        $this->customFields = $customFields;
     }
 
     /**
@@ -90,10 +111,10 @@ class Builder extends QUI\QDOM
         if (!empty($receivers)) {
             // fallback for old API
             if (!isset($receivers['users'])) {
-                $receivers = array(
+                $receivers = [
                     'users'          => $receivers,
-                    'emailaddresses' => array()
-                );
+                    'emailaddresses' => []
+                ];
             }
 
             // add receiver users
@@ -132,7 +153,10 @@ class Builder extends QUI\QDOM
             return;
         }
 
-        $elements = $formData['elements'];
+        $elements = array_merge(
+            $formData['elements'],
+            $this->customFields
+        );
 
         foreach ($elements as $element) {
             if (!isset($element['type'])) {
@@ -247,14 +271,14 @@ class Builder extends QUI\QDOM
         }
 
 
-        $result = '<form name="' . $formName . '"
-                         action="' . $formAction . '"
-                         method="' . $method . '"';
+        $result = '<form name="'.$formName.'"
+                         action="'.$formAction.'"
+                         method="'.$method.'"';
 
         $formCss    = $this->getAttribute('formCss');
-        $cssClasses = array(
+        $cssClasses = [
             'qui-form'
-        );
+        ];
 
         if (!empty($formCss)) {
             $formCss = explode(' ', $formCss);
@@ -265,13 +289,13 @@ class Builder extends QUI\QDOM
             }
         }
 
-        $result .= ' class="' . implode(' ', $cssClasses) . '">';
+        $result .= ' class="'.implode(' ', $cssClasses).'">';
 
         $Template = $this->getAttribute('Template');
 
         if ($Template) {
             $Template->extendHeaderWithCSSFile(
-                URL_OPT_DIR . 'quiqqer/formbuilder/bin/Builder.css'
+                URL_OPT_DIR.'quiqqer/formbuilder/bin/Builder.css'
             );
         }
 
@@ -301,7 +325,7 @@ class Builder extends QUI\QDOM
             $result .= '<fieldset class="qui-formfield">';
 
             // legend
-            $result .= '<legend>' . QUI::getLocale()->get('quiqqer/formbuilder', 'captcha.label') . '</legend>';
+            $result .= '<legend>'.QUI::getLocale()->get('quiqqer/formbuilder', 'captcha.label').'</legend>';
 
             // content
             $result .= '<div class="qui-formfield-body">';
@@ -313,7 +337,7 @@ class Builder extends QUI\QDOM
 
         // submit button
         if ($this->getAttribute('submit')) {
-            $result .= '<input type="submit" name="submit" value="' . $this->getAttribute('submit') . '" />';
+            $result .= '<input type="submit" name="submit" value="'.$this->getAttribute('submit').'" />';
         }
 
         $result .= '</form>';
@@ -335,21 +359,21 @@ class Builder extends QUI\QDOM
         // validate CAPTCHA
         if ($this->getAttribute('captcha')) {
             if (empty($_REQUEST['quiqqer-captcha-response'])) {
-                throw new FormBuilderException(array(
+                throw new FormBuilderException([
                     'quiqqer/formbuilder',
                     'exception.Builder.wrong_captcha'
-                ));
+                ]);
             }
 
             if (!CaptchaHandler::isResponseValid($_REQUEST['quiqqer-captcha-response'])) {
-                throw new FormBuilderException(array(
+                throw new FormBuilderException([
                     'quiqqer/formbuilder',
                     'exception.Builder.wrong_captcha'
-                ));
+                ]);
             }
         }
 
-        $missing        = array();
+        $missing        = [];
         $this->status   = self::STATUS_SEND;
         $fieldIdCounter = 0;
 
@@ -364,15 +388,15 @@ class Builder extends QUI\QDOM
             }
 
             $name    = self::parseFieldName($name);
-            $fieldId = 'field-' . $fieldIdCounter++;
+            $fieldId = 'field-'.$fieldIdCounter++;
 
             if (isset($_REQUEST[$fieldId])) {
                 $Element->setAttribute('data', $Element->parseFormData($_REQUEST[$fieldId]));
             } else {
-                $elementData = array();
+                $elementData = [];
 
                 foreach ($_REQUEST as $field => $data) {
-                    if (mb_strpos($field, $fieldId . '-') !== false) {
+                    if (mb_strpos($field, $fieldId.'-') !== false) {
                         $elementData[$field] = $data;
                     }
                 }
@@ -394,10 +418,10 @@ class Builder extends QUI\QDOM
         if (!empty($missing)) {
             $this->Events->fireEvent('statusError');
 
-            throw new QUI\Exception(array(
+            throw new QUI\Exception([
                 'quiqqer/formbuilder',
                 'exception.missing.fields'
-            ));
+            ]);
         }
 
         $this->Events->fireEvent('statusSuccess');
@@ -409,13 +433,13 @@ class Builder extends QUI\QDOM
      */
     public function getMailBody()
     {
-        $template = dirname(__FILE__) . '/mailBody.html';
+        $template = dirname(__FILE__).'/mailBody.html';
         $Engine   = QUI::getTemplateManager()->getEngine();
 
-        $Engine->assign(array(
+        $Engine->assign([
             'elements' => $this->elements,
             'this'     => $this
-        ));
+        ]);
 
         return $Engine->fetch($template);
     }
@@ -464,10 +488,10 @@ class Builder extends QUI\QDOM
      */
     public function addAddress($email, $name = false)
     {
-        $this->addresses[] = array(
+        $this->addresses[] = [
             'email' => $email,
             'name'  => $name
-        );
+        ];
     }
 
     /**
@@ -497,6 +521,6 @@ class Builder extends QUI\QDOM
      */
     public static function parseFieldName($str)
     {
-        return htmlspecialchars(str_replace(array(' ', '-'), '_', $str));
+        return htmlspecialchars(str_replace([' ', '-'], '_', $str));
     }
 }

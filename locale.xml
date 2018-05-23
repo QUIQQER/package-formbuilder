@@ -21,7 +21,7 @@
 
         <locale name="field.settings.GDPRCheckbox.label.default">
             <de><![CDATA[Die [Datenschutzbestimmungen] habe ich zur Kenntnis genommen.]]></de>
-            <en><![CDATA[I am aware of the [Privacy Policy]]]></en>
+            <en><![CDATA[I am aware of the [Privacy Policy].]]></en>
         </locale>
     </groups>
 
