@@ -80,9 +80,9 @@
             <de><![CDATA[Formular CSS-Klasse]]></de>
             <en><![CDATA[Form CSS class]]></en>
         </locale>
-        <locale name="form.settings.labelPrivacyPolicyText.label">
-            <de><![CDATA[DSVGO-Checkbox anzeigen]]></de>
-            <en><![CDATA[Display PrivacyPolicy checkbox]]></en>
+        <locale name="form.settings.labelHidePrivacyPolicyText.label">
+            <de><![CDATA[Globale Datenschutzbestimmungen-Checkbox NICHT anzeigen]]></de>
+            <en><![CDATA[Do NOT display global Privacy Policy checkbox]]></en>
         </locale>
         <locale name="form.settings.sendButton.default_value">
             <de><![CDATA[Senden]]></de>

@@ -61,16 +61,16 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         ],
 
         options: {
-            submit         : false,
-            captcha        : false,
-            save           : null,
+            submit                  : false,
+            captcha                 : false,
+            save                    : null,
             globalPrivacyPolicyField: false,
-            privacyPolicy           : false,    // Show the global PrivacyPolicy field in this form
-            receivers      : {
+            hideGlobalPrivacyPolicy : false,    // Show the global PrivacyPolicy field in this form
+            receivers               : {
                 users         : [],
                 emailaddresses: []
             },
-            formCss        : ''
+            formCss                 : ''
         },
 
         initialize: function (options) {
@@ -321,20 +321,20 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                         Win.Loader.show();
                         Win.getContent().setStyle('opacity', 0);
                         Win.getContent().set('html', Mustache.render(formBuilderFields, {
-                            fieldCategoryStandard: QUILocale.get(lg, lgPrefix + 'fieldCategoryStandard'),
-                            inputLabel           : QUILocale.get(lg, lgPrefix + 'inputLabel'),
-                            checkboxLabel        : QUILocale.get(lg, lgPrefix + 'checkboxLabel'),
-                            radioLabel           : QUILocale.get(lg, lgPrefix + 'radioLabel'),
-                            textareaLabel        : QUILocale.get(lg, lgPrefix + 'textareaLabel'),
-                            selectLabel          : QUILocale.get(lg, lgPrefix + 'selectLabel'),
-                            fieldCategoryExtra   : QUILocale.get(lg, lgPrefix + 'fieldCategoryExtra'),
-                            nameLabel            : QUILocale.get(lg, lgPrefix + 'nameLabel'),
-                            userLabel            : QUILocale.get(lg, lgPrefix + 'userLabel'),
-                            emailLabel           : QUILocale.get(lg, lgPrefix + 'emailLabel'),
-                            phoneLabel           : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
-                            fieldCategoryText    : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
-                            contentLabel         : QUILocale.get(lg, lgPrefix + 'contentLabel'),
-                            privacyPolicyCheckboxLabel    : QUILocale.get(lg, lgPrefix + 'privacyPolicyCheckboxLabel')
+                            fieldCategoryStandard               : QUILocale.get(lg, lgPrefix + 'fieldCategoryStandard'),
+                            inputLabel                          : QUILocale.get(lg, lgPrefix + 'inputLabel'),
+                            checkboxLabel                       : QUILocale.get(lg, lgPrefix + 'checkboxLabel'),
+                            radioLabel                          : QUILocale.get(lg, lgPrefix + 'radioLabel'),
+                            textareaLabel                       : QUILocale.get(lg, lgPrefix + 'textareaLabel'),
+                            selectLabel                         : QUILocale.get(lg, lgPrefix + 'selectLabel'),
+                            fieldCategoryExtra                  : QUILocale.get(lg, lgPrefix + 'fieldCategoryExtra'),
+                            nameLabel                           : QUILocale.get(lg, lgPrefix + 'nameLabel'),
+                            userLabel                           : QUILocale.get(lg, lgPrefix + 'userLabel'),
+                            emailLabel                          : QUILocale.get(lg, lgPrefix + 'emailLabel'),
+                            phoneLabel                          : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
+                            fieldCategoryText                   : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
+                            contentLabel                        : QUILocale.get(lg, lgPrefix + 'contentLabel'),
+                            hideGlobalPrivacyPolicyCheckboxLabel: QUILocale.get(lg, lgPrefix + 'hideGlobalPrivacyPolicyCheckboxLabel')
                         }));
 
                         QUI.parse(Win.getContent()).then(function () {
@@ -719,8 +719,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     labelFormCss                : QUILocale.get(lg,
                         'form.settings.formCss.label'
                     ),
-                    labelPrivacyPolicyText               : QUILocale.get(lg,
-                        'form.settings.labelPrivacyPolicyText.label'
+                    labelHidePrivacyPolicyText  : QUILocale.get(lg,
+                        'form.settings.labelHidePrivacyPolicyText.label'
                     )
                 }));
 
@@ -767,7 +767,23 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 Captcha.checked = captchaValue;
 
                 // global PrivacyPolicy field
-                console.log(self.getAttribute('globalPrivacyPolicyField'));
+                if (self.getAttribute('globalPrivacyPolicyField') == 1) {
+                    var PrivacyPolicySetting = self.$Settings.getElement(
+                        '[data-setting="hideGlobalPrivacyPolicy"]'
+                    );
+
+                    PrivacyPolicySetting.removeClass('qui-formbuilder-settings__hidden');
+
+                    var PrivacyPolicyCheckbox = PrivacyPolicySetting.getElement('input');
+
+                    PrivacyPolicyCheckbox.addEvents({
+                        change: function () {
+                            self.setAttribute('hideGlobalPrivacyPolicy', this.checked);
+                        }
+                    });
+
+                    PrivacyPolicyCheckbox.checked = self.getAttribute('hideGlobalPrivacyPolicy');
+                }
 
                 // form-submit
                 var Submit      = self.$Settings.getElement('[name="form-submit"]');
