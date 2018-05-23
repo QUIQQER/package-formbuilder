@@ -61,14 +61,16 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
         ],
 
         options: {
-            submit   : false,
-            captcha  : false,
-            save     : null,
-            receivers: {
+            submit         : false,
+            captcha        : false,
+            save           : null,
+            globalPrivacyPolicyField: false,
+            privacyPolicy           : false,    // Show the global PrivacyPolicy field in this form
+            receivers      : {
                 users         : [],
                 emailaddresses: []
             },
-            formCss  : ''
+            formCss        : ''
         },
 
         initialize: function (options) {
@@ -332,7 +334,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                             phoneLabel           : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
                             fieldCategoryText    : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
                             contentLabel         : QUILocale.get(lg, lgPrefix + 'contentLabel'),
-                            gdprCheckboxLabel    : QUILocale.get(lg, lgPrefix + 'gdprCheckboxLabel')
+                            privacyPolicyCheckboxLabel    : QUILocale.get(lg, lgPrefix + 'privacyPolicyCheckboxLabel')
                         }));
 
                         QUI.parse(Win.getContent()).then(function () {
@@ -716,6 +718,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     ),
                     labelFormCss                : QUILocale.get(lg,
                         'form.settings.formCss.label'
+                    ),
+                    labelPrivacyPolicyText               : QUILocale.get(lg,
+                        'form.settings.labelPrivacyPolicyText.label'
                     )
                 }));
 
@@ -760,6 +765,9 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 Captcha.checked = captchaValue;
+
+                // global PrivacyPolicy field
+                console.log(self.getAttribute('globalPrivacyPolicyField'));
 
                 // form-submit
                 var Submit      = self.$Settings.getElement('[name="form-submit"]');

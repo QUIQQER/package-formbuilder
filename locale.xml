@@ -19,7 +19,7 @@
             <en><![CDATA[Please fill in all mandatory fields correctly.]]></en>
         </locale>
 
-        <locale name="field.settings.GDPRCheckbox.label.default">
+        <locale name="field.settings.PrivacyPolicyCheckbox.label.default">
             <de><![CDATA[Die [Datenschutzbestimmungen] habe ich zur Kenntnis genommen.]]></de>
             <en><![CDATA[I am aware of the [Privacy Policy].]]></en>
         </locale>
@@ -80,6 +80,10 @@
             <de><![CDATA[Formular CSS-Klasse]]></de>
             <en><![CDATA[Form CSS class]]></en>
         </locale>
+        <locale name="form.settings.labelPrivacyPolicyText.label">
+            <de><![CDATA[DSVGO-Checkbox anzeigen]]></de>
+            <en><![CDATA[Display PrivacyPolicy checkbox]]></en>
+        </locale>
         <locale name="form.settings.sendButton.default_value">
             <de><![CDATA[Senden]]></de>
             <en><![CDATA[Send]]></en>
@@ -105,17 +109,17 @@
             <de><![CDATA[Breite (px oder %)]]></de>
             <en><![CDATA[Width (px or %)]]></en>
         </locale>
-        <locale name="field.settings.GDPRCheckbox.label">
+        <locale name="field.settings.PrivacyPolicyCheckbox.label">
             <de><![CDATA[Text]]></de>
             <en><![CDATA[Text]]></en>
         </locale>
-        <locale name="field.settings.GDPRCheckbox.label.description">
+        <locale name="field.settings.PrivacyPolicyCheckbox.label.description">
             <de><![CDATA[Ein in eckige Klammern gesetztes Wort (z.B. "[Datenschutzbestimmungen]") kann optional für den Link zur Datenschutzbestimmungen-Seite (Seitentyp "Datenschutz-Bestimmungen"; sofern vorhanden) eingesetzt werden.]]></de>
-            <en><![CDATA[A word in square brackets (e.g. "[Privacy Policy]") can optionally be used to insert a link to your GDPR Site (site type "Privacy Policy"; if such a Site exists).]]></en>
+            <en><![CDATA[A word in square brackets (e.g. "[Privacy Policy]") can optionally be used to insert a link to your PrivacyPolicy Site (site type "Privacy Policy"; if such a Site exists).]]></en>
         </locale>
-        <locale name="field.settings.GDPRCheckbox.site">
+        <locale name="field.settings.PrivacyPolicyCheckbox.site">
             <de><![CDATA[Datenschutzbestimmungen-Seite (optional)]]></de>
-            <en><![CDATA[GDPR Site (optional)]]></en>
+            <en><![CDATA[PrivacyPolicy Site (optional)]]></en>
         </locale>
 
         <locale name="field.checkbox.settings.select.label">
@@ -245,9 +249,9 @@
             <de><![CDATA[Inhalt (HTML)]]></de>
             <en><![CDATA[Content (HTML)]]></en>
         </locale>
-        <locale name="field.list.label.gdprCheckboxLabel">
-            <de><![CDATA[DSGVO-Checkbox]]></de>
-            <en><![CDATA[GDPR Checkbox]]></en>
+        <locale name="field.list.label.privacyPolicyCheckboxLabel">
+            <de><![CDATA[Datenschutzbestimmungen-Checkbox]]></de>
+            <en><![CDATA[PrivacyPolicy Checkbox]]></en>
         </locale>
 
         <!-- Control: FormField -->

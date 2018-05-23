@@ -67,32 +67,11 @@ class Builder extends QUI\QDOM
     public $Site = null;
 
     /**
-     * Custom form fields
-     *
-     * @var array
-     */
-    protected $customFields = [];
-
-    /**
      * Builder constructor.
-     *
-     * @param array $customFields (optional) - Add custom fields to the form that are not
-     * defined via the Form Site [default: no custom fields]
-     *
-     * Example for $customFields:
-     * [
-     *   [
-     *     'type'       => 'package/quiqqer/formbuilder/bin/fields/GDPRCheckbox',
-     *     'attributes' => [
-     *       'text' => 'My label text'
-     *     ]
-     *   ]
-     * [
      */
-    public function __construct($customFields = [])
+    public function __construct()
     {
-        $this->Events       = new QUI\Events\Event();
-        $this->customFields = $customFields;
+        $this->Events = new QUI\Events\Event();
     }
 
     /**
@@ -153,10 +132,7 @@ class Builder extends QUI\QDOM
             return;
         }
 
-        $elements = array_merge(
-            $formData['elements'],
-            $this->customFields
-        );
+        $elements = $formData['elements'];
 
         foreach ($elements as $element) {
             if (!isset($element['type'])) {
@@ -173,6 +149,38 @@ class Builder extends QUI\QDOM
         }
 
         $this->Events->fireEvent('loaded');
+    }
+
+    /**
+     * Add custom fields to the form
+     *
+     * @param array $customFields
+     *
+     * Example for $customFields:
+     * [
+     *   [
+     *     'type'       => 'package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox',
+     *     'attributes' => [
+     *       'text' => 'My label text'
+     *     ]
+     *   ]
+     * [
+     */
+    public function addCustomFields($customFields)
+    {
+        foreach ($customFields as $field) {
+            if (!isset($field['type'])) {
+                continue;
+            }
+
+            $Field = $this->getField($field);
+
+            if (!$Field) {
+                continue;
+            }
+
+            $this->elements[] = $Field;
+        }
     }
 
     /**
@@ -224,8 +232,8 @@ class Builder extends QUI\QDOM
                 $Field = new Fields\Text($this);
                 break;
 
-            case 'package/quiqqer/formbuilder/bin/fields/GDPRCheckbox':
-                $Field = new Fields\GDPRCheckbox($this);
+            case 'package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox':
+                $Field = new Fields\PrivacyPolicyCheckbox($this);
                 break;
 
             default:

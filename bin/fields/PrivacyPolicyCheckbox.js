@@ -1,16 +1,16 @@
 /**
- * Checkbox for European Union General Data Protection Regulation (GDPR) purposes
+ * Checkbox for European Union General Data Protection Regulation (PrivacyPolicy) purposes
  *
- * @module package/quiqqer/formbuilder/bin/fields/GDPRCheckbox
+ * @module package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox
  * @author www.pcsg.de (Patrick Müller)
  */
-define('package/quiqqer/formbuilder/bin/fields/GDPRCheckbox', [
+define('package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox', [
 
     'package/quiqqer/formbuilder/bin/FormField',
     'Locale',
 
-    'text!package/quiqqer/formbuilder/bin/fields/GDPRCheckbox.html',
-    'css!package/quiqqer/formbuilder/bin/fields/GDPRCheckbox.css'
+    'text!package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox.html',
+    'css!package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox.css'
 
 ], function (Field, QUILocale, body) {
     "use strict";
@@ -20,7 +20,7 @@ define('package/quiqqer/formbuilder/bin/fields/GDPRCheckbox', [
     return new Class({
 
         Extends: Field,
-        Type   : 'package/quiqqer/formbuilder/bin/fields/GDPRCheckbox',
+        Type   : 'package/quiqqer/formbuilder/bin/fields/PrivacyPolicyCheckbox',
 
         Binds: [
             '$onCreate',
@@ -50,12 +50,12 @@ define('package/quiqqer/formbuilder/bin/fields/GDPRCheckbox', [
 
             Body.set('html', body);
 
-            this.$LabelText = Body.getElement('span.form-gdprcheckbox-label');
+            this.$LabelText = Body.getElement('span.form-privacyPolicycheckbox-label');
 
             if (this.getAttribute('text')) {
                 this.$LabelText.innerHTML = this.getAttribute('text');
             } else {
-                this.$LabelText.innerHTML = QUILocale.get(lg, 'field.settings.GDPRCheckbox.label.default');
+                this.$LabelText.innerHTML = QUILocale.get(lg, 'field.settings.PrivacyPolicyCheckbox.label.default');
             }
         },
 
@@ -70,10 +70,10 @@ define('package/quiqqer/formbuilder/bin/fields/GDPRCheckbox', [
                 'class': 'qui-formfield-settings-setting',
                 html   : '<label>' +
                 '    <span class="qui-formfield-settings-setting-title">' +
-                QUILocale.get('quiqqer/formbuilder', 'field.settings.GDPRCheckbox.label') +
+                QUILocale.get('quiqqer/formbuilder', 'field.settings.PrivacyPolicyCheckbox.label') +
                 '    </span>' +
                 '    <span class="qui-formfield-settings-setting-description">' +
-                QUILocale.get('quiqqer/formbuilder', 'field.settings.GDPRCheckbox.label.description') +
+                QUILocale.get('quiqqer/formbuilder', 'field.settings.PrivacyPolicyCheckbox.label.description') +
                 '    </span>' +
                 '    <textarea></textarea>' +
                 '</label>'
@@ -84,7 +84,7 @@ define('package/quiqqer/formbuilder/bin/fields/GDPRCheckbox', [
             if (this.getAttribute('text')) {
                 Textarea.value = this.getAttribute('text');
             } else {
-                Textarea.value = QUILocale.get(lg, 'field.settings.GDPRCheckbox.label.default');
+                Textarea.value = QUILocale.get(lg, 'field.settings.PrivacyPolicyCheckbox.label.default');
             }
 
             Textarea.addEvent('keyup', function () {

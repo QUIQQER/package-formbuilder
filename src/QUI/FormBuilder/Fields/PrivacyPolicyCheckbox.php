@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains \QUI\FormBuilder\Fields\GDPRCheckbox
+ * This file contains \QUI\FormBuilder\Fields\PrivacyPolicyCheckbox
  */
 
 namespace QUI\FormBuilder\Fields;
@@ -10,9 +10,9 @@ use QUI;
 use QUI\FormBuilder;
 
 /**
- * Class GDPRCheckbox
+ * Class PrivacyPolicyCheckbox
  */
-class GDPRCheckbox extends FormBuilder\Field
+class PrivacyPolicyCheckbox extends FormBuilder\Field
 {
     /**
      * @return string
@@ -26,7 +26,7 @@ class GDPRCheckbox extends FormBuilder\Field
         if (empty($text)) {
             $text = QUI::getLocale()->get(
                 'quiqqer/formbuilder',
-                'field.settings.GDPRCheckbox.label.default'
+                'field.settings.PrivacyPolicyCheckbox.label.default'
             );
         }
 
@@ -54,7 +54,7 @@ class GDPRCheckbox extends FormBuilder\Field
             'siteId'      => $PrivacyPolicySite->getId()
         ]);
 
-        return $Engine->fetch(dirname(__FILE__).'/GDPRCheckbox.html');
+        return $Engine->fetch(dirname(__FILE__).'/PrivacyPolicyCheckbox.html');
     }
 
     /**
