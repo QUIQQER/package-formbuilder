@@ -200,6 +200,10 @@ class Builder extends QUI\QDOM
                 $Field = new Fields\Text($this);
                 break;
 
+            case 'package/quiqqer/formbuilder/bin/fields/GDPRCheckbox':
+                $Field = new Fields\GDPRCheckbox($this);
+                break;
+
             default:
                 return false;
         }

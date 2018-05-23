@@ -18,6 +18,11 @@
             <de><![CDATA[Bitte füllen Sie alle Pflichtfelder korrekt aus.]]></de>
             <en><![CDATA[Please fill in all mandatory fields correctly.]]></en>
         </locale>
+
+        <locale name="field.settings.GDPRCheckbox.label.default">
+            <de><![CDATA[Die [Datenschutzbestimmungen] habe ich zur Kenntnis genommen.]]></de>
+            <en><![CDATA[I am aware of the [Privacy Policy]]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="js">
@@ -100,7 +105,18 @@
             <de><![CDATA[Breite (px oder %)]]></de>
             <en><![CDATA[Width (px or %)]]></en>
         </locale>
-
+        <locale name="field.settings.GDPRCheckbox.label">
+            <de><![CDATA[Text]]></de>
+            <en><![CDATA[Text]]></en>
+        </locale>
+        <locale name="field.settings.GDPRCheckbox.label.description">
+            <de><![CDATA[Ein in eckige Klammern gesetztes Wort (z.B. "[Datenschutzbestimmungen]") kann optional für den Link zur Datenschutzbestimmungen-Seite (Seitentyp "Datenschutz-Bestimmungen"; sofern vorhanden) eingesetzt werden.]]></de>
+            <en><![CDATA[A word in square brackets (e.g. "[Privacy Policy]") can optionally be used to insert a link to your GDPR Site (site type "Privacy Policy"; if such a Site exists).]]></en>
+        </locale>
+        <locale name="field.settings.GDPRCheckbox.site">
+            <de><![CDATA[Datenschutzbestimmungen-Seite (optional)]]></de>
+            <en><![CDATA[GDPR Site (optional)]]></en>
+        </locale>
 
         <locale name="field.checkbox.settings.select.label">
             <de><![CDATA[Anzahl Select Boxen]]></de>
@@ -228,6 +244,10 @@
         <locale name="field.list.label.contentLabel">
             <de><![CDATA[Inhalt (HTML)]]></de>
             <en><![CDATA[Content (HTML)]]></en>
+        </locale>
+        <locale name="field.list.label.gdprCheckboxLabel">
+            <de><![CDATA[DSGVO-Checkbox]]></de>
+            <en><![CDATA[GDPR Checkbox]]></en>
         </locale>
 
         <!-- Control: FormField -->

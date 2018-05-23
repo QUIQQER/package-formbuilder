@@ -254,7 +254,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             typeCollection = typeCollection.unique();
 
             // sort form elements by position
-            elements.sort(function(a, b) {
+            elements.sort(function (a, b) {
                 var posA = a.attributes.pos;
                 var posB = b.attributes.pos;
 
@@ -331,7 +331,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                             emailLabel           : QUILocale.get(lg, lgPrefix + 'emailLabel'),
                             phoneLabel           : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
                             fieldCategoryText    : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
-                            contentLabel         : QUILocale.get(lg, lgPrefix + 'contentLabel')
+                            contentLabel         : QUILocale.get(lg, lgPrefix + 'contentLabel'),
+                            gdprCheckboxLabel    : QUILocale.get(lg, lgPrefix + 'gdprCheckboxLabel')
                         }));
 
                         QUI.parse(Win.getContent()).then(function () {
