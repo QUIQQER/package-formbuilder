@@ -133,7 +133,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                 )
             }).inject(Elm);
 
-            this.$SettingsContaiiner = new Element('div').inject(Elm);
+            this.$SettingsContainer = new Element('div').inject(Elm);
 
 
             textChange = function () {
@@ -185,7 +185,7 @@ define('package/quiqqer/formbuilder/bin/fields/Select', [
                     keyup : textChange
                 });
 
-                Option.inject(this.$SettingsContaiiner);
+                Option.inject(this.$SettingsContainer);
 
                 Option.getElement('[name="title"]').value = entries[i].text || '';
                 Option.getElement('[name="title"]').fireEvent('change');

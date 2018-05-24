@@ -1,0 +1,38 @@
+<label>
+    <input type="checkbox" name="{$name}"{if $required} required{/if}/>
+    <span>{$label}</span>
+</label>
+
+<script>
+    {literal}(function() {{/literal}
+        var name        = "{$name}";
+        var projectName = "{$projectName}";
+        var projectLang = "{$projectLang}";
+        var siteId      = "{$siteId}";
+
+        {literal}
+        require([
+            'package/quiqqer/controls/bin/site/Window',
+            'Locale'
+        ], function (QUISiteWindow, QUILocale) {
+            var Links = document.getElement('input[name="' + name + '"]').getParent().getElements('a');
+
+            if (!Links.length) {
+                return;
+            }
+
+            Links.addEvent('click', function (event) {
+                event.stop();
+
+                new QUISiteWindow({
+                    closeButtonText: QUILocale.get('quiqqer/system', 'btn.close'),
+                    showTitle      : true,
+                    project        : projectName,
+                    lang           : projectLang,
+                    id             : siteId
+                }).open();
+            });
+        });
+    })();
+    {/literal}
+</script>

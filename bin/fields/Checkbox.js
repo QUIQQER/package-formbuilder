@@ -39,7 +39,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             this.parent(options);
 
-            this.$SettingsContaiiner = null;
+            this.$SettingsContainer = null;
 
             this.addEvents({
                 onCreate     : this.$onCreate,
@@ -110,7 +110,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 )
             }).inject(Elm);
 
-            this.$SettingsContaiiner = new Element('div').inject(Elm);
+            this.$SettingsContainer = new Element('div').inject(Elm);
 
 
             // add a choice after selected
@@ -262,7 +262,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                 Choice = new Element('div', {
                     'class': 'qui-form-field-checkbox-settings-choice',
                     html   : '<input type="checkbox" name="checked" />' +
-                             '<input type="input" name="title" />'
+                    '<input type="input" name="title" />'
                 });
 
                 new QUIButton({
@@ -291,7 +291,7 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
                     keyup : textChange
                 });
 
-                Choice.inject(this.$SettingsContaiiner);
+                Choice.inject(this.$SettingsContainer);
 
                 Choice.getElement('[name="checked"]').checked = choices[i].checked;
                 Choice.getElement('[name="title"]').value     = choices[i].text || '';
@@ -317,9 +317,9 @@ define('package/quiqqer/formbuilder/bin/fields/Checkbox', [
 
             var Choice = new Element('div', {
                 html: '<label>' +
-                      '<input type="checkbox" name="" value="" /> ' +
-                      '<span>' + text + '</span>' +
-                      '</label>'
+                '<input type="checkbox" name="" value="" /> ' +
+                '<span>' + text + '</span>' +
+                '</label>'
             }).inject(this.getBody());
 
             if (checked) {

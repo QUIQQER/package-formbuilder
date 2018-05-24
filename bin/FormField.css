@@ -81,6 +81,12 @@
     width: 100%;
 }
 
+.qui-formfield-settings-setting-description {
+    display: inline-block;
+    font-size: 11px;
+    margin-bottom: 15px;
+}
+
 .qui-formfield-settings-setting textarea {
     width: 100%;
 }
