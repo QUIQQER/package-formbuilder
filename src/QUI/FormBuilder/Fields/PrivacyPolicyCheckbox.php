@@ -63,6 +63,23 @@ class PrivacyPolicyCheckbox extends FormBuilder\Field
     }
 
     /**
+     * Get text for the current value of the form field
+     *
+     * @return string
+     */
+    public function getValueText()
+    {
+        $data = $this->getAttribute('data');
+        $L    = QUI::getLocale();
+
+        if (!empty($data)) {
+            return $L->get('quiqqer/formbuilder', 'fields.PrivacyPolicyCheckbox.value.accepted');
+        }
+
+        return $L->get('quiqqer/formbuilder', 'fields.PrivacyPolicyCheckbox.value.not_accepted');
+    }
+
+    /**
      * Get Privacy Policy Site of the current Project
      *
      * @return QUI\Projects\Site|false
