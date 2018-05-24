@@ -3,6 +3,7 @@
     <span>{$label}</span>
 </label>
 
+{if $showPrivacyPolicyCheckbox}
 <script>
     {literal}(function() {{/literal}
         var name        = "{$name}";
@@ -36,3 +37,4 @@
     })();
     {/literal}
 </script>
+{/if}

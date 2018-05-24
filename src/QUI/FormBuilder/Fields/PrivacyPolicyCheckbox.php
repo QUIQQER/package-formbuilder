@@ -40,18 +40,23 @@ class PrivacyPolicyCheckbox extends FormBuilder\Field
                 '<a href="'.$url.'" target="_blank">$1</a>',
                 $text
             );
+
+            $Project = QUI::getRewrite()->getProject();
+
+            $Engine->assign([
+                'projectName' => $Project->getName(),
+                'projectLang' => $Project->getLang(),
+                'siteId'      => $PrivacyPolicySite->getId()
+            ]);
         }
 
-        $text    = str_replace(['[', ']'], '', $text);
-        $Project = QUI::getRewrite()->getProject();
+        $text = str_replace(['[', ']'], '', $text);
 
         $Engine->assign([
-            'label'       => $text,
-            'name'        => $this->getName(),
-            'required'    => $this->getAttribute('required'),
-            'projectName' => $Project->getName(),
-            'projectLang' => $Project->getLang(),
-            'siteId'      => $PrivacyPolicySite->getId()
+            'label'                     => $text,
+            'name'                      => $this->getName(),
+            'required'                  => $this->getAttribute('required'),
+            'showPrivacyPolicyCheckbox' => $PrivacyPolicySite !== false
         ]);
 
         return $Engine->fetch(dirname(__FILE__).'/PrivacyPolicyCheckbox.html');
