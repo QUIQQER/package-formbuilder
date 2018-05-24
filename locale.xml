@@ -275,6 +275,16 @@
 
     <groups name="quiqqer/formbuilder" datatype="php">
         
+        <!-- Class Fields\PrivacyPolicyCheckbox -->
+        <locale name="fields.PrivacyPolicyCheckbox.value.accepted">
+            <de><![CDATA[Der Benutzer hat die Datenschutzbestimmungen akzeptiert.]]></de>
+            <en><![CDATA[The user has accepted the Privacy Policy.]]></en>
+        </locale>
+        <locale name="fields.PrivacyPolicyCheckbox.value.not_accepted">
+            <de><![CDATA[Der Benutzer hat die Datenschutzbestimmungen NICHT akzeptiert.]]></de>
+            <en><![CDATA[The user has NOT accepted the Privacy Policy.]]></en>
+        </locale>
+        
         <!-- Class: Builder -->
         <locale name="exception.Builder.wrong_captcha">
             <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
