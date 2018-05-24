@@ -2,7 +2,7 @@
   "name": "quiqqer/formbuilder",
   "type": "quiqqer-plugin",
   "description": "API and controls to build forms in QUIQQER",
-  "version": "dev-master",
+  "version": "1.1.0",
   "license": [
     "PCSG QL-1.0",
     "CC BY-NC-SA 4.0"
