@@ -5,9 +5,11 @@
             <de><![CDATA[QUIQQER - Formularbuilder]]></de>
             <en><![CDATA[QUIQQER - Formbuilder]]></en>
         </locale>
-        <locale name="package.description">
-            <de><![CDATA[]]></de>
-            <en><![CDATA[]]></en>
+        <locale name="package.description" html="true">
+            <de><![CDATA[<p>Das QUIQQER Formularbuilder-Plugin bietet Controls an um benutzerdefinierte Formulare zu erstellen und um diese zu validieren.</p>
+                         <p>Erstellen Sie Formulare aus einer Vielzahl von standardisierten und maßgeschneiderten Formular-Feldern.</p>]]></de>
+            <en><![CDATA[<p>QUIQQER Form Builder plugin offers controls to build custom forms and validate them.</p>
+                         <p>Build forms out of a variety of standard and custom-made form fields.</p>]]></en>
         </locale>
 
         <locale name="exception.missing.field">
