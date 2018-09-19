@@ -334,7 +334,9 @@ class Builder extends QUI\QDOM
             $result .= '<fieldset class="qui-formfield">';
 
             // legend
-            $result .= '<legend>'.QUI::getLocale()->get('quiqqer/formbuilder', 'captcha.label').'</legend>';
+            if (!$CaptchaDisplay->isInvisible()) {
+                $result .= '<legend>'.QUI::getLocale()->get('quiqqer/formbuilder', 'captcha.label').'</legend>';
+            }
 
             // content
             $result .= '<div class="qui-formfield-body">';
