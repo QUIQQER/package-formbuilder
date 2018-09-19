@@ -25,6 +25,12 @@
             <de><![CDATA[Die [Datenschutzbestimmungen] habe ich zur Kenntnis genommen.]]></de>
             <en><![CDATA[I am aware of the [Privacy Policy].]]></en>
         </locale>
+
+        <!-- Error messages -->
+        <locale name="exception.Builder.wrong_captcha">
+            <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
+            <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="js">
@@ -288,10 +294,6 @@
         </locale>
         
         <!-- Class: Builder -->
-        <locale name="exception.Builder.wrong_captcha">
-            <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
-            <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
-        </locale>
         <locale name="captcha.label">
             <de><![CDATA[Sicherheitsprüfung]]></de>
             <en><![CDATA[Security check]]></en>

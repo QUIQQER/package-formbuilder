@@ -281,7 +281,8 @@ class Builder extends QUI\QDOM
 
         $result = '<form name="'.$formName.'"
                          action="'.$formAction.'"
-                         method="'.$method.'"';
+                         method="'.$method.'"
+                         data-qui="package/quiqqer/formbuilder/bin/frontend/controls/Form"';
 
         $formCss    = $this->getAttribute('formCss');
         $cssClasses = [
@@ -364,23 +365,6 @@ class Builder extends QUI\QDOM
             return;
         }
 
-        // validate CAPTCHA
-        if ($this->getAttribute('captcha')) {
-            if (empty($_REQUEST['quiqqer-captcha-response'])) {
-                throw new FormBuilderException([
-                    'quiqqer/formbuilder',
-                    'exception.Builder.wrong_captcha'
-                ]);
-            }
-
-            if (!CaptchaHandler::isResponseValid($_REQUEST['quiqqer-captcha-response'])) {
-                throw new FormBuilderException([
-                    'quiqqer/formbuilder',
-                    'exception.Builder.wrong_captcha'
-                ]);
-            }
-        }
-
         $missing        = [];
         $this->status   = self::STATUS_SEND;
         $fieldIdCounter = 0;
@@ -420,6 +404,23 @@ class Builder extends QUI\QDOM
                 } catch (QUI\Exception $Exception) {
                     $missing[] = $name;
                 }
+            }
+        }
+
+        // validate CAPTCHA
+        if ($this->getAttribute('captcha')) {
+            if (empty($_REQUEST['quiqqer-captcha-response'])) {
+                throw new FormBuilderException([
+                    'quiqqer/formbuilder',
+                    'exception.Builder.wrong_captcha'
+                ]);
+            }
+
+            if (!CaptchaHandler::isResponseValid($_REQUEST['quiqqer-captcha-response'])) {
+                throw new FormBuilderException([
+                    'quiqqer/formbuilder',
+                    'exception.Builder.wrong_captcha'
+                ]);
             }
         }
 
