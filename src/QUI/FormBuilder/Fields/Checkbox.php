@@ -28,17 +28,20 @@ class Checkbox extends FormBuilder\Field
         $choices = $this->getAttribute('choices');
 
         if (!is_array($data) && is_bool($data)) {
-            $data = array();
+            $data = [];
         } else {
             if (!is_array($data)) {
-                $data = array($data);
+                $data = [$data];
             }
         }
 
-        $values = array();
+        $selected = [];
 
-        foreach ($data as $_data) {
-            $values[$_data] = true;
+        foreach ($data as $entry) {
+            $parts         = explode('-', $entry);
+            $selectedEntry = array_pop($parts);
+
+            $selected[] = (int)$selectedEntry;
         }
 
         foreach ($choices as $k => $choice) {
@@ -53,10 +56,7 @@ class Checkbox extends FormBuilder\Field
                 $checked = 'checked="checked" ';
             }
 
-            if (isset($values[$text])
-                && $values[$text]
-                && $values[$text] == $text
-            ) {
+            if (in_array($k, $selected)) {
                 $checked = 'checked="checked" ';
             } elseif ($this->getParent() && $this->getParent()->isSend()) {
                 $checked = '';
@@ -68,13 +68,19 @@ class Checkbox extends FormBuilder\Field
                 $error = ' class="qui-form-error"';
             }
 
-            $choiceValue = $this->name . '-' . $k;
+            $choiceValue = $this->name.'-'.$k;
 
-            $result .= '<label ' . $error . '>' .
+            $result .= '<label '.$error.'>'.
                        '<input type="checkbox"
-                               name="' . $this->name . '[]"
-                               value="' . $choiceValue . '" ' . $checked . ' /> ' .
-                       '<span>' . $text . '</span>' .
+                               name="'.$this->name.'[]"
+                               value="'.$choiceValue.'" '.$checked;
+
+            if ($this->getAttribute('required')) {
+                $result .= ' required';
+            }
+
+            $result .= '/>';
+            $result .= '<span>'.$text.'</span>'.
                        '</label>';
         }
 
@@ -94,7 +100,7 @@ class Checkbox extends FormBuilder\Field
         $data  = $this->getAttribute('data');
 
         if (is_array($data)) {
-            $values  = array();
+            $values  = [];
             $choices = $this->getAttribute('choices');
 
             foreach ($data as $choice) {
@@ -125,9 +131,9 @@ class Checkbox extends FormBuilder\Field
      */
     public function getCSSFiles()
     {
-        return array(
-            URL_OPT_DIR . 'quiqqer/formbuilder/bin/fields/Checkbox.css'
-        );
+        return [
+            URL_OPT_DIR.'quiqqer/formbuilder/bin/fields/Checkbox.css'
+        ];
     }
 
     /**
@@ -141,10 +147,10 @@ class Checkbox extends FormBuilder\Field
         if ($required && empty($data)) {
             $this->setAttribute('error', true);
 
-            throw new QUI\Exception(array(
+            throw new QUI\Exception([
                 'quiqqer/formbuilder',
                 'exception.missing.field'
-            ));
+            ]);
         }
     }
 }

@@ -35,7 +35,7 @@ class Textarea extends FormBuilder\Field
             $height = $this->getAttribute('height');
         }
 
-        $textarea .= ' name="' . $this->name . '"';
+        $textarea .= ' name="'.$this->name.'"';
 
         if ($this->getAttribute('required')) {
             $textarea .= ' required="required"';
@@ -43,16 +43,22 @@ class Textarea extends FormBuilder\Field
 
         if ($this->getAttribute('placeholder')) {
             $placeholder = htmlspecialchars($this->getAttribute('placeholder'));
-            $textarea    .= ' placeholder="' . $placeholder . '"';
+            $textarea    .= ' placeholder="'.$placeholder.'"';
         }
 
         if ($this->getAttribute('error')) {
             $textarea .= ' class="qui-form-error"';
         }
 
+        $textarea .= ' style="width: '.$width.'; height: '.$height.'">';
 
-        $textarea .= ' style="width: ' . $width . '; height: ' . $height . '"';
-        $textarea .= '>' . htmlspecialchars($this->getAttribute('data')) . '</textarea>';
+        $data = $this->getAttribute('data');
+
+        if (is_string($data) || is_numeric($data)) {
+            $textarea .= $data;
+        }
+
+        $textarea .= '</textarea>';
 
         return $textarea;
     }
@@ -69,10 +75,10 @@ class Textarea extends FormBuilder\Field
         if (empty($data)) {
             $this->setAttribute('error', true);
 
-            throw new QUI\Exception(array(
+            throw new QUI\Exception([
                 'quiqqer/formbuilder',
                 'exception.missing.field'
-            ));
+            ]);
         }
     }
 }

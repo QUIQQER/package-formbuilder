@@ -23,11 +23,16 @@ class Input extends FormBuilder\Field
     {
         $file    = OPT_DIR . 'quiqqer/formbuilder/bin/fields/Input.html';
         $content = file_get_contents($file);
-        $content = str_replace(
-            'value=""',
-            'value="' . htmlspecialchars($this->getAttribute('data')) . '"',
-            $content
-        );
+
+        $data = $this->getAttribute('data');
+
+        if (is_string($data) || is_numeric($data)) {
+            $content = str_replace(
+                'value=""',
+                'value="' . htmlspecialchars($data) . '"',
+                $content
+            );
+        }
 
         $content = str_replace(
             'name=""',

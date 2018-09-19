@@ -5,9 +5,11 @@
             <de><![CDATA[QUIQQER - Formularbuilder]]></de>
             <en><![CDATA[QUIQQER - Formbuilder]]></en>
         </locale>
-        <locale name="package.description">
-            <de><![CDATA[]]></de>
-            <en><![CDATA[]]></en>
+        <locale name="package.description" html="true">
+            <de><![CDATA[<p>Das QUIQQER Formularbuilder-Plugin bietet Controls an um benutzerdefinierte Formulare zu erstellen und um diese zu validieren.</p>
+                         <p>Erstellen Sie Formulare aus einer Vielzahl von standardisierten und maßgeschneiderten Formular-Feldern.</p>]]></de>
+            <en><![CDATA[<p>QUIQQER Form Builder plugin offers controls to build custom forms and validate them.</p>
+                         <p>Build forms out of a variety of standard and custom-made form fields.</p>]]></en>
         </locale>
 
         <locale name="exception.missing.field">
@@ -22,6 +24,12 @@
         <locale name="field.settings.PrivacyPolicyCheckbox.label.default">
             <de><![CDATA[Die [Datenschutzbestimmungen] habe ich zur Kenntnis genommen.]]></de>
             <en><![CDATA[I am aware of the [Privacy Policy].]]></en>
+        </locale>
+
+        <!-- Error messages -->
+        <locale name="exception.Builder.wrong_captcha">
+            <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
+            <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
         </locale>
     </groups>
 
@@ -286,10 +294,6 @@
         </locale>
         
         <!-- Class: Builder -->
-        <locale name="exception.Builder.wrong_captcha">
-            <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
-            <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
-        </locale>
         <locale name="captcha.label">
             <de><![CDATA[Sicherheitsprüfung]]></de>
             <en><![CDATA[Security check]]></en>
