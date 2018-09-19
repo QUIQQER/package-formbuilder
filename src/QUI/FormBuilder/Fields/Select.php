@@ -35,12 +35,18 @@ class Select extends FormBuilder\Field
             $content .= '</option>';
         }
 
-        $data = $this->getAttribute('data');
+        $data            = $this->getAttribute('data');
+        $selectedFieldId = false;
+
+        if (is_string($data)) {
+            $parts           = explode('-', $data);
+            $selectedFieldId = (int)array_pop($parts);
+        }
 
         foreach ($entries as $k => $entry) {
             $selected = '';
 
-            if ((isset($entry['selected']) && $entry['selected']) || $data === $k) {
+            if ((isset($entry['selected']) && $entry['selected']) || $selectedFieldId === $k) {
                 $selected = ' selected="selected"';
             }
 
@@ -55,24 +61,6 @@ class Select extends FormBuilder\Field
         $content .= '</select>';
 
         return $content;
-    }
-
-    /**
-     * Parse form data and put it in the right format for evaluation / display
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function parseFormData($data)
-    {
-        if (empty($data) || !is_string($data)) {
-            return false;
-        }
-
-        $parts           = explode('-', $data);
-        $selectedFieldId = array_pop($parts);
-
-        return (int)$selectedFieldId;
     }
 
     /**

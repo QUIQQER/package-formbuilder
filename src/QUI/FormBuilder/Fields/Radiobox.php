@@ -31,7 +31,13 @@ class Radiobox extends FormBuilder\Field
             $require = 'required="required" ';
         }
 
-        $data = $this->getAttribute('data');
+        $data            = $this->getAttribute('data');
+        $selectedFieldId = false;
+
+        if (is_string($data)) {
+            $parts           = explode('-', $data);
+            $selectedFieldId = (int)array_pop($parts);
+        }
 
         foreach ($choices as $k => $choice) {
             $text    = '';
@@ -41,7 +47,7 @@ class Radiobox extends FormBuilder\Field
                 $text = $choice['text'];
             }
 
-            if ((isset($choice['checked']) && $choice['checked']) || $k === $data) {
+            if ((isset($choice['checked']) && $choice['checked']) || $k === $selectedFieldId) {
                 $checked = 'checked="checked" ';
             }
 
@@ -56,24 +62,6 @@ class Radiobox extends FormBuilder\Field
         }
 
         return $result;
-    }
-
-    /**
-     * Parse form data and put it in the right format for evaluation / display
-     *
-     * @param array $data
-     * @return mixed
-     */
-    public function parseFormData($data)
-    {
-        if (empty($data) || !is_string($data)) {
-            return false;
-        }
-
-        $parts           = explode('-', $data);
-        $selectedFieldId = array_pop($parts);
-
-        return (int)$selectedFieldId;
     }
 
     /**
