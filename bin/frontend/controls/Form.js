@@ -91,6 +91,8 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Form', [
             }
 
             this.$ErrorMsgElm.set('html', msg);
+
+            document.body.scrollTo(this.$ErrorMsgElm);
         }
     });
 });
