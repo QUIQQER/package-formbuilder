@@ -31,6 +31,8 @@ class Radiobox extends FormBuilder\Field
             $require = 'required="required" ';
         }
 
+        $data = $this->getAttribute('data');
+
         foreach ($choices as $k => $choice) {
             $text    = '';
             $checked = '';
@@ -39,21 +41,39 @@ class Radiobox extends FormBuilder\Field
                 $text = $choice['text'];
             }
 
-            if (isset($choice['checked']) && $choice['checked']) {
+            if ((isset($choice['checked']) && $choice['checked']) || $k === $data) {
                 $checked = 'checked="checked" ';
             }
 
-            $choiceValue = $this->name . '-' . $k;
+            $choiceValue = $this->name.'-'.$k;
 
-            $result .= '<label>' .
-                       '<input type="radio" name="' . $this->name . '" ' .
-                       'value="' . $choiceValue . '" ' .
-                       $checked . $require . '/>' .
-                       '<span>' . htmlspecialchars($text) . '</span>' .
+            $result .= '<label>'.
+                       '<input type="radio" name="'.$this->name.'" '.
+                       'value="'.$choiceValue.'" '.
+                       $checked.$require.'/>'.
+                       '<span>'.htmlspecialchars($text).'</span>'.
                        '</label>';
         }
 
         return $result;
+    }
+
+    /**
+     * Parse form data and put it in the right format for evaluation / display
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function parseFormData($data)
+    {
+        if (empty($data) || !is_string($data)) {
+            return false;
+        }
+
+        $parts           = explode('-', $data);
+        $selectedFieldId = array_pop($parts);
+
+        return (int)$selectedFieldId;
     }
 
     /**
@@ -63,7 +83,7 @@ class Radiobox extends FormBuilder\Field
      */
     public function getValueText()
     {
-        $value  = '';
+        $value = '';
 
         if ($this->getAttribute('data')) {
             $choices = $this->getAttribute('choices');
@@ -92,8 +112,8 @@ class Radiobox extends FormBuilder\Field
      */
     public function getCSSFiles()
     {
-        return array(
-            URL_OPT_DIR . 'quiqqer/formbuilder/bin/fields/Radiobox.css'
-        );
+        return [
+            URL_OPT_DIR.'quiqqer/formbuilder/bin/fields/Radiobox.css'
+        ];
     }
 }

@@ -26,7 +26,7 @@ class Select extends FormBuilder\Field
         $entries = $this->getAttribute('entries');
         $content = '<select';
 
-        $content .= ' name="' . $this->name . '"';
+        $content .= ' name="'.$this->name.'"';
         $content .= '>';
 
         if ($this->getAttribute('placeholder')) {
@@ -35,16 +35,18 @@ class Select extends FormBuilder\Field
             $content .= '</option>';
         }
 
+        $data = $this->getAttribute('data');
+
         foreach ($entries as $k => $entry) {
             $selected = '';
 
-            if (isset($entry['selected']) && $entry['selected']) {
+            if ((isset($entry['selected']) && $entry['selected']) || $data === $k) {
                 $selected = ' selected="selected"';
             }
 
-            $optionName = $this->name . '-' . $k;
+            $optionName = $this->name.'-'.$k;
 
-            $content .= '<option name="' . $optionName . '" value="' . $optionName . '" ' . $selected . '>';
+            $content .= '<option name="'.$optionName.'" value="'.$optionName.'" '.$selected.'>';
             $content .= htmlspecialchars($entry['text']);
             $content .= '</option>';
         }
@@ -56,13 +58,31 @@ class Select extends FormBuilder\Field
     }
 
     /**
+     * Parse form data and put it in the right format for evaluation / display
+     *
+     * @param array $data
+     * @return mixed
+     */
+    public function parseFormData($data)
+    {
+        if (empty($data) || !is_string($data)) {
+            return false;
+        }
+
+        $parts           = explode('-', $data);
+        $selectedFieldId = array_pop($parts);
+
+        return (int)$selectedFieldId;
+    }
+
+    /**
      * Get text for the current value of the form field
      *
      * @return string
      */
     public function getValueText()
     {
-        $value  = '';
+        $value = '';
 
         if ($this->getAttribute('data')) {
             $entries = $this->getAttribute('entries');
@@ -117,10 +137,10 @@ class Select extends FormBuilder\Field
         if (empty($data)) {
             $this->setAttribute('error', true);
 
-            throw new QUI\Exception(array(
+            throw new QUI\Exception([
                 'quiqqer/formbuilder',
                 'exception.missing.field'
-            ));
+            ]);
         }
     }
 }

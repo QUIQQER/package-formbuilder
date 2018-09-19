@@ -35,10 +35,13 @@ class Checkbox extends FormBuilder\Field
             }
         }
 
-        $values = [];
+        $selected = [];
 
-        foreach ($data as $_data) {
-            $values[$_data] = true;
+        foreach ($data as $entry) {
+            $parts         = explode('-', $entry);
+            $selectedEntry = array_pop($parts);
+
+            $selected[] = (int)$selectedEntry;
         }
 
         foreach ($choices as $k => $choice) {
@@ -53,10 +56,7 @@ class Checkbox extends FormBuilder\Field
                 $checked = 'checked="checked" ';
             }
 
-            if (isset($values[$text])
-                && $values[$text]
-                && $values[$text] == $text
-            ) {
+            if (in_array($k, $selected)) {
                 $checked = 'checked="checked" ';
             } elseif ($this->getParent() && $this->getParent()->isSend()) {
                 $checked = '';
