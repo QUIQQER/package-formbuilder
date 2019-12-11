@@ -1,37 +1,36 @@
 {
-  "name": "quiqqer/formbuilder",
-  "type": "quiqqer-plugin",
-  "description": "API and controls to build forms in QUIQQER",
-  "version": "dev-dev",
-  "license": [
-    "PCSG QL-1.0",
-    "CC BY-NC-SA 4.0"
-  ],
-  "authors": [
-    {
-      "name": "Henning Leutz",
-      "email": "leutz@pcsg.de",
-      "homepage": "http://www.pcsg.de",
-      "role": "Developer"
+    "name": "quiqqer\/formbuilder",
+    "type": "quiqqer-plugin",
+    "description": "API and controls to build forms in QUIQQER",
+    "license": [
+        "PCSG QL-1.0",
+        "CC BY-NC-SA 4.0"
+    ],
+    "authors": [
+        {
+            "name": "Henning Leutz",
+            "email": "leutz@pcsg.de",
+            "homepage": "http:\/\/www.pcsg.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Patrick M\u00fcller",
+            "email": "p.mueller@pcsg.de",
+            "homepage": "http:\/\/www.pcsg.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "support@pcsg.de",
+        "url": "http:\/\/www.pcsg.de"
     },
-    {
-      "name": "Patrick Müller",
-      "email": "p.mueller@pcsg.de",
-      "homepage": "http://www.pcsg.de",
-      "role": "Developer"
+    "require": {
+        "quiqqer\/quiqqer": ">=1.1|*@dev",
+        "quiqqer\/captcha": ">=1.1|*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "QUI": "src\/"
+        }
     }
-  ],
-  "support": {
-    "email": "support@pcsg.de",
-    "url": "http://www.pcsg.de"
-  },
-  "require": {
-    "quiqqer/quiqqer": ">=1.1|*@dev",
-    "quiqqer/captcha": ">=1.1|*@dev"
-  },
-  "autoload": {
-    "psr-0": {
-      "QUI": "src/"
-    }
-  }
 }
