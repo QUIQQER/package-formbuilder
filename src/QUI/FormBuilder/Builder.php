@@ -278,9 +278,8 @@ class Builder extends QUI\QDOM
                 $method = 'POST';
         }
 
-
         $result = '<form name="'.$formName.'"
-                         action="'.$formAction.'"
+                         action="'.$formAction.'#quiqqer-contact-form"
                          method="'.$method.'"
                          data-qui="package/quiqqer/formbuilder/bin/frontend/controls/Form"';
 
