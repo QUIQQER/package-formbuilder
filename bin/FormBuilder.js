@@ -192,9 +192,11 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     emptyLabels++;
                 }
 
+                attributes.pos = i;
+
                 elements.push({
                     type      : Field.getType(),
-                    attributes: Field.getAttributes()
+                    attributes: attributes
                 });
             }
 
