@@ -308,6 +308,7 @@ class Builder extends QUI\QDOM
         }
 
         $fieldIdCounter = 0;
+        $requiredField  = false;
 
         foreach ($this->elements as $Element) {
             /* @var $Element Field */
@@ -323,6 +324,10 @@ class Builder extends QUI\QDOM
                 foreach ($cssFiles as $cssFile) {
                     $Template->extendHeaderWithCSSFile($cssFile);
                 }
+            }
+
+            if (!empty($Element->getAttribute('required'))) {
+                $requiredField = true;
             }
         }
 
@@ -351,6 +356,13 @@ class Builder extends QUI\QDOM
         }
 
         $result .= '</form>';
+
+        // required fields hint
+        if ($requiredField) {
+            $result .= '<div class="qui-formfield-required_hint">'
+                       .QUI::getLocale()->get('quiqqer/formbuilder', 'required_fields_hint')
+                       .'</div>';
+        }
 
         return $result;
     }

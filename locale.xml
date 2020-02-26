@@ -298,6 +298,10 @@
             <de><![CDATA[Sicherheitsprüfung]]></de>
             <en><![CDATA[Security check]]></en>
         </locale>
+        <locale name="required_fields_hint">
+            <de><![CDATA[* Pflichtfeld]]></de>
+            <en><![CDATA[* required field]]></en>
+        </locale>
         
     </groups>
 </locales>

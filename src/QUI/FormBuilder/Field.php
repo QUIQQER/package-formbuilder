@@ -53,14 +53,22 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         }
 
         if ($cssClasses) {
-            $result = '<fieldset class="qui-formfield ' . $cssClasses . '">';
+            $result = '<fieldset class="qui-formfield '.$cssClasses.'">';
         } else {
             $result = '<fieldset class="qui-formfield">';
         }
 
         // legend
         if ($this->getAttribute('label')) {
-            $result .= '<legend>' . $this->getAttribute('label') . '</legend>';
+            $label  = $this->getAttribute('label');
+            $result .= '<legend>'.$label;
+
+            // Add asterisk (*) for required fields if not part of the label
+            if (!empty($this->getAttribute('required')) && \mb_strpos($label, '*') === false) {
+                $result .= ' *';
+            }
+
+            $result .= '</legend>';
         }
 
         // content
@@ -80,7 +88,7 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
      */
     public function getCSSFiles()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -94,10 +102,10 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         if ($data === false) {
             $this->setAttribute('error', true);
 
-            throw new QUI\Exception(array(
+            throw new QUI\Exception([
                 'quiqqer/formbuilder',
                 'missing.field'
-            ));
+            ]);
         }
     }
 
@@ -115,13 +123,13 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
             $name = $this->name;
         }
 
-        $Engine->assign(array(
+        $Engine->assign([
             'title' => $name,
             'value' => $this->getValueText(),
             'this'  => $this
-        ));
+        ]);
 
-        return $Engine->fetch(dirname(__FILE__) . '/Field.html');
+        return $Engine->fetch(dirname(__FILE__).'/Field.html');
     }
 
     /**
@@ -186,7 +194,7 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
      */
     public function setNameId($id)
     {
-        $this->name = 'field-' . $id;
+        $this->name = 'field-'.$id;
     }
 
     /**

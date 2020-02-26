@@ -18,15 +18,41 @@
     margin-bottom: 10px;
 }
 
-.qui-formfield-10 { width: 10%; }
-.qui-formfield-20 { width: 20%; }
-.qui-formfield-30 { width: 30%; }
-.qui-formfield-40 { width: 40%; }
-.qui-formfield-50 { width: 50%; }
-.qui-formfield-60 { width: 60%; }
-.qui-formfield-70 { width: 70%; }
-.qui-formfield-80 { width: 80%; }
-.qui-formfield-90 { width: 90%; }
+.qui-formfield-10 {
+    width: 10%;
+}
+
+.qui-formfield-20 {
+    width: 20%;
+}
+
+.qui-formfield-30 {
+    width: 30%;
+}
+
+.qui-formfield-40 {
+    width: 40%;
+}
+
+.qui-formfield-50 {
+    width: 50%;
+}
+
+.qui-formfield-60 {
+    width: 60%;
+}
+
+.qui-formfield-70 {
+    width: 70%;
+}
+
+.qui-formfield-80 {
+    width: 80%;
+}
+
+.qui-formfield-90 {
+    width: 90%;
+}
 
 .qui-form input[type="submit"] {
     clear: both;
@@ -61,4 +87,10 @@ textarea.qui-form-error {
 
 label.qui-form-error {
     color: #ff0033;
+}
+
+.qui-formfield-required_hint {
+    float: right;
+    font-size: 14px;
+    margin: 10px 0 0 0;
 }
