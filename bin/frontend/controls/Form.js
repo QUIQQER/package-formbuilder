@@ -94,6 +94,8 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Form', [
                 Promise.all(fieldSubmitPromises).then(function () {
                     self.Loader.hide();
                     self.$Form.submit();
+                }).catch(function () {
+                    self.Loader.hide();
                 });
             });
 

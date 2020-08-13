@@ -58,52 +58,52 @@
         
         <!-- Upload file types -->
         <locale name="field.Upload.file_type.image_bmp">
-            <de><![CDATA[*.bmp]]></de>
-            <en><![CDATA[*.bmp]]></en>
+            <de><![CDATA[.bmp]]></de>
+            <en><![CDATA[.bmp]]></en>
         </locale>
         <locale name="field.Upload.file_type.image_jpeg">
-            <de><![CDATA[*.jpeg, *.jpg, *.jpe]]></de>
-            <en><![CDATA[*.jpeg, *.jpg, *.jpe]]></en>
+            <de><![CDATA[.jpeg, .jpg, .jpe]]></de>
+            <en><![CDATA[.jpeg, .jpg, .jpe]]></en>
         </locale>
         <locale name="field.Upload.file_type.image_png">
-            <de><![CDATA[*.png]]></de>
-            <en><![CDATA[*.png]]></en>
+            <de><![CDATA[.png]]></de>
+            <en><![CDATA[.png]]></en>
         </locale>
         <locale name="field.Upload.file_type.image_svg_xml">
-            <de><![CDATA[*.svg]]></de>
-            <en><![CDATA[*.svg]]></en>
+            <de><![CDATA[.svg]]></de>
+            <en><![CDATA[.svg]]></en>
         </locale>
         <locale name="field.Upload.file_type.application_pdf">
-            <de><![CDATA[*.pdf]]></de>
-            <en><![CDATA[*.pdf]]></en>
+            <de><![CDATA[.pdf]]></de>
+            <en><![CDATA[.pdf]]></en>
         </locale>
         <locale name="field.Upload.file_type.application_msexcel">
-            <de><![CDATA[*.xls, *.xla]]></de>
-            <en><![CDATA[*.xls, *.xla]]></en>
+            <de><![CDATA[.xls, .xla]]></de>
+            <en><![CDATA[.xls, .xla]]></en>
         </locale>
         <locale name="field.Upload.file_type.application_msword">
-            <de><![CDATA[*.doc, *.dot]]></de>
-            <en><![CDATA[*.doc, *.dot]]></en>
+            <de><![CDATA[.doc, .dot]]></de>
+            <en><![CDATA[.doc, .dot]]></en>
         </locale>
         <locale name="field.Upload.file_type.vnd_openxmlformats_officedocument_spreadsheetml_sheet">
-            <de><![CDATA[*.xlsx]]></de>
-            <en><![CDATA[*.xlsx]]></en>
+            <de><![CDATA[.xlsx]]></de>
+            <en><![CDATA[.xlsx]]></en>
         </locale>
         <locale name="field.Upload.file_type.vnd_openxmlformats_officedocument_wordprocessingml_document">
-            <de><![CDATA[*.docx]]></de>
-            <en><![CDATA[*.docx]]></en>
+            <de><![CDATA[.docx]]></de>
+            <en><![CDATA[.docx]]></en>
         </locale>
         <locale name="field.Upload.file_type.application_gzip">
-            <de><![CDATA[*.gz]]></de>
-            <en><![CDATA[*.gz]]></en>
+            <de><![CDATA[.gz]]></de>
+            <en><![CDATA[.gz]]></en>
         </locale>
         <locale name="field.Upload.file_type.application_zip">
-            <de><![CDATA[*.zip]]></de>
-            <en><![CDATA[*.zip]]></en>
+            <de><![CDATA[.zip]]></de>
+            <en><![CDATA[.zip]]></en>
         </locale>
         <locale name="field.Upload.file_type.text_plain">
-            <de><![CDATA[*.txt]]></de>
-            <en><![CDATA[*.txt]]></en>
+            <de><![CDATA[.txt]]></de>
+            <en><![CDATA[.txt]]></en>
         </locale>
         
     </groups>
@@ -398,6 +398,18 @@
             <de><![CDATA[* Pflichtfeld]]></de>
             <en><![CDATA[* required field]]></en>
         </locale>
-        
+
+        <locale name="Upload.form.allowedFileTypes">
+            <de><![CDATA[Erlaubte Dateitypen: [types]]]></de>
+            <en><![CDATA[Allowed file types: [types]]]></en>
+        </locale>
+        <locale name="Upload.form.maxFileCount">
+            <de><![CDATA[Max. Anzahl Dateien: [count]]]></de>
+            <en><![CDATA[Max. number of files: [count]]]></en>
+        </locale>
+        <locale name="Upload.form.maxFileSize">
+            <de><![CDATA[Max. Dateigröße (KB): [size]]]></de>
+            <en><![CDATA[Max. file size (KB): [size]]]></en>
+        </locale>
     </groups>
 </locales>

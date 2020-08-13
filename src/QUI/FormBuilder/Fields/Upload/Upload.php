@@ -23,6 +23,9 @@ class Upload extends FormBuilder\Field
     {
         $Engine = QUI::getTemplateManager()->getEngine();
 
+        $fileTypes   = $this->getAttribute('file_types');
+        $maxFileSize = (int)$this->getAttribute('file_size');
+
         $UploadForm = new UploadForm([
             'contextMenu' => true,
             'multiple'    => true,
@@ -31,11 +34,11 @@ class Upload extends FormBuilder\Field
             'hasFile'     => false,
             'deleteFile'  => true,
 
-            'allowedFileTypes'  => $this->getAttribute('file_types'),
+            'allowedFileTypes'  => $fileTypes,
             // eq: ['image/jpeg', 'image/png'] - nur nutzbar mit eigener Klasse
             'allowedFileEnding' => false,
             // eq: ['.gif', '.jpg']  - nur nutzbar mit eigener Klasse
-            'maxFileSize'       => (int)$this->getAttribute('file_size'),
+            'maxFileSize'       => $maxFileSize,
             // eq: 20000000 = 20mb  - nur nutzbar mit eigener Klasse
 
             'typeOfLook'     => 'DragDrop',
@@ -43,9 +46,24 @@ class Upload extends FormBuilder\Field
             'typeOfLookIcon' => 'fa fa-upload'
         ]);
 
+        $allowedTypesLabels = [];
+
+        foreach ($fileTypes as $fileType) {
+            $fileType = \preg_replace('#[^A-Za-z]#i', '_', $fileType);
+
+            $allowedTypesLabels[] = QUI::getLocale()->get(
+                'quiqqer/formbuilder',
+                'field.Upload.file_type.'.$fileType
+            );
+        }
+
         $Engine->assign([
-            'UploadForm' => $UploadForm,
-            'token'      => $this->generateSessionUploadCSRFToken()
+            'UploadForm'       => $UploadForm,
+            'token'            => $this->generateSessionUploadCSRFToken(),
+            'maxFileCount'     => (int)$this->getAttribute('file_count'),
+            'allowedFileTypes' => \implode(', ', $allowedTypesLabels),
+            'maxFileSize'      => $maxFileSize
+
         ]);
 
         return $Engine->fetch(dirname(__FILE__).'/Upload.html');

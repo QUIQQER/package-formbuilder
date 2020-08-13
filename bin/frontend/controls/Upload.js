@@ -8,13 +8,10 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Upload', [
 
     'package/quiqqer/formbuilder/bin/frontend/controls/Field',
     'utils/Controls',
-    'Locale',
     'qui/controls/loader/Loader'
 
-], function (FormBuilderField, QUIControlUtils, QUILocale, QUILoader) {
+], function (FormBuilderField, QUIControlUtils, QUILoader) {
     "use strict";
-
-    var lg = 'quiqqer/formbuilder';
 
     return new Class({
 
@@ -94,11 +91,18 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Upload', [
                     resolve();
                 };
 
+                var UploadErrorHandler = function () {
+                    self.Loader.hide();
+                    reject();
+                };
+
                 if (!self.$UploadControl.getFiles().length) {
                     UploadFinishHandler();
                     return;
                 }
 
+                //self.$UploadControl.addEvent('onCancel', UploadErrorHandler);
+                self.$UploadControl.addEvent('onError', UploadErrorHandler);
                 self.$UploadControl.addEvent('onComplete', UploadFinishHandler);
                 self.$UploadControl.submit();
             });
