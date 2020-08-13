@@ -236,6 +236,10 @@ class Builder extends QUI\QDOM
                 $Field = new Fields\PrivacyPolicyCheckbox($this);
                 break;
 
+            case 'package/quiqqer/formbuilder/bin/fields/Upload':
+                $Field = new Fields\Upload\Upload($this);
+                break;
+
             default:
                 return false;
         }
@@ -352,8 +356,10 @@ class Builder extends QUI\QDOM
 
         // submit button
         if ($this->getAttribute('submit')) {
-            $result .= '<input type="submit" name="submit" value="'.$this->getAttribute('submit').'" />';
+            $result .= '<input type="submit" name="submitbtn" value="'.$this->getAttribute('submit').'" />';
         }
+
+        $result .= '<input type="hidden" name="formsubmit" value="1" />';
 
         $result .= '</form>';
 
@@ -374,7 +380,7 @@ class Builder extends QUI\QDOM
      */
     public function handleRequest()
     {
-        if (!isset($_REQUEST['submit'])) {
+        if (!isset($_REQUEST['formsubmit'])) {
             return;
         }
 
@@ -414,6 +420,8 @@ class Builder extends QUI\QDOM
             if ($Element->getAttribute('required')) {
                 try {
                     $Element->checkValue();
+                } catch (FormBuilderException $Exception) {
+                    throw $Exception;
                 } catch (QUI\Exception $Exception) {
                     $missing[] = $name;
                 }
@@ -467,7 +475,7 @@ class Builder extends QUI\QDOM
     }
 
     /**
-     * @return array
+     * @return Field[]
      */
     public function getElements()
     {
@@ -544,5 +552,30 @@ class Builder extends QUI\QDOM
     public static function parseFieldName($str)
     {
         return htmlspecialchars(str_replace([' ', '-'], '_', $str));
+    }
+
+    /**
+     * Get a form builder by Site
+     *
+     * @param QUI\Projects\Site $Site
+     * @return Builder
+     */
+    public static function getFormBuilderBySite(QUI\Projects\Site $Site)
+    {
+        $formData = \json_decode($Site->getAttribute('quiqqer.contact.settings.form'), true);
+
+        if (!\is_array($formData)) {
+            $formData = [];
+        }
+
+        $Form = new QUI\FormBuilder\Builder();
+
+        try {
+            $Form->load($formData);
+        } catch (\Exception $Exception) {
+            QUI\System\Log::writeException($Exception);
+        }
+
+        return $Form;
     }
 }

@@ -6,11 +6,14 @@
  */
 define('package/quiqqer/formbuilder/bin/frontend/controls/Form', [
 
+    'qui/QUI',
     'qui/controls/Control',
+    'qui/controls/loader/Loader',
+
     'utils/Controls',
     'Locale'
 
-], function (QUIControl, QUIControlUtils, QUILocale) {
+], function (QUI, QUIControl, QUILoader, QUIControlUtils, QUILocale) {
     "use strict";
 
     var lg = 'quiqqer/formbuilder';
@@ -28,7 +31,13 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Form', [
         initialize: function (options) {
             this.parent(options);
 
+            this.Loader = new QUILoader();
+
+            this.$Form        = null;
             this.$ErrorMsgElm = null;
+
+            this.$formSubmitAllowed  = true;
+            this.$formSubmitErrorMsg = false;
 
             this.addEvents({
                 onImport: this.$onImport
@@ -39,9 +48,64 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Form', [
          * Event: onImport
          */
         $onImport: function () {
+            var self = this;
+
+            this.$Form = this.getElm();
+
+            this.Loader.inject(this.$Form);
+
+            var fieldsWithControls = this.$Form.getElements('div[data-control="1"]');
+
+            this.$Form.addEvent('submit', function (event) {
+                if (!self.$formSubmitAllowed) {
+                    if (self.$formSubmitErrorMsg) {
+                        self.showFormError(self.$formSubmitErrorMsg);
+                    } else {
+                        self.showFormError(
+                            QUILocale.get(lg, 'exception.Builder.general')
+                        );
+                    }
+
+                    event.stop();
+                    return;
+                }
+
+                if (self.$ErrorMsgElm) {
+                    self.$ErrorMsgElm.destroy();
+                }
+
+                if (!fieldsWithControls.length) {
+                    return;
+                }
+
+                event.stop();
+                self.Loader.show();
+
+                var fieldSubmitPromises = [];
+
+                for (var i = 0, len = fieldsWithControls.length; i < len; i++) {
+                    var FieldControl = QUI.Controls.getById(fieldsWithControls[i].get('data-quiid'));
+
+                    if (FieldControl && "submit" in FieldControl) {
+                        fieldSubmitPromises.push(FieldControl.submit());
+                    }
+                }
+
+                Promise.all(fieldSubmitPromises).then(function () {
+                    self.Loader.hide();
+                    self.$Form.submit();
+                });
+            });
+
+            this.$registerCaptchaHandling();
+        },
+
+        /**
+         * Check if a CAPTCHA is used and register events
+         */
+        $registerCaptchaHandling: function () {
             var self       = this,
-                Form       = this.getElm(),
-                CaptchaElm = Form.getElement('div[data-qui="package/quiqqer/captcha/bin/controls/CaptchaDisplay"]');
+                CaptchaElm = this.$Form.getElement('div[data-qui="package/quiqqer/captcha/bin/controls/CaptchaDisplay"]');
 
             if (!CaptchaElm) {
                 return;
@@ -49,29 +113,13 @@ define('package/quiqqer/formbuilder/bin/frontend/controls/Form', [
 
             QUIControlUtils.getControlByElement(CaptchaElm).then(function (CaptchaDisplay) {
                 CaptchaDisplay.getCaptchaControl().then(function (CaptchaControl) {
-                    var formSubmitAllowed = false;
-
                     CaptchaControl.addEvents({
                         onSuccess: function () {
-                            formSubmitAllowed = true;
+                            self.$formSubmitAllowed = true;
                         },
                         onExpired: function () {
-                            formSubmitAllowed = false;
-                        }
-                    });
-
-                    Form.addEvent('submit', function (event) {
-                        if (!formSubmitAllowed) {
-                            self.showFormError(
-                                QUILocale.get(lg, 'exception.Builder.wrong_captcha')
-                            );
-
-                            event.stop();
-                            return;
-                        }
-
-                        if (self.$ErrorMsgElm) {
-                            self.$ErrorMsgElm.destroy();
+                            self.$formSubmitAllowed  = false;
+                            self.$formSubmitErrorMsg = QUILocale.get(lg, 'exception.Builder.wrong_captcha');
                         }
                     });
                 });

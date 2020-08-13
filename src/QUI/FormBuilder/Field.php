@@ -72,7 +72,24 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
         }
 
         // content
-        $result .= '<div class="qui-formfield-body">';
+        $jsControl = $this->getJavaScriptControlPath();
+        $result    .= '<div class="qui-formfield-body"';
+
+        if (!empty($jsControl)) {
+            $result .= ' data-control="1"';
+            $result .= ' data-qui="'.$jsControl.'"';
+
+            $Project = $this->Parent->Site->getProject();
+
+            $result .= ' data-qui-options-projectname="'.$Project->getName().'"';
+            $result .= ' data-qui-options-projectlang="'.$Project->getLang().'"';
+            $result .= ' data-qui-options-siteid="'.$this->Parent->Site->getId().'"';
+        } else {
+            $result .= ' data-control="0"';
+        }
+
+        $result .= '>';
+
         $result .= $body;
         $result .= '</div>';
 
@@ -205,5 +222,15 @@ abstract class Field extends QUI\QDOM implements Interfaces\Field
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get requireJS path to form field JavaScript control
+     *
+     * @return string|false - Control path or false if no control is used
+     */
+    public function getJavaScriptControlPath()
+    {
+        return false;
     }
 }
