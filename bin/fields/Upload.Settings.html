@@ -1,0 +1,31 @@
+<form class="quiqqer-formbuilder-fields-upload-settings-form">
+    <label>
+    <span>
+        {{labelFileCount}}
+    </span>
+        <input type="number" min="1" name="file_count"/>
+    </label>
+    <label>
+    <span>
+        {{labelFileSize}}
+    </span>
+        <input type="number" min="1" name="file_size"/>
+    </label>
+    <label>
+    <span>
+        {{labelFileTypes}}
+    </span>
+        {{#fileTypes}}
+        <label class="quiqqer-formbuilder-fields-upload-settings-filetype-entry">
+            <input type="checkbox" name="file_types[]" value="{{mimeType}}"/>
+            <span>{{title}}</span>
+        </label>
+        {{/fileTypes}}
+    </label>
+    <label>
+    <span>
+        {{labelCustomFileEndings}}
+    </span>
+        <input type="text" name="file_endings_custom"/>
+    </label>
+</form>

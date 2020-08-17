@@ -1,0 +1,29 @@
+<style>
+    .quiqqer-formbuilder-upload-restrictions {
+        float: right;
+        font-size: 13px;
+    }
+
+    .quiqqer-formbuilder-upload-restrictions ul {
+        list-style-type: none;
+    }
+
+    .quiqqer-formbuilder-upload-restrictions ul li {
+        margin: 0;
+    }
+</style>
+
+<div class="quiqqer-formbuilder-upload" data-token="{$token}">
+    <input type="hidden" name="formbuilder_upload_token__{$fieldName}" value="{$token}"/>
+    {$UploadForm->create()}
+    <div class="quiqqer-formbuilder-upload-restrictions">
+        <ul>
+            <li>
+                {locale group="quiqqer/formbuilder" var="Upload.form.allowedFileTypes" types=$allowedFileTypes}
+            </li>
+            <li>
+                {locale group="quiqqer/formbuilder" var="Upload.form.maxFileSize" size=$maxFileSize}
+            </li>
+        </ul>
+    </div>
+</div>

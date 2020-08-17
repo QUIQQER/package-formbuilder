@@ -20,6 +20,26 @@
             <de><![CDATA[Bitte füllen Sie alle Pflichtfelder korrekt aus.]]></de>
             <en><![CDATA[Please fill in all mandatory fields correctly.]]></en>
         </locale>
+        <locale name="missing.field.upload">
+            <de><![CDATA[Die Überprüfung Ihrer Datei-Upload(s) ist fehlgeschlagen. Bitte laden Sie die Datei(en) erneut hoch.]]></de>
+            <en><![CDATA[The verification of your file upload(s) has failed. Please upload the file(s) again.]]></en>
+        </locale>
+        <locale name="missing.field.missing_file">
+            <de><![CDATA[Bitte laden Sie mindestens 1 Datei hoch, um das Formular abzusenden.]]></de>
+            <en><![CDATA[Please upload at least 1 file to submit the form.]]></en>
+        </locale>
+        <locale name="missing.field.missing_files">
+            <de><![CDATA[Bitte laden Sie mindestens 1 und höchstens [file_count] Dateien hoch, um das Formular abzusenden.]]></de>
+            <en><![CDATA[Please upload at least 1 and at most [file_count] files to submit the form.]]></en>
+        </locale>
+        <locale name="field.Upload.no_files_uploaded">
+            <de><![CDATA[Es wurden keine Dateien hochgeladen.]]></de>
+            <en><![CDATA[No files have been uploaded.]]></en>
+        </locale>
+        <locale name="field.Upload.file_load_error">
+            <de><![CDATA[Es ist ein Fehler beim Laden der hochgeladenen Dateien aufgetreten. Bitte prüfen Sie die Fehler-Logs oder kontaktieren Sie einen Administrator.]]></de>
+            <en><![CDATA[An error occurred while loading the uploaded files. Please check the error logs or contact an administrator.]]></en>
+        </locale>
 
         <locale name="field.settings.PrivacyPolicyCheckbox.label.default">
             <de><![CDATA[Die [Datenschutzbestimmungen] habe ich zur Kenntnis genommen.]]></de>
@@ -27,10 +47,65 @@
         </locale>
 
         <!-- Error messages -->
+        <locale name="exception.Builder.general">
+            <de><![CDATA[Bitte fürllen Sie alle Pflichtfelder aus.]]></de>
+            <en><![CDATA[Please fill out all required fields.]]></en>
+        </locale>
         <locale name="exception.Builder.wrong_captcha">
             <de><![CDATA[Bitte absolvieren Sie die Sicherheitsprüfung (CAPTCHA).]]></de>
             <en><![CDATA[Please complete the sequrity check (CAPTCHA).]]></en>
         </locale>
+        
+        <!-- Upload file types -->
+        <locale name="field.Upload.file_type.image_bmp">
+            <de><![CDATA[.bmp]]></de>
+            <en><![CDATA[.bmp]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.image_jpeg">
+            <de><![CDATA[.jpeg, .jpg, .jpe]]></de>
+            <en><![CDATA[.jpeg, .jpg, .jpe]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.image_png">
+            <de><![CDATA[.png]]></de>
+            <en><![CDATA[.png]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.image_svg_xml">
+            <de><![CDATA[.svg]]></de>
+            <en><![CDATA[.svg]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.application_pdf">
+            <de><![CDATA[.pdf]]></de>
+            <en><![CDATA[.pdf]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.application_msexcel">
+            <de><![CDATA[.xls, .xla]]></de>
+            <en><![CDATA[.xls, .xla]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.application_msword">
+            <de><![CDATA[.doc, .dot]]></de>
+            <en><![CDATA[.doc, .dot]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.vnd_openxmlformats_officedocument_spreadsheetml_sheet">
+            <de><![CDATA[.xlsx]]></de>
+            <en><![CDATA[.xlsx]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.vnd_openxmlformats_officedocument_wordprocessingml_document">
+            <de><![CDATA[.docx]]></de>
+            <en><![CDATA[.docx]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.application_gzip">
+            <de><![CDATA[.gz]]></de>
+            <en><![CDATA[.gz]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.application_zip">
+            <de><![CDATA[.zip]]></de>
+            <en><![CDATA[.zip]]></en>
+        </locale>
+        <locale name="field.Upload.file_type.text_plain">
+            <de><![CDATA[.txt]]></de>
+            <en><![CDATA[.txt]]></en>
+        </locale>
+        
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="js">
@@ -261,6 +336,10 @@
             <de><![CDATA[Datenschutzbestimmungen-Checkbox]]></de>
             <en><![CDATA[PrivacyPolicy Checkbox]]></en>
         </locale>
+        <locale name="field.list.label.uploadLabel">
+            <de><![CDATA[Datei-Upload]]></de>
+            <en><![CDATA[File upload]]></en>
+        </locale>
 
         <!-- Control: FormField -->
         <locale name="controls.FormField.insert_before">
@@ -278,6 +357,27 @@
         <locale name="controls.FormField.copy_after">
             <de><![CDATA[Kopieren danach]]></de>
             <en><![CDATA[Copy after]]></en>
+        </locale>
+
+        <locale name="field.settings.Upload.labelFileCount">
+            <de><![CDATA[Maximale Anzahl an Dateien]]></de>
+            <en><![CDATA[Max. number of files]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelFileSize">
+            <de><![CDATA[Maximale Größe pro Datei (KB)]]></de>
+            <en><![CDATA[Max. size per file (KB)]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelFileSizeTotal">
+            <de><![CDATA[Maximale Größe aller Dateien (KB)]]></de>
+            <en><![CDATA[Max. size of all files (KB)]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelFileTypes">
+            <de><![CDATA[Erlaubte Dateitypen]]></de>
+            <en><![CDATA[Allowed file types]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelCustomFileEndings">
+            <de><![CDATA[Erlaubte Dateitypen (kommaseparierte Dateiendungen; z.B. ".mp4, .div")]]></de>
+            <en><![CDATA[Allowed file types (comma-separated file endings; e.g. ".mp4, .div")]]></en>
         </locale>
     </groups>
 
@@ -298,6 +398,22 @@
             <de><![CDATA[Sicherheitsprüfung]]></de>
             <en><![CDATA[Security check]]></en>
         </locale>
-        
+        <locale name="required_fields_hint">
+            <de><![CDATA[* Pflichtfeld]]></de>
+            <en><![CDATA[* required field]]></en>
+        </locale>
+
+        <locale name="Upload.form.allowedFileTypes">
+            <de><![CDATA[Erlaubte Dateitypen: [types]]]></de>
+            <en><![CDATA[Allowed file types: [types]]]></en>
+        </locale>
+        <locale name="Upload.form.maxFileCount">
+            <de><![CDATA[Max. Anzahl Dateien: [count]]]></de>
+            <en><![CDATA[Max. number of files: [count]]]></en>
+        </locale>
+        <locale name="Upload.form.maxFileSize">
+            <de><![CDATA[Max. Dateigröße (KB): [size]]]></de>
+            <en><![CDATA[Max. file size (KB): [size]]]></en>
+        </locale>
     </groups>
 </locales>

@@ -25,8 +25,8 @@
         "url": "http:\/\/www.pcsg.de"
     },
     "require": {
-        "quiqqer\/quiqqer": ">=1.1|*@dev",
-        "quiqqer\/captcha": ">=1.1|*@dev"
+        "quiqqer\/quiqqer": "^1.4.3|*@dev",
+        "quiqqer\/captcha": "^1.1|*@dev"
     },
     "autoload": {
         "psr-0": {

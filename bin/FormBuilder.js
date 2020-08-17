@@ -336,7 +336,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                             phoneLabel                : QUILocale.get(lg, lgPrefix + 'phoneLabel'),
                             fieldCategoryText         : QUILocale.get(lg, lgPrefix + 'fieldCategoryText'),
                             contentLabel              : QUILocale.get(lg, lgPrefix + 'contentLabel'),
-                            privacyPolicyCheckboxLabel: QUILocale.get(lg, lgPrefix + 'privacyPolicyCheckboxLabel')
+                            privacyPolicyCheckboxLabel: QUILocale.get(lg, lgPrefix + 'privacyPolicyCheckboxLabel'),
+                            uploadLabel               : QUILocale.get(lg, lgPrefix + 'uploadLabel')
                         }));
 
                         QUI.parse(Win.getContent()).then(function () {
