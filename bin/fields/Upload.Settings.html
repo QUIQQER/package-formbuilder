@@ -13,12 +13,6 @@
     </label>
     <label>
     <span>
-        {{labelFileSizeTotal}}
-    </span>
-        <input type="number" min="1" name="file_size_total"/>
-    </label>
-    <label>
-    <span>
         {{labelFileTypes}}
     </span>
         {{#fileTypes}}
@@ -27,5 +21,11 @@
             <span>{{title}}</span>
         </label>
         {{/fileTypes}}
+    </label>
+    <label>
+    <span>
+        {{labelCustomFileEndings}}
+    </span>
+        <input type="text" name="file_endings_custom"/>
     </label>
 </form>

@@ -32,10 +32,10 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
         ],
 
         options: {
-            file_count     : 1,
-            file_size      : 5000,
-            file_size_total: 10000,
-            file_types     : []
+            file_count         : 1,
+            file_size          : 5000,
+            file_endings_custom: '',
+            file_types         : []
         },
 
         initialize: function (options) {
@@ -125,21 +125,22 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
             var Node = new Element('div', {
                 'class': 'qui-formfield-settings-setting',
                 html   : Mustache.render(templateSettings, {
-                    labelFileCount    : QUILocale.get(lg, 'field.settings.Upload.labelFileCount'),
-                    labelFileSize     : QUILocale.get(lg, 'field.settings.Upload.labelFileSize'),
-                    labelFileSizeTotal: QUILocale.get(lg, 'field.settings.Upload.labelFileSizeTotal'),
-                    labelFileTypes    : QUILocale.get(lg, 'field.settings.Upload.labelFileTypes'),
-                    fileTypes         : this.$availableFileTypes,
+                    labelFileCount        : QUILocale.get(lg, 'field.settings.Upload.labelFileCount'),
+                    labelFileSize         : QUILocale.get(lg, 'field.settings.Upload.labelFileSize'),
+                    labelFileSizeTotal    : QUILocale.get(lg, 'field.settings.Upload.labelFileSizeTotal'),
+                    labelFileTypes        : QUILocale.get(lg, 'field.settings.Upload.labelFileTypes'),
+                    labelCustomFileEndings: QUILocale.get(lg, 'field.settings.Upload.labelCustomFileEndings'),
+                    fileTypes             : this.$availableFileTypes,
                 })
             }).inject(Elm);
 
             var Form = Node.getElement('form.quiqqer-formbuilder-fields-upload-settings-form');
 
             QUIFormUtils.setDataToForm({
-                file_count     : this.getAttribute('file_count'),
-                file_size      : this.getAttribute('file_size'),
-                file_size_total: this.getAttribute('file_size_total'),
-                'file_types[]' : this.getAttribute('file_types')
+                file_count         : this.getAttribute('file_count'),
+                file_size          : this.getAttribute('file_size'),
+                file_endings_custom: this.getAttribute('file_endings_custom'),
+                'file_types[]'     : this.getAttribute('file_types')
             }, Form);
 
             Node.getElements('input').addEvent('change', function () {

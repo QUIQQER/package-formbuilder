@@ -375,6 +375,10 @@
             <de><![CDATA[Erlaubte Dateitypen]]></de>
             <en><![CDATA[Allowed file types]]></en>
         </locale>
+        <locale name="field.settings.Upload.labelCustomFileEndings">
+            <de><![CDATA[Erlaubte Dateitypen (kommaseparierte Dateiendungen; z.B. ".mp4, .div")]]></de>
+            <en><![CDATA[Allowed file types (comma-separated file endings; e.g. ".mp4, .div")]]></en>
+        </locale>
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="php">
