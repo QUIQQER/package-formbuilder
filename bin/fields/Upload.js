@@ -35,7 +35,8 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
             file_count         : 1,
             file_size          : 5000,
             file_endings_custom: '',
-            file_types         : []
+            file_types         : [],
+            layout             : 'DragDrop'
         },
 
         initialize: function (options) {
@@ -131,6 +132,10 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
                     labelFileTypes        : QUILocale.get(lg, 'field.settings.Upload.labelFileTypes'),
                     labelCustomFileEndings: QUILocale.get(lg, 'field.settings.Upload.labelCustomFileEndings'),
                     fileTypes             : this.$availableFileTypes,
+                    labelLayout           : QUILocale.get(lg, 'field.settings.Upload.labelLayout'),
+                    labelLayoutDragDrop   : QUILocale.get(lg, 'field.settings.Upload.labelLayoutDragDrop'),
+                    labelLayoutSingle     : QUILocale.get(lg, 'field.settings.Upload.labelLayoutSingle'),
+                    labelLayoutIcon       : QUILocale.get(lg, 'field.settings.Upload.labelLayoutIcon')
                 })
             }).inject(Elm);
 
@@ -140,17 +145,21 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
                 file_count         : this.getAttribute('file_count'),
                 file_size          : this.getAttribute('file_size'),
                 file_endings_custom: this.getAttribute('file_endings_custom'),
-                'file_types[]'     : this.getAttribute('file_types')
+                'file_types[]'     : this.getAttribute('file_types'),
+                layout             : this.getAttribute('layout')
             }, Form);
 
-            Node.getElements('input').addEvent('change', function () {
+            var OnChange = function () {
                 var FormData = QUIFormUtils.getFormData(Form);
 
                 FormData.file_types = FormData['file_types[]'];
                 delete FormData['file_types[]'];
 
                 self.setAttributes(FormData);
-            });
+            };
+
+            Node.getElements('input').addEvent('change', OnChange);
+            Node.getElements('select').addEvent('change', OnChange);
 
             //var Textarea = Node.getElement('textarea');
             //

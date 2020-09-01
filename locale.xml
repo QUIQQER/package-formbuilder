@@ -379,6 +379,23 @@
             <de><![CDATA[Erlaubte Dateitypen (kommaseparierte Dateiendungen; z.B. ".mp4, .div")]]></de>
             <en><![CDATA[Allowed file types (comma-separated file endings; e.g. ".mp4, .div")]]></en>
         </locale>
+        <locale name="field.settings.Upload.labelLayout">
+            <de><![CDATA[Layout]]></de>
+            <en><![CDATA[Layout]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelLayoutDragDrop">
+            <de><![CDATA[Drag & Drop]]></de>
+            <en><![CDATA[Drag & Drop]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelLayoutSingle">
+            <de><![CDATA[Einzeldatei (nur bei "Maximale Anzahl an Dateien" = 1)]]></de>
+            <en><![CDATA[Single file (only with "Max. number of files" = 1)]]></en>
+        </locale>
+        <locale name="field.settings.Upload.labelLayoutIcon">
+            <de><![CDATA[Upload-Icon (nur bei "Maximale Anzahl an Dateien" = 1)]]></de>
+            <en><![CDATA[Upload-Icon (only with "Max. number of files" = 1)]]></en>
+        </locale>
+
     </groups>
 
     <groups name="quiqqer/formbuilder" datatype="php">
