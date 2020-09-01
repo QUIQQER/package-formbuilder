@@ -28,6 +28,19 @@ class Upload extends FormBuilder\Field
         $maxFileSize     = (int)$this->getAttribute('file_size');
         $fileCount       = (int)$this->getAttribute('file_count');
         $fileTypesCustom = $this->getAttribute('file_endings_custom');
+        $layout          = $this->getAttribute('layout');
+
+        switch ($layout) {
+            case 'Single':
+            case 'Icon':
+                if ($fileCount > 1) {
+                    $layout = 'DragDrop';
+                }
+                break;
+
+            default:
+                $layout = 'DragDrop';
+        }
 
         if (!empty($fileTypesCustom)) {
             $fileTypesCustom = \explode(',', $fileTypesCustom);
@@ -61,9 +74,9 @@ class Upload extends FormBuilder\Field
             'maxFileSize'       => $maxFileSize,
             // eq: 20000000 = 20mb  - nur nutzbar mit eigener Klasse
 
-//            'typeOfLook'     => $fileCount > 1 ? 'DragDrop' : 'Single',
+            'typeOfLook'     => $layout,
             // DragDrop, Icon, Single
-            'typeOfLookIcon'    => 'fa fa-upload'
+            'typeOfLookIcon' => 'fa fa-upload'
         ]);
 
         $allowedTypesLabels = [];

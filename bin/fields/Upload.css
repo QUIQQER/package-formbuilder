@@ -2,6 +2,10 @@
     height: 120px;
 }
 
+.quiqqer-formbuilder-fields-upload-settings-form select {
+    width: 100%;
+}
+
 .quiqqer-formbuilder-fields-upload-settings-filetype-entry {
     display: block;
     width: 100%;
