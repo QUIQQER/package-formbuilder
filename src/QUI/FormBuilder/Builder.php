@@ -459,6 +459,33 @@ class Builder extends QUI\QDOM
     }
 
     /**
+     * Get subject for form e-mail send
+     */
+    public function getMailSubject()
+    {
+        $subject = $this->getAttribute('subject');
+
+        if (empty($subject)) {
+            return $this->Site->getAttribute('title');
+        }
+
+        /** @var Field $Element */
+        foreach ($this->elements as $Element) {
+            $value = $Element->getAttribute('data');
+
+            if (!\is_string($value) && !\is_numeric($value)) {
+                continue;
+            }
+
+            $pos = $Element->getAttribute('pos');
+
+            $subject = \str_replace('['.$pos.']', $value, $subject);
+        }
+
+        return $subject;
+    }
+
+    /**
      * @return String
      */
     public function getMailBody()
