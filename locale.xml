@@ -167,6 +167,14 @@
             <de><![CDATA[Globale Datenschutzbestimmungen-Checkbox NICHT anzeigen]]></de>
             <en><![CDATA[Do NOT display global Privacy Policy checkbox]]></en>
         </locale>
+        <locale name="form.settings.placeholderSubject">
+            <de><![CDATA[(Standard)]]></de>
+            <en><![CDATA[(Default)]]></en>
+        </locale>
+        <locale name="form.settings.subject.label">
+            <de><![CDATA[E-Mail Betreff]]></de>
+            <en><![CDATA[Email Subject]]></en>
+        </locale>
         <locale name="form.settings.sendButton.default_value">
             <de><![CDATA[Senden]]></de>
             <en><![CDATA[Send]]></en>

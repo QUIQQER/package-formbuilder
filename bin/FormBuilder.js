@@ -66,6 +66,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             save                    : null,
             globalPrivacyPolicyField: false,
             hideGlobalPrivacyPolicy : false,    // Show the global PrivacyPolicy field in this form
+            subject                 : false,
             receivers               : {
                 users         : [],
                 emailaddresses: []
@@ -441,7 +442,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             var FuncSetPositionsToFields = function () {
                 self.$fieldPositions.forEach(function (Field, k) {
-                    Field.setAttribute('pos', k);
+                    Field.setPosition(k);
                 });
             };
 
@@ -480,10 +481,10 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             this.$fieldPositions.splice(pos, 0, Field);
 
-            FuncSetPositionsToFields();
-
             if (this.$fieldPositions.length === 1) {
                 Field.inject(this.$Container);
+
+                FuncSetPositionsToFields();
                 return;
             }
 
@@ -492,6 +493,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
             if (pos === 0) {
                 Field.inject(fieldElms[0], 'before');
+
+                FuncSetPositionsToFields();
                 return;
             }
 
@@ -505,6 +508,8 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
 
                 break;
             }
+
+            FuncSetPositionsToFields();
         },
 
         /**
@@ -724,7 +729,13 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                     ),
                     labelHidePrivacyPolicyText  : QUILocale.get(lg,
                         'form.settings.labelHidePrivacyPolicyText.label'
-                    )
+                    ),
+                    labelSubject                : QUILocale.get(lg,
+                        'form.settings.subject.label'
+                    ),
+                    placeholderSubject          : QUILocale.get(lg,
+                        'form.settings.placeholderSubject'
+                    ),
                 }));
 
                 self.$Settings.setStyles('display', null);
@@ -768,6 +779,26 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
                 }
 
                 Captcha.checked = captchaValue;
+
+                // form-subject
+                var Subject      = self.$Settings.getElement('[name="form-subject"]');
+                var subjectValue = self.getAttribute('subject');
+
+                Subject.addEvents({
+                    change: function () {
+                        self.setAttribute('subject', this.value);
+                    },
+                    keyup : function () {
+                        self.setAttribute('subject', this.value);
+                    }
+                });
+
+                if (subjectValue === null) {
+                    self.setAttribute('subject', '');
+                    subjectValue = '';
+                }
+
+                Subject.value = subjectValue;
 
                 // global PrivacyPolicy field
                 if (self.getAttribute('globalPrivacyPolicyField') == 1) {

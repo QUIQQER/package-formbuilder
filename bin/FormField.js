@@ -36,7 +36,8 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
         Binds: [
             'select',
-            'unselect'
+            'unselect',
+            'setPosition'
         ],
 
         options: {
@@ -54,6 +55,7 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
             this.$Body    = null;
             this.$Legend  = null;
+            this.$PosElm  = null;
             this.$Prevent = null;
         },
 
@@ -249,6 +251,28 @@ define('package/quiqqer/formbuilder/bin/FormField', [
 
                 Parent.addField(DuplicateField);
             });
+        },
+
+        /**
+         * Set field position
+         *
+         * @param {Number} pos
+         */
+        setPosition: function (pos) {
+            this.setAttribute('pos', pos);
+
+            if (!this.$Legend) {
+                return;
+            }
+
+            if (this.$PosElm) {
+                this.$PosElm.destroy();
+            }
+
+            this.$PosElm = new Element('span', {
+                'class': 'quiqqer-formbuilder-field-pos',
+                html   : '(#' + pos + ')'
+            }).inject(this.$Legend);
         },
 
         /**
