@@ -66,7 +66,7 @@ define('package/quiqqer/formbuilder/bin/FormBuilder', [
             save                    : null,
             globalPrivacyPolicyField: false,
             hideGlobalPrivacyPolicy : false,    // Show the global PrivacyPolicy field in this form
-            subject                 : false,
+            subject                 : '',
             receivers               : {
                 users         : [],
                 emailaddresses: []
