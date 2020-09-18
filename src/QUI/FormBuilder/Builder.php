@@ -471,7 +471,7 @@ class Builder extends QUI\QDOM
 
         /** @var Field $Element */
         foreach ($this->elements as $Element) {
-            $value = $Element->getAttribute('data');
+            $value = $Element->getValueText();
 
             if (!\is_string($value) && !\is_numeric($value)) {
                 continue;
