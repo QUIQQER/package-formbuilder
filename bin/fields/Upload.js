@@ -139,9 +139,9 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
                 })
             }).inject(Elm);
 
-            var Form = Node.getElement('form.quiqqer-formbuilder-fields-upload-settings-form');
+            var Form = Node.getElement('.quiqqer-formbuilder-fields-upload-settings-form');
 
-            QUIFormUtils.setDataToForm({
+            QUIFormUtils.setDataToNode({
                 file_count         : this.getAttribute('file_count'),
                 file_size          : this.getAttribute('file_size'),
                 file_endings_custom: this.getAttribute('file_endings_custom'),
@@ -150,7 +150,7 @@ define('package/quiqqer/formbuilder/bin/fields/Upload', [
             }, Form);
 
             var OnChange = function () {
-                var FormData = QUIFormUtils.getFormData(Form);
+                var FormData = QUIFormUtils.getDataFromNode(Form);
 
                 FormData.file_types = FormData['file_types[]'];
                 delete FormData['file_types[]'];
